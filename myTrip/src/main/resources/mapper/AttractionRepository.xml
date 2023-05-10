@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.trip.project.dto.attraction.AttractionRepository">
+
+	<select id="attractionList"
+		resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr,
+		tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sidoCode, gugun_code as gugunCode, latitude, longitude,
+		homepage, overview
+		from attraction_info a Inner Join attraction_description b on
+		a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and
+		content_type_id=#{type}
+
+	</select>
+
+	<select id="attractionListByTitle"
+		resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr,
+		tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sidoCode, gugun_code as gugunCode, latitude, longitude,
+		homepage, overview
+		from attraction_info a Inner Join attraction_description b on
+		a.content_id=b.content_id
+		where title LIKE #{searchData}
+
+	</select>
+
+
+	<select id="isRoute" parameterType="int"
+		resultType="com.trip.project.dto.attraction.RouteDistanceDto">
+		SELECT * from attraction_info where content_id=#{point}
+	</select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trip.project.dto.plan.PlanRepository">
+	
+	<insert id="planAdd" parameterType="PlanRequestDto" >
+		INSERT INTO PLAN(PLAN_START,PLAN_END,USERID,PLAN_NAME)
+		VALUES (#{plan_start},#{plan_end},#{userId},#{plan_name})
+	</insert>
+	<select id="findPlanId" parameterType="String" resultType="int">
+		SELECT plan_id from plan where plan_name=#{plan_name}
+	</select>
+	<delete id="planDelete" parameterType="int">
+		delete from plan where plan_id=#{plan_id}
+	</delete>
+	
+	<select id="findPlanNameAnduserId" parameterType="map" resultType="Plan">
+		SELECT * from plan where plan_name=#{plan_name} and userId=#{userId}
+	</select>
+</mapper>

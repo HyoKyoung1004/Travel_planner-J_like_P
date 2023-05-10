@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trip.project.dto.user.UserRepository">
+
+<insert id="join" parameterType="UserDto">
+	INSERT INTO USER(userAccount,userEmail,nickName,userPassword,userRole,joinDate)
+	VALUES (#{userAccount},#{userEmail},#{nickName},#{userPassword},#{userRole},now())
+</insert>
+<select id="find" resultType="int" parameterType="UserDto">
+	SELECT userId FROM USER WHERE userAccount=#{userAccount} and userEmail=#{userEmail}
+</select>
+
+<select id="login" resultType="UserDto" parameterType="UserDto">
+	SELECT userId FROM USER WHERE userAccount=#{userAccount} and userPassword=#{userPassword}
+</select>
+
+<select id="findLogin" resultType="int" parameterType="UserDto">
+	SELECT userId FROM USER WHERE userAccount=#{userAccount} and userPassword=#{userPassword}
+</select>
+
+<select id="findUserId" resultType="int" parameterType="long">
+	SELECT userId FROM USER WHERE userId=#{userId}
+</select>
+
+<select id="viewMypage" resultType="UserDto" parameterType="long">
+	SELECT * FROM USER WHERE userId=#{userId}
+</select>
+
+<delete id="deleteLike" parameterType="long">
+	delete from user WHERE userId=#{userId}
+</delete>
+
+</mapper>
+
