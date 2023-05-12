@@ -11,7 +11,7 @@
 </select>
 
 <select id="login" resultType="UserDto" parameterType="UserDto">
-	SELECT userId FROM USER WHERE userAccount=#{userAccount} and userPassword=#{userPassword}
+	SELECT userAccount FROM USER WHERE userAccount=#{userAccount} and userPassword=#{userPassword}
 </select>
 
 <select id="findLogin" resultType="int" parameterType="UserDto">

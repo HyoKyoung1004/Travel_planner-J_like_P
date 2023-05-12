@@ -1,6 +1,7 @@
 package com.trip.project.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +28,9 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public Long login(@RequestBody UserDto user) throws Exception{
-        System.out.println(user);
-        return userService.login(user);        
+    public ResponseEntity<String> login(@RequestBody UserDto user) throws Exception{
+    	
+        return ResponseEntity.ok().body(userService.login(user));        
     }
     
     @GetMapping("/viewMyPage/{userId}")

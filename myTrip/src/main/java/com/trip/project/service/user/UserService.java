@@ -1,14 +1,21 @@
 package com.trip.project.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.trip.project.dto.user.UserDto;
 import com.trip.project.dto.user.UserRepository;
+import com.trip.project.util.JWTUtil;
 
 @Service
 public class UserService {
 
+	@Value("${jwt.secret}")
+	private String secretkey;
+	
+	private Long expiredMs = 1000*60*60l;
+	
 	@Autowired
 	private UserRepository userRepository;
 	public int join(UserDto user) throws Exception {
@@ -17,17 +24,14 @@ public class UserService {
 		}
 		return userRepository.join(user);
 	}
-	public Long login(UserDto user) throws Exception {
-		System.out.println(123);
-		System.out.println(user);
+	public String login(UserDto user) throws Exception {
 
 		if(userRepository.findLogin(user)==null) {
-			System.out.println(1354135);
 			throw new Exception("회원이 없거나 틀렸습니다");
 		}
 		UserDto userDto = userRepository.login(user);
-		
-		return userDto.getUserId();
+		System.out.println(userDto.getUserAccount());
+		return JWTUtil.createJwt(userDto.getUserAccount(), secretkey, expiredMs);
 	}
 	public UserDto viewMypage(long userId) throws Exception {
 		if(userRepository.findUserId(userId)==null) {
