@@ -7,11 +7,14 @@
 		resultType="com.trip.project.dto.attraction.Attraction">
 		select a.content_id as contentId, title, addr1 as addr,
 		tel, first_image as firstImage,first_image2 as firstImage2,
-		readcount, sido_code as sidoCode, gugun_code as gugunCode, latitude, longitude,
+		readcount,
+		sido_code as sidoCode, gugun_code as gugunCode, latitude, longitude,
 		homepage, overview
-		from attraction_info a Inner Join attraction_description b on
+		from attraction_info a Inner Join
+		attraction_description b on
 		a.content_id=b.content_id
-		where sido_code=#{sido} and gugun_code = #{gugun} and
+		where
+		sido_code=#{sido} and gugun_code = #{gugun} and
 		content_type_id=#{type}
 
 	</select>
@@ -20,12 +23,24 @@
 		resultType="com.trip.project.dto.attraction.Attraction">
 		select a.content_id as contentId, title, addr1 as addr,
 		tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount,
+		sido_code as sidoCode, gugun_code as gugunCode, latitude, longitude,
+		homepage, overview
+		from attraction_info a Inner Join
+		attraction_description b on
+		a.content_id=b.content_id
+		where title LIKE
+		#{searchData}
+	</select>
+	
+	<select id="attractionListByaddrAndTitle"
+		resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sidoCode, gugun_code as gugunCode, latitude, longitude,
 		homepage, overview
 		from attraction_info a Inner Join attraction_description b on
 		a.content_id=b.content_id
-		where title LIKE #{searchData}
-
+		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData}
 	</select>
 
 
@@ -33,5 +48,6 @@
 		resultType="com.trip.project.dto.attraction.RouteDistanceDto">
 		SELECT * from attraction_info where content_id=#{point}
 	</select>
+	
 
 </mapper>

@@ -41,4 +41,6 @@ public class CommentController {
 		System.out.println("댓글쓰기: "+comment);
 		return service.insert(comment)+"";
 	}
+	
+	
 }

@@ -16,5 +16,6 @@ public interface AttractionRepository {
 	
 	RouteDistanceDto isRoute(Integer point);
 
+	public List<Attraction> attractionListByaddrAndTitle(@Param("sido")int sido, @Param("gugun")int gugun, @Param("searchData")String searchData);
 
 }

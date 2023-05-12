@@ -1,5 +1,6 @@
 package com.trip.project.dto.comment;
 
+import lombok.Data;
 
 public class CommentDto {
 
@@ -75,11 +76,9 @@ public class CommentDto {
 	}
 
 
-
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-
 
 
 	@Override
@@ -87,7 +86,6 @@ public class CommentDto {
 		return "CommentDto [commentId=" + commentId + ", contentId=" + contentId + ", userId=" + userId + ", content="
 				+ content + ", regDate=" + regDate + ", rating=" + rating + "]";
 	}
-
 
 
 	

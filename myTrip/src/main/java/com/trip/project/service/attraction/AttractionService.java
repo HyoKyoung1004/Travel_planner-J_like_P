@@ -21,10 +21,17 @@ public class AttractionService {
 		  return list;
 	}
 	
-	public List<Attraction> getAttractionList(String serarchData) {
-		  List<Attraction> list =attractionRepository.attractionListByTitle("%"+serarchData+"%");
+	public List<Attraction> getAttractionList(String searchData) {
+		  List<Attraction> list =attractionRepository.attractionListByTitle("%"+searchData+"%");
 		  return list;
 	}
+	
+	
+	public List<Attraction> getAttractionList(int sido, int gugun, String searchData) {
+		  List<Attraction> list =attractionRepository.attractionListByaddrAndTitle(sido, gugun, "%"+searchData+"%");
+		  return list;
+	}
+
 	
     
     public List<Integer> isRoute(List<Integer> point) {
@@ -108,7 +115,20 @@ public class AttractionService {
 
         distance = 2 * radius * Math.asin(squareRoot);
         return distance;
-        
     }
+
+
+//	//페이지 네이션을 위한 전체 목록 개수 가져오기
+//	public int getCount(int sido, int gugun, int type, String searchData) {
+//		
+//		//시, 군, 검색데이터가 들어온 경우, 검색바로
+//		if(sido!=0 && gugun !=0 && type==0 && searchData!=null && !searchData.equals("")) {
+//			
+//		}else if(sido!=0 && gugun !=0 && type!=0 && searchData!=null && !searchData.equals("")){ //타입 : 시,군, 검색데이터로 검색한 경우 
+//			
+//		}else if(){
+//			
+//		}
+//	}
 
 }
