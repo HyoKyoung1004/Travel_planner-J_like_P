@@ -10,12 +10,39 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface AttractionRepository {
 	
-	public List<Attraction>attractionList(@Param("sido")int sido, @Param("gugun")int gugun, @Param("type")int type);
-
+	
+	public List<Attraction> attractionListByType(int type);
+	public List<Attraction> attractionListByAddr(@Param("sido")int sido, @Param("gugun")int gugun);
+	public List<Attraction> attractionListByAddr_type(@Param("sido")int sido, @Param("gugun")int gugun, @Param("type")int type);
+	public List<Attraction> attractionListByAddr_Title(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("searchData")String string);
+	public List<Attraction> attractionListByAddr_Type_Title(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("type")int type, @Param("searchData")String string);
 	public List<Attraction> attractionListByTitle(String searchData);
+	public List<Attraction> attractionListByTitle_Type(@Param("type")int type,  @Param("searchData")String string);
+	
+//	public List<Attraction> attractionListByaddrAndTitle(@Param("sido")int sido, @Param("gugun")int gugun, @Param("searchData")String searchData);
 	
 	RouteDistanceDto isRoute(Integer point);
 
-	public List<Attraction> attractionListByaddrAndTitle(@Param("sido")int sido, @Param("gugun")int gugun, @Param("searchData")String searchData);
+
+
+	public int attrictionListCnt_type(int type);
+	public int attrictionListCnt_addr(@Param("sido")int sido,  @Param("gugun")int gugun);
+	public int attrictionListCnt_addr_type(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("type")Integer type);
+	public int attrictionListCnt_addr_title(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("searchData")String searchData);
+	public int attrictionListCnt_addr_title_type(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("searchData")String searchData, @Param("type")Integer type);
+	public int attrictionListCnt_title(String searchData);
+	public int attrictionListCnt_title_type(@Param("searchData")String searchData, @Param("type")Integer type);
+
+	public List<Attraction> attractionListPage_type(@Param("type")int type, @Param("start")int start, @Param("listsize")int listsize);
+	public List<Attraction> attractionListPage_addr(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("start")int start, @Param("listsize")int listsize);
+	public List<Attraction> attractionListPage_addr_type(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("type")Integer type, @Param("start")int start, @Param("listsize")int listsize);
+	public List<Attraction> attractionListPage_addr_title(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("searchData")String searchData, @Param("start")int start, @Param("listsize")int listsize);
+	public List<Attraction> attractionListPage_addr_title_type(@Param("sido")int sido,  @Param("gugun")int gugun, @Param("searchData")String searchData, @Param("type")Integer type, @Param("start")int start, @Param("listsize")int listsize);
+	public List<Attraction> attractionListPage_title(@Param("searchData")String searchData, @Param("start")int start, @Param("listsize")int listsize);
+	public List<Attraction> attractionListPage_title_type(@Param("searchData")String searchData, @Param("type")Integer type, @Param("start")int start, @Param("listsize")int listsize);
+	
+	public int likeCount(int contentId);
+
+	
 
 }

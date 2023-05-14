@@ -26,6 +26,9 @@ public class Attraction {
 	private String homepage;
 	private String overview;
 	
+	private int rating;//댓글 평점
+	private int likeCheck; //좋아요 순
+	
 	
 	
 	public Attraction() {
@@ -51,6 +54,7 @@ public class Attraction {
 		this.longitude = longitude;
 		this.homepage = homepage;
 		this.overview = overview;
+
 	}
 
 	
@@ -208,6 +212,31 @@ public class Attraction {
 
 	public void setOverview(String overview) {
 		this.overview = overview;
+	}
+
+
+	
+
+	public int getRating() {
+		return rating;
+	}
+
+
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+
+
+	public int getLikeCheck() {
+		return likeCheck;
+	}
+
+
+
+	public void setLikeCheck(int likeCheck) {
+		this.likeCheck = likeCheck;
 	}
 
 

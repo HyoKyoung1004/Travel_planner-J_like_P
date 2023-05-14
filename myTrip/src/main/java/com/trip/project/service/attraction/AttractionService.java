@@ -3,6 +3,7 @@ package com.trip.project.service.attraction;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,24 +17,123 @@ public class AttractionService {
 	@Autowired
 	AttractionRepository attractionRepository;
 	
-	public List<Attraction> getAttractionList(int sido, int gugun,int type) {
-		  List<Attraction> list =attractionRepository.attractionList(sido, gugun, type);
+	//전체 목록을 가져온다. 
+	public List<Attraction> getAttractionList(int type ) {
+		  List<Attraction> list =attractionRepository.attractionListByType(type);
+		  return list;
+	}
+	public List<Attraction> getAttractionList(int sido, int gugun, Integer type) {
+		if(type== null)
+			 return attractionRepository.attractionListByAddr(sido ,gugun);
+		else 
+			 return attractionRepository.attractionListByAddr_type(sido,gugun, type);
+	}
+	public List<Attraction> getAttractionList(int sido, int gugun, Integer type, String searchData) {
+		if(type== null)
+			 return attractionRepository.attractionListByAddr_Title(sido, gugun, "%"+searchData+"%");
+		else 
+			 return attractionRepository.attractionListByAddr_Type_Title(sido, gugun,type, "%"+searchData+"%");
+	}
+	
+	public List<Attraction> getAttractionList(String searchData, Integer type) {
+		if(type== null)
+			 return attractionRepository.attractionListByTitle("%"+searchData+"%");
+		else 
+			 return attractionRepository.attractionListByTitle_Type( type, "%"+searchData+"%");
+	}
+	
+	
+	
+	//페이징 처리된 리스트를 가져온다
+	public List<Attraction> getAttractionListPage(int type, int start, int listsize) {
+		  List<Attraction> list =attractionRepository.attractionListPage_type(type, start, listsize);
 		  return list;
 	}
 	
-	public List<Attraction> getAttractionList(String searchData) {
-		  List<Attraction> list =attractionRepository.attractionListByTitle("%"+searchData+"%");
-		  return list;
+	public List<Attraction> getAttractionListPage(int sido, int gugun, Integer type, int start, int listsize) {
+		if(type== null)
+			 return attractionRepository.attractionListPage_addr(sido ,gugun, start, listsize);
+		else 
+			 return attractionRepository.attractionListPage_addr_type(sido,gugun, type, start, listsize);
+	}
+	
+	public List<Attraction> getAttractionListPage(int sido, int gugun, Integer type, String searchData, int start, int listsize) {
+		if(type== null)
+			 return attractionRepository.attractionListPage_addr_title(sido ,gugun, "%"+searchData+"%", start, listsize);
+		else 
+			 return attractionRepository.attractionListPage_addr_title_type(sido,gugun,"%"+searchData+"%",type, start, listsize);
 	}
 	
 	
-	public List<Attraction> getAttractionList(int sido, int gugun, String searchData) {
-		  List<Attraction> list =attractionRepository.attractionListByaddrAndTitle(sido, gugun, "%"+searchData+"%");
-		  return list;
+	public List<Attraction> getAttractionListPage(String searchData, Integer type, int start, int listsize) {
+		if(type== null)
+			 return attractionRepository.attractionListPage_title("%"+searchData+"%", start, listsize);
+		else 
+			 return attractionRepository.attractionListPage_title_type("%"+searchData+"%",type, start, listsize);
 	}
+	
 
 	
-    
+	//각각 목록의 개수를 가져온다.
+	public int getAttractionListCnt(int type) {
+		return attractionRepository.attrictionListCnt_type(type);
+	}
+
+
+	public int getAttractionListCnt(int sido, int gugun) {
+		return attractionRepository.attrictionListCnt_addr(sido, gugun);
+	}
+
+
+	public int getAttractionListCnt(int sido, int gugun, Integer type) {
+		return attractionRepository.attrictionListCnt_addr_type(sido, gugun, type);
+	}
+
+
+	public int getAttractionListCnt(int sido, int gugun, String searchData) {
+		return attractionRepository.attrictionListCnt_addr_title(sido, gugun, "%"+searchData+"%");
+	}
+
+
+	public int getAttractionListCnt(int sido, int gugun, String searchData, Integer type) {
+		return attractionRepository.attrictionListCnt_addr_title_type(sido, gugun, "%"+searchData+"%", type);
+	}
+
+
+	public int getAttractionListCnt(String searchData) {
+		return attractionRepository.attrictionListCnt_title("%"+searchData+"%");
+	}
+
+
+	public int getAttractionListCnt(String searchData, Integer type) {
+		return attractionRepository.attrictionListCnt_title_type("%"+searchData+"%",type);
+	}
+
+
+
+	
+	
+//	public List<Attraction> getAttractionList(int sido, int gugun,int type) {
+//		  List<Attraction> list =attractionRepository.attractionList(sido, gugun, type);
+//		  return list;
+//	}
+	
+	
+//	public List<Attraction> getAttractionList(String searchData) {
+//		  List<Attraction> list =attractionRepository.attractionListByTitle("%"+searchData+"%");
+//		  return list;
+//	}
+//	
+//	
+//	public List<Attraction> getAttractionList(int sido, int gugun, String searchData) {
+//		  List<Attraction> list =attractionRepository.attractionListByaddrAndTitle(sido, gugun, "%"+searchData+"%");
+//		  return list;
+//	}
+
+
+	
+	
+	
     public List<Integer> isRoute(List<Integer> point) {
         List<RouteDistanceDto> distanceDtos = getLatAndLong(point);
         for (RouteDistanceDto route : distanceDtos) {
@@ -118,17 +218,15 @@ public class AttractionService {
     }
 
 
-//	//페이지 네이션을 위한 전체 목록 개수 가져오기
-//	public int getCount(int sido, int gugun, int type, String searchData) {
-//		
-//		//시, 군, 검색데이터가 들어온 경우, 검색바로
-//		if(sido!=0 && gugun !=0 && type==0 && searchData!=null && !searchData.equals("")) {
-//			
-//		}else if(sido!=0 && gugun !=0 && type!=0 && searchData!=null && !searchData.equals("")){ //타입 : 시,군, 검색데이터로 검색한 경우 
-//			
-//		}else if(){
-//			
-//		}
-//	}
+    //content_Id에 대한 좋아요 수를 반환한다.
+	public int getLikeCnt(int contentId) {
+		return attractionRepository.likeCount(contentId);
+	}
+
+
+
+
+
+
 
 }

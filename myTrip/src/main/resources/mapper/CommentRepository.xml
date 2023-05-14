@@ -3,8 +3,8 @@
 <mapper
 	namespace="com.trip.project.dto.comment.CommentRepository">
  	
-	<insert id="insert" parameterType="com.trip.project.dto.comment.CommentDto">
-		insert into comment(content_id, userId, content,regDate, rating) 
+	<insert id="insert" parameterType="com.trip.project.dto.comment.CommentDto" useGeneratedKeys="true" keyProperty="commentId">
+		insert into comment(content_id, userId, content, regDate, rating) 
 		values (#{contentId}, #{userId}, #{content}, now(),#{rating})
 	</insert>
 	<select id="selectList" resultType="com.trip.project.dto.comment.CommentDto">

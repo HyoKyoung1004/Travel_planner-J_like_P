@@ -43,6 +43,5 @@ public class AuthenticationConfig  {
 				.addFilterBefore(new JwtFilter(userservice, secretKey), UsernamePasswordAuthenticationFilter.class)
 				.build();
 	}
-	
 
 }

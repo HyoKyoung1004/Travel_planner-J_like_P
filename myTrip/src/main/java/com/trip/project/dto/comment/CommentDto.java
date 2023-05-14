@@ -1,5 +1,7 @@
 package com.trip.project.dto.comment;
 
+import java.util.List;
+
 import lombok.Data;
 
 public class CommentDto {
@@ -10,10 +12,9 @@ public class CommentDto {
 	private String content;
 	private String regDate;
 	private int rating;
+	private List<CommentFileDto> fileInfo;
 	
 	public CommentDto(){}
-
-
 
 	public CommentDto(long commentId, int contentId, long userId, String content, String regDate, int rating) {
 		super();
@@ -79,7 +80,18 @@ public class CommentDto {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+	
+	
+	
 
+
+	public List<CommentFileDto> getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(List<CommentFileDto> list) {
+		this.fileInfo = list;
+	}
 
 	@Override
 	public String toString() {

@@ -23,6 +23,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
 	
+	//http://localhost:9999/trip/swagger-ui.html
+	
 	private String version = "V1";
 	private String title = "Every Trip Planner " + version;
 
