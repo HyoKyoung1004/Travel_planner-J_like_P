@@ -195,12 +195,11 @@
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id and  a.content_id= #{contentId}  
 	</select>
 	
-<!-- 	<select id="nearList"  resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
-		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
-		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
-		WHERE latitude >= #{min_lat} AND latitude <= #{max_lat} AND longitude >= #{min_lng} AND longitude <= #{max_lng}
-	</select> -->
-
+	<select id="nearList" parameterType="hashmap" resultType="com.trip.project.dto.attraction.AttractionNear" >
+		select content_id as contentId, title, addr1 as addr, first_image as firstImage, latitude, longitude 
+		from attraction_info 
+		where latitude &gt;= #{min_lat} AND latitude &lt;= #{max_lat} AND longitude &gt;= #{min_lng} AND longitude &lt;= #{max_lng}
+	</select>
+	
 
 </mapper>

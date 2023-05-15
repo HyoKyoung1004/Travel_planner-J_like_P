@@ -1,13 +1,15 @@
 package com.trip.project.service.attraction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.trip.project.dto.attraction.Attraction;
+import com.trip.project.dto.attraction.AttractionNear;
 import com.trip.project.dto.attraction.AttractionRepository;
 import com.trip.project.dto.attraction.RouteDistanceDto;
 
@@ -229,21 +231,50 @@ public class AttractionService {
 		return attractionRepository.selectOne(contentId);
 	}
 	
-	public List<Attraction> getNearAttractionList(Attraction nowAttraction) {
+	public List<AttractionNear> getNearAttractionList(Attraction nowAttraction) {
 		
 		double lat = nowAttraction.getLatitude(), lng = nowAttraction.getLongitude();
-        double range = 0.05;
-        double min_lat = lat - range;
-        double max_lat = lat + range;
-        double min_lng = lng - range;
-        double max_lng = lng + range;
-
-        List<Attraction> nearList = attractionRepository.nearList(min_lat, max_lat,min_lng,max_lng );
+        double range = 0.03;        
         
+        Map<String,Double> map = new HashMap<String, Double>();
+        map.put("min_lat", lat - range);
+        map.put("max_lat",  lat + range);
+        map.put("min_lng", lng - range);
+        map.put("max_lng", lng + range);
+
+        List<AttractionNear> nearListResult =new ArrayList<AttractionNear>();
+        List<AttractionNear> nearList = attractionRepository.nearList(map);
+        
+        for(AttractionNear tmp : nearList) {
+        	double dis = distanceInKilometerByHaversine(lat, lng, tmp.getLatitude(), tmp.getLongitude());
+        	if(dis<=3.0){
+        		tmp.setDistance(dis);
+        		nearListResult.add(tmp);
+        	}
+        }
+        //System.out.println(nearListResult);
 		
-		return null;
+		return nearListResult;
 	}
 
+	public static double distanceInKilometerByHaversine(double x1, double y1, double x2, double y2) {
+	    double distance;
+	    double radius = 6371; // 지구 반지름(km)
+	    double toRadian = Math.PI / 180;
+
+	    double deltaLatitude = Math.abs(x1 - x2) * toRadian;
+	    double deltaLongitude = Math.abs(y1 - y2) * toRadian;
+
+	    double sinDeltaLat = Math.sin(deltaLatitude / 2);
+	    double sinDeltaLng = Math.sin(deltaLongitude / 2);
+	    double squareRoot = Math.sqrt(
+	        sinDeltaLat * sinDeltaLat +
+	        Math.cos(x1 * toRadian) * Math.cos(x2 * toRadian) * sinDeltaLng * sinDeltaLng);
+
+	    distance = 2 * radius * Math.asin(squareRoot);
+
+	    return distance;
+	}
 
 
 

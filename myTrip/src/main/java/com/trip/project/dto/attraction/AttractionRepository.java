@@ -1,6 +1,7 @@
 package com.trip.project.dto.attraction;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -46,7 +47,8 @@ public interface AttractionRepository {
 	
 	public Attraction selectOne(int contentId);
 	
-	public List<Attraction> nearList(@Param("min_lat")double min_lat, @Param("max_lat")double max_lat, @Param("min_lng")double min_lng, @Param("max_lng")double max_lng);
+	//public List<AttractionNear> nearList(@Param("min_lat")double min_lat, @Param("max_lat")double max_lat, @Param("min_lng")double min_lng, @Param("max_lng")double max_lng);
+	public List<AttractionNear> nearList(Map<String, Double> map);
 
 	
 

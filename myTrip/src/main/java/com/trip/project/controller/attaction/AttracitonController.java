@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.trip.project.dto.attraction.Attraction;
+import com.trip.project.dto.attraction.AttractionNear;
 import com.trip.project.dto.comment.CommentDto;
 import com.trip.project.service.attraction.AttractionService;
 import com.trip.project.service.comment.CommentService;
 import com.trip.project.util.PageNavigation;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/attract")
@@ -271,8 +274,8 @@ public class AttracitonController {
 	
 	
 	//상세정보
-	//보여줘야 할 것, 
-	//정보, 댓글, 근처거리, 댓글 평점, 좋아요 순
+	//정보, 댓글, 근처거리, 댓글 평점, 좋아요 
+	@ApiOperation(value = "상세정보", notes = "attraction의 상세정보(정보, 근거리 리스트, 댓글리스트)", response = ResponseEntity.class)
 	@GetMapping("/view/{contentId}")
 	public ResponseEntity<?> view(@PathVariable("contentId") int contentId){
 		
@@ -286,8 +289,9 @@ public class AttracitonController {
 		List<CommentDto> commentList = commentService.selectList(contentId);
 		map.put("comment", commentList);
 		
-		List<Attraction> nearAttraction = attractionService.getNearAttractionList(attraction);
-			
+		List<AttractionNear> nearAttraction = attractionService.getNearAttractionList(attraction);
+		map.put("nearAttraction", nearAttraction);
+		
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	
