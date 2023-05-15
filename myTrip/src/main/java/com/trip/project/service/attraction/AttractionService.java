@@ -199,6 +199,7 @@ public class AttractionService {
         return distanceDtos;
     }
     
+    
     private double harversineCal(double x1, double y1, double x2, double y2) {
         double distance;
         double radius = 6371; // 지구 반지름(km)
@@ -216,11 +217,31 @@ public class AttractionService {
         distance = 2 * radius * Math.asin(squareRoot);
         return distance;
     }
-
+    
 
     //content_Id에 대한 좋아요 수를 반환한다.
 	public int getLikeCnt(int contentId) {
 		return attractionRepository.likeCount(contentId);
+	}
+	
+	//content_id에 대한 Attraction한개를 반환한다.
+	public Attraction getAttractionOne(int contentId) {
+		return attractionRepository.selectOne(contentId);
+	}
+	
+	public List<Attraction> getNearAttractionList(Attraction nowAttraction) {
+		
+		double lat = nowAttraction.getLatitude(), lng = nowAttraction.getLongitude();
+        double range = 0.05;
+        double min_lat = lat - range;
+        double max_lat = lat + range;
+        double min_lng = lng - range;
+        double max_lng = lng + range;
+
+        List<Attraction> nearList = attractionRepository.nearList(min_lat, max_lat,min_lng,max_lng );
+        
+		
+		return null;
 	}
 
 

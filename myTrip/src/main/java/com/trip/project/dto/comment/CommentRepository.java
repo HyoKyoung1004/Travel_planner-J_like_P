@@ -11,4 +11,6 @@ public interface CommentRepository {
 
 	List<CommentDto> selectList(int contentId);
 
+	double commentRating(int contentId);
+
 }

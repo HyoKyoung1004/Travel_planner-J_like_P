@@ -26,7 +26,7 @@ public class Attraction {
 	private String homepage;
 	private String overview;
 	
-	private int rating;//댓글 평점
+	private double rating;//댓글 평점
 	private int likeCheck; //좋아요 순
 	
 	
@@ -217,13 +217,13 @@ public class Attraction {
 
 	
 
-	public int getRating() {
+	public double getRating() {
 		return rating;
 	}
 
 
 
-	public void setRating(int rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 

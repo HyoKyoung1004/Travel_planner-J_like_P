@@ -45,5 +45,10 @@ public class UserService {
 	public int deleteLike(long userId) {
 		return userRepository.deleteLike(userId);
 	}
+	
+	
+	public long getUser(String userAccount) {
+		return userRepository.getUserOne(userAccount);
+	}
 
 }

@@ -18,4 +18,6 @@ public interface UserRepository {
 	UserDto viewMypage(long userId);
 
 	int deleteLike(long userId);
+
+	long getUserOne(String userAccount);
 }

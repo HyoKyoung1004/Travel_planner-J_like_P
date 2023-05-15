@@ -10,5 +10,13 @@
 	<select id="selectList" resultType="com.trip.project.dto.comment.CommentDto">
 		select commentId, content_id as contentId, userId, content, regDate, rating  from comment where content_id=#{contentId}
 	</select>
+	
+	<select id="commentRating" resultType="double">
+		select avg(rating)
+		from comment
+		where content_id=#{contentId}
+		group by content_id;
+			
+	</select>
 	 
 </mapper>

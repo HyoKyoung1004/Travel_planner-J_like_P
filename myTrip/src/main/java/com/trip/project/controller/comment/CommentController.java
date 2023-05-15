@@ -1,6 +1,7 @@
 package com.trip.project.controller.comment;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.trip.project.dto.comment.CommentDto;
 import com.trip.project.service.comment.CommentService;
+import com.trip.project.service.user.UserService;
+import com.trip.project.util.JWTUtil;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -27,6 +30,9 @@ public class CommentController {
 	@Autowired
 	private CommentService service;
 	
+	@Autowired
+	private UserService userService;
+	
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
@@ -34,22 +40,26 @@ public class CommentController {
 	@ApiOperation(value = "댓글 목록", notes = "새로운 댓글 정보(파일포함)를 가져온다.", response = List.class)
 	@GetMapping("/{contentId}")
 	public ResponseEntity<?>getComment(@PathVariable("contentId") int contentId){
-		List<CommentDto> list = service.selectList(contentId);;
+		List<CommentDto> list = service.selectList(contentId);
 		return new ResponseEntity<List<CommentDto>>(list, HttpStatus.OK);
 	}
 	
 	
 	//댓글쓰기
 	@ApiOperation(value = "댓글 작성", notes = "새로운 댓글 정보와 파일을 저장한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
-	@PostMapping("/{userId}")
-	public ResponseEntity<String> writeComment(@PathVariable("userId") long userId, @RequestPart(value = "comment") CommentDto comment,  @RequestPart(value = "uploadedfiles", required = false) MultipartFile[] uploadedfiles) throws IllegalStateException, IOException {	
+	@PostMapping("/write")
+	public ResponseEntity<String> writeComment( @RequestPart(value = "comment") CommentDto comment,  @RequestPart(value = "uploadedfiles", required = false) MultipartFile[] uploadedfiles, Principal principal) throws IllegalStateException, IOException {	
 		
-		comment.setUserId(userId);
+		//.getUserName(token, secretKey)
+		
+		System.out.println(principal);
+		System.out.println(principal.getName());
+		
+		comment.setUserId(userService.getUser(principal.getName()));
 		System.out.println("댓글쓰기: "+comment);
 		if ( service.insert(comment, uploadedfiles)) 
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-	
 	}
 	
 	

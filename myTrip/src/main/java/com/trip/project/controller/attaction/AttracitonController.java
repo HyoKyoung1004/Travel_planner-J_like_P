@@ -3,6 +3,7 @@ package com.trip.project.controller.attaction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.trip.project.dto.attraction.Attraction;
 import com.trip.project.dto.comment.CommentDto;
 import com.trip.project.service.attraction.AttractionService;
+import com.trip.project.service.comment.CommentService;
 import com.trip.project.util.PageNavigation;
 
 @RestController
@@ -30,6 +32,9 @@ public class AttracitonController {
 
 	@Autowired
 	AttractionService attractionService;
+	
+	@Autowired
+	CommentService commentService;
 
 	final int naviSize = 10; // 네비게이션 크기
 	final int sizePerPage = 10; // 페이지에 보여 줄 게시글 수
@@ -40,8 +45,6 @@ public class AttracitonController {
 		return rotAttractionDtos;
 	}
 
-	
-	
 	
 	// 타입을 눌렀을 떄,
 	@GetMapping(value = { "/searchType/{type}/{page}/{orderType}" })
@@ -207,7 +210,6 @@ public class AttracitonController {
 		// 페이지 처리
 		PageNavigation page = new PageNavigation();
 
-		
 		// int totalCnt = boardService.getCount(); //전체 글 수
 		int totalPageCnt = (totalCnt - 1) / sizePerPage + 1; // 전체 페이지 갯수
 		boolean startRange = pgno <= naviSize;
@@ -246,11 +248,9 @@ public class AttracitonController {
 
 	private List<Attraction> likeSort(List<Attraction> list, int start) {
 		
-		
 		for(Attraction attraction :list) {
 
 			int likeCnt =  attractionService.getLikeCnt(attraction.getContentId());
-			//System.out.println(likeCnt);
 			attraction.setLikeCheck(likeCnt);
 		}
 		
@@ -268,5 +268,29 @@ public class AttracitonController {
 		
 		return result;
 	}
+	
+	
+	//상세정보
+	//보여줘야 할 것, 
+	//정보, 댓글, 근처거리, 댓글 평점, 좋아요 순
+	@GetMapping("/view/{contentId}")
+	public ResponseEntity<?> view(@PathVariable("contentId") int contentId){
+		
+		Attraction attraction = attractionService.getAttractionOne(contentId);
+		attraction.setLikeCheck(attractionService.getLikeCnt(attraction.getContentId()));
+		attraction.setRating(commentService.getCommentRating(attraction.getContentId()));
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("attraction", attraction);
+		
+		List<CommentDto> commentList = commentService.selectList(contentId);
+		map.put("comment", commentList);
+		
+		List<Attraction> nearAttraction = attractionService.getNearAttractionList(attraction);
+			
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+	
+	
 
 }

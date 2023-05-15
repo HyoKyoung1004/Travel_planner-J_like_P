@@ -41,7 +41,12 @@ public interface AttractionRepository {
 	public List<Attraction> attractionListPage_title(@Param("searchData")String searchData, @Param("start")int start, @Param("listsize")int listsize);
 	public List<Attraction> attractionListPage_title_type(@Param("searchData")String searchData, @Param("type")Integer type, @Param("start")int start, @Param("listsize")int listsize);
 	
+	
 	public int likeCount(int contentId);
+	
+	public Attraction selectOne(int contentId);
+	
+	public List<Attraction> nearList(@Param("min_lat")double min_lat, @Param("max_lat")double max_lat, @Param("min_lng")double min_lng, @Param("max_lng")double max_lng);
 
 	
 

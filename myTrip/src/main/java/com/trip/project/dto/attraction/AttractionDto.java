@@ -25,6 +25,4 @@ public class AttractionDto {
 	private double latitude;
 	private double longitude;
 	private String mlevel;
-	
-	
 }
