@@ -2,18 +2,70 @@
   <div>
     <br />
     <br />
-
     <div>
-      <i class="fa-duotone fa-comments"></i>
-      <i class="fa-duotone fa-comments"></i>
-      <i class="fa-duotone fa-comments"></i>
-      <font-awesome-icon :icon="['fad', 'comments']" />
       <h2>인기여행지</h2>
-      <h5>많은 좋아요를 받은 인기여행지를 확인해보세요!</h5>
+      <h5 style="color: #999">많은 좋아요를 받은 인기여행지를 확인해보세요!</h5>
       <div class="center">
         <b-card-group deck class=".mx-auto">
           <b-card
-            img-src="https://picsum.photos/600/500/?image=25"
+            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem"
+            class="mb-2"
+          >
+            <b-card-text>
+              <div>
+                <h4>솔향강릉오토캠핑장 <title></title></h4>
+                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
+                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
+                <i class="fa-regular fa-comments"></i> 20개<br />
+                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
+              </div>
+            </b-card-text>
+          </b-card>
+          <b-card
+            img-src="http://tong.visitkorea.or.kr/cms/resource/57/1581157_image2_1.jpg"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem"
+            class="mb-2"
+          >
+            <b-card-text>
+              <div>
+                <small> 레포츠 </small>
+                <h4>남향진해변 <title></title></h4>
+                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
+                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
+                <i class="fa-regular fa-comments"></i> 20개<br />
+                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
+              </div>
+            </b-card-text>
+          </b-card>
+
+          <b-card
+            img-src="http://tong.visitkorea.or.kr/cms/resource/67/2612467_image2_1.jpg"
+            img-alt="Image"
+            img-top
+            tag="article"
+            style="max-width: 20rem"
+            class="mb-2"
+          >
+            <b-card-text>
+              <div>
+                <small> 레포츠 </small>
+                <h4>해운데 해수욕장 <title></title></h4>
+                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
+                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
+                <i class="fa-regular fa-comments"></i> 20개<br />
+                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
+              </div>
+            </b-card-text>
+          </b-card>
+          <b-card
+            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
             img-alt="Image"
             img-top
             tag="article"
@@ -24,73 +76,18 @@
               <div>
                 <small> 레포츠 </small>
                 <h4>솔향강릉오토캠핑장 <title></title></h4>
+                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
+                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
+                <i class="fa-regular fa-comments"></i> 20개<br />
+                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
               </div>
-
-              <div style="display: flex">
-                <div class="rating">
-                  <div class="mixture">
-                    <div>
-                      <span class="text">4.8 /5</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="review">
-                  <span class="reviewtext"> <i class="fa-light fa-comment"></i>리뷰 4896개</span>
-                </div>
-              </div>
-            </b-card-text>
-          </b-card>
-          <b-card
-            title="Card Title"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-            align="center"
-          >
-            <b-card-text>
-              Some quick example text to build on the card title and make up the bulk of the card's
-              content.
-            </b-card-text>
-          </b-card>
-
-          <b-card
-            title="Card Title"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-            align="center"
-          >
-            <b-card-text>
-              Some quick example text to build on the card title and make up the bulk of the card's
-              content.
-            </b-card-text>
-          </b-card>
-
-          <b-card
-            title="Card Title"
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-            align="center"
-          >
-            <b-card-text>
-              Some quick example text to build on the card title and make up the bulk of the card's
-              content.
             </b-card-text>
           </b-card>
         </b-card-group>
       </div>
-      <b-button href="#" variant="primary">Go somewhere</b-button>
+      <b-button href="#" style="background-color: #6a24fe"
+        >더 보러 가기</b-button
+      >
     </div>
   </div>
 </template>
@@ -98,18 +95,22 @@
 
 <script>
 export default {
-    components: {},
-    data() {
-        return {
-            message: '',
-        };
-    },
-    created() {},
-    methods: {},
+  components: {},
+  data() {
+    return {
+      message: "",
+    };
+  },
+  created() {},
+  methods: {},
 };
 </script>
 
 <style scoped>
+nav a.router-link-exact-active {
+  color: #6a24fe;
+}
+
 .card {
   margin: 0 auto; /* Added */
   float: none; /* Added */

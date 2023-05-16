@@ -1,10 +1,10 @@
 <template>
   <div>
     <div>
-      <b-navbar toggleable="lg" type="dark" variant="secondary ">
+      <b-navbar toggleable="lg" variant="faded" type="light">
         <!-- 로고자리 -->
-        <b-navbar-brand href="#">
-          <router-link :to="{ name: 'main' }"> EverTrip </router-link>
+        <b-navbar-brand href="#" style="color: #6a24fe">
+          <router-link :to="{ name: 'main' }">EveryTrip</router-link>
         </b-navbar-brand>
 
         <b-collapse id="nav-collapse" is-nav>
@@ -12,10 +12,10 @@
           <!-- Right aligned nav items -->
 
           <b-navbar-nav class="ml-auto" right>
-            <b-nav-item href="#" @click="plantripview">여행만들기</b-nav-item>
-            <b-nav-item href="#">위시리스트</b-nav-item>
-            <b-nav-item href="#" @click="sigin">sign In</b-nav-item>
-            <b-nav-item href="#" @click="signup">회원가입</b-nav-item>
+            <b-nav-item @click="plantripview"></b-nav-item>
+            <b-nav-item>위시리스트</b-nav-item>
+            <b-nav-item @click="sigin">로그인</b-nav-item>
+            <b-nav-item @click="signup">회원가입</b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav>
@@ -29,7 +29,7 @@
             <b-navbar-nav right>
               <b-nav-item-dropdown>
                 <template #button-content>
-                  <b-avatar square></b-avatar>
+                  <b-avatar></b-avatar>
                 </template>
                 <b-dropdown-item href="#">마이페이지</b-dropdown-item>
                 <b-dropdown-item href="#">Sign Out</b-dropdown-item>
@@ -45,26 +45,30 @@
 
 <script>
 export default {
-    name: 'TheHeaderNavbar',
-    components: {},
-    data() {
-        return {
-            message: '',
-        };
+  name: "TheHeaderNavbar",
+  components: {},
+  data() {
+    return {
+      message: "",
+    };
+  },
+  created() {},
+  methods: {
+    sigin() {
+      this.$router.push({ path: "signin" });
     },
-    created() {},
-    methods: {
-        sigin() {
-            this.$router.push({path :'signin'})
-        },
-        signup() {
-            this.$router.push({path:'signup'})
-        },
-        plantripview() {
-            this.$router.push({path:"planTrip"})
-        }
+    signup() {
+      this.$router.push({ path: "signup" });
     },
+    plantripview() {
+      this.$router.push({ path: "planTrip" });
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+nav a.router-link-exact-active {
+  color: #6a24fe;
+}
+</style>
