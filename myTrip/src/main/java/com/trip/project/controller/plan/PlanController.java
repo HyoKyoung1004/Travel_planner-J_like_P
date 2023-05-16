@@ -1,5 +1,9 @@
 package com.trip.project.controller.plan;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.trip.project.dto.plan.PlanList;
 import com.trip.project.dto.plan.PlanListRequestDto;
 import com.trip.project.dto.plan.PlanRequestDto;
 import com.trip.project.service.plan.PlanListService;
@@ -24,7 +27,7 @@ public class PlanController {
 	
 	@Autowired
 	private PlanListService planListService;
-
+	
 	
 	@PostMapping("/planadd")
 	public int planAdd(@RequestBody PlanRequestDto plan) {
@@ -33,6 +36,22 @@ public class PlanController {
 		PlanListRequestDto pList = new PlanListRequestDto(k,plan.getPlan_name(),plan.getContent_id());
 		planListService.planAdd(pList);
 		return 1;
+	}
+	
+	@PostMapping("/test")
+	public void test(@RequestBody Map<String, Object> test) {
+		System.out.println(test.get("startDate").getClass());
+		
+		ArrayList<ArrayList<Object>> obj = (ArrayList<ArrayList<Object>>) test.get("planlist");
+		System.out.println(obj);
+		for(int i=0;i<obj.size();i++) {
+            for(int j=0;j<obj.get(i).size();j++) {
+                Integer contentId = ((LinkedHashMap<String, Integer>)(obj.get(i).get(j))).get("content_id");
+                Integer num = ((LinkedHashMap<String, Integer>)(obj.get(i).get(j))).get("num");
+                //System.out.println(contentId+", "+num);
+
+            }
+        }
 	}
 	
 	@DeleteMapping("/delete/{plan_id}")
