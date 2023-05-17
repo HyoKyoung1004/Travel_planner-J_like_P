@@ -12,7 +12,7 @@
             img-alt="Image"
             img-top
             tag="article"
-            style="max-width: 20rem; max-hight=20rem"
+            style="max-width: 20rem; max-hight=15rem;"
             class="mb-2"
             title="JEJU"
           >
@@ -44,7 +44,7 @@
             title="JEONJU"
           >
             <b-card-text>
-              <h6>전라북도, 전주</h6>
+              <h6>전라북도 전주시</h6>
             </b-card-text>
           </b-card>
           <b-card
@@ -54,10 +54,10 @@
             tag="article"
             style="max-width: 20rem"
             class="mb-2"
-            title="JEJU"
+            title="GYEONGJU"
           >
             <b-card-text>
-              <h6>GYEONGJU</h6>
+              <h6>경상북도 경주시</h6>
             </b-card-text>
           </b-card>
         </b-card-group>
@@ -74,7 +74,7 @@
             title="YEONGWOL"
           >
             <b-card-text>
-              <h6>영월</h6>
+              <h6>강원도 영월군</h6>
             </b-card-text>
           </b-card>
           <b-card
@@ -87,7 +87,7 @@
             title="KANGNEUNG"
           >
             <b-card-text>
-              <h6>강릉</h6>
+              <h6>강원도 강릉시</h6>
             </b-card-text>
           </b-card>
 
@@ -111,22 +111,19 @@
             tag="article"
             style="max-width: 20rem"
             class="mb-2"
-            title="SEOSU"
+            title="YEOSU"
           >
             <b-card-text>
-              <h6>여수</h6>
+              <h6>전라남도 여수시</h6>
             </b-card-text>
           </b-card>
         </b-card-group>
       </div>
 
-      <b-button href="#" style="background-color: #6a24fe"
-        >여행 만들기</b-button
-      >
+      <b-button href="#" style="background-color: #6a24fe">여행 만들기</b-button>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
