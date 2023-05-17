@@ -13,10 +13,6 @@
 
           <b-navbar-nav class="ml-auto" right>
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
-<<<<<<< HEAD
-=======
-            <b-nav-item @click="plantripview">내 여행</b-nav-item>
->>>>>>> 6b0b4821ff6a44cd0ed3d8e9636c77d8a20e58c2
             <b-nav-item>위시리스트</b-nav-item>
             <b-nav-item @click="sigin">로그인</b-nav-item>
             <b-nav-item @click="signup">회원가입</b-nav-item>
