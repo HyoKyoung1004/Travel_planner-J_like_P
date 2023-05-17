@@ -12,7 +12,7 @@
         <div class="row">
             <div>
                 <b-button variant="danger" @click="openClick">어디로 가세요?</b-button>
-                <PopUpView v-bind:openModal="openModal" v-if="openModal==true" />
+                <choose-sido v-bind:openModal="openModal" v-if="openModal==true" />
             </div>
         </div>
     </div>
@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import PopUpView from '@/components/Attraction/PopUpView.vue'
+import ChooseSido from '@/components/Attraction/Sido/ChooseSido.vue'
 export default {
     components: {
-        PopUpView
+        ChooseSido
     },
     data() {
         return {
@@ -34,8 +34,8 @@ export default {
     },  
     methods: {
         openClick() {
-            console.log(this.openModal)
-            this.openModal=true;
+            //console.log(this.openModal)
+            this.openModal = true;
         }
     }
 };
