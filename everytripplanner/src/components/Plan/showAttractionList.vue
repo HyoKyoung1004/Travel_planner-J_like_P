@@ -1,7 +1,7 @@
 <template>
     <div id="attraction">
         <attraction-list ></attraction-list>
-        <show-attraction></show-attraction>
+        <show-attraction @mom="goto"></show-attraction>
     </div>
 </template>
 
@@ -19,7 +19,11 @@ export default {
         };
     },
     created() {},
-    methods: {},
+    methods: {
+        goto(child){
+            this.$emit("mom",child);
+        }
+    },
 };
 </script>
 

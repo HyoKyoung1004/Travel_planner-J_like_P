@@ -123,7 +123,7 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap());
       script.src = "";
-      // "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
+      "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
       // "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=API키를 입력해주세요";
       document.head.appendChild(script);
     },
