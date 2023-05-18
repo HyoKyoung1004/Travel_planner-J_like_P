@@ -1,6 +1,7 @@
 package com.trip.project.controller.attaction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +33,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/attract")
+@CrossOrigin("*")
 public class AttracitonController {
 
 	@Autowired
@@ -301,20 +304,20 @@ public class AttracitonController {
 	public ResponseEntity<?> likeTop4(){
 		
 		//전체 목록 다 가져오기
-		int[] contentId= attractionService.getContentIdLike();
+		ArrayList<Integer> contentId= attractionService.getContentIdLike();
+		System.out.println(contentId);
 
 		Attraction[] attractionArr = new Attraction[4];
-		for(int i=0;i<contentId.length;i++) {
-			attractionArr[i] = attractionService.getAttractionOne(contentId[i]);
+		for(int i=0;i<contentId.size();i++) {
+			attractionArr[i] = attractionService.getAttractionOne(contentId.get(i));
+			attractionArr[i].setLikeCheck(attractionService.getLikeCnt(contentId.get(i)));
+			Double commentRating =commentService.getCommentRating(contentId.get(i));
+			if(commentRating==null)
+				attractionArr[i].setRating(0);
+			else attractionArr[i].setRating(commentService.getCommentRating(contentId.get(i)));
 		}
-		
-		
-		List<CommentDto> commentList = commentService.selectList(contentId);
-		map.put("comment", commentList);
-		
-		List<AttractionNear> nearAttraction = attractionService.getNearAttractionList(attraction);
-		map.put("nearAttraction", nearAttraction);
-		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("attractionArr", attractionArr);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 

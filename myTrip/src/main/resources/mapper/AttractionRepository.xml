@@ -201,13 +201,12 @@
 		where latitude &gt;= #{min_lat} AND latitude &lt;= #{max_lat} AND longitude &gt;= #{min_lng} AND longitude &lt;= #{max_lng}
 	</select>
 	
-		<select id="nearList" resultType="int[]">
+ 	<select id="getTopLike" resultType="Integer">
 		select content_id
 		from likeattraction
 		where likeCheck=1
 		group by content_id
 		order by  count(*) limit 4
-	</select>
-	
+	</select> 
 
 </mapper>

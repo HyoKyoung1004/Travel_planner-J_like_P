@@ -5,7 +5,7 @@ import SigninView from "@/views/SigninView.vue";
 import PlanTripView from "@/views/PlanTripView.vue";
 import PlanListView from "@/views/PlanListView.vue";
 import PlanDetailView from "@/views/PlanDetailView.vue";
-// import AttracdtionDetailView from "@/views/AttracdtionDetailView.vue"
+// import AttractionDetailView from "@/views/AttractionDetailView.vue";
 import AttractionListView from "@/views/AttractionListView.vue";
 import MyPageView from "@/views/MyPageView.vue";
 import MainView from "@/views/MainView.vue";
@@ -21,8 +21,8 @@ const routes = [
   {
     path: "/attractionDetail",
     name: "attractionDetail",
-    // component: AttracdtionDetailView
-    component: () => import(/* webpackChunkName: "board" */ "@/views/AttracdtionDetailView.vue"),
+    // component: AttractionDetailView
+    component: () => import(/* webpackChunkName: "board" */ "@/views/AttractionDetailView.vue"),
   },
   {
     path: "/attractionList",

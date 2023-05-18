@@ -11,7 +11,7 @@
 		select commentId, content_id as contentId, userId, content, regDate, rating  from comment where content_id=#{contentId}
 	</select>
 	
-	<select id="commentRating" resultType="double">
+	<select id="commentRating" resultType="Double">
 		select avg(rating)
 		from comment
 		where content_id=#{contentId}

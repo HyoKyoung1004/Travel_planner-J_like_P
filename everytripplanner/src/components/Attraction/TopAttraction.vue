@@ -85,23 +85,33 @@
           </b-card>
         </b-card-group>
       </div>
-      <b-button href="#" style="background-color: #6a24fe"
-        >더 보러 가기</b-button
-      >
+      <b-button href="#" style="background-color: #6a24fe">더 보러 가기</b-button>
     </div>
   </div>
 </template>
 
-
 <script>
+import { likeTop4 } from "@/api/attraction";
+
 export default {
   components: {},
   data() {
     return {
-      message: "",
+      attraction: [],
     };
   },
-  created() {},
+  created() {
+    likeTop4(
+      ({ data }) => {
+        console.log(data);
+        this.attraction = data.attractionArr;
+        console.log(this.attraction);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
   methods: {},
 };
 </script>

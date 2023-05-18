@@ -276,7 +276,7 @@ public class AttractionService {
 	    return distance;
 	}
 
-	public int[] getContentIdLike() {
+	public ArrayList<Integer> getContentIdLike() {
 		
 		return attractionRepository.getTopLike();
 	}

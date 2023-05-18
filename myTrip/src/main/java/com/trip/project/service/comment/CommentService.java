@@ -100,7 +100,7 @@ public class CommentService {
 	}
 
 
-	public double getCommentRating(int contentId) {
+	public Double getCommentRating(int contentId) {
 		return commentRepo.commentRating(contentId);
 	}
 

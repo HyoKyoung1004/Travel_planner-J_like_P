@@ -3,6 +3,7 @@ package com.trip.project.controller.like;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.trip.project.dto.like.LikeListDto;
 import com.trip.project.service.like.LikeService;
 
 @RestController
+@CrossOrigin("*")
 public class LikeController {
     
     @Autowired

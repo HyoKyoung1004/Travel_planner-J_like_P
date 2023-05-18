@@ -12,7 +12,6 @@
     <choose-sido></choose-sido>
   </div>
 </template>
-.
 
 <script>
 import ChooseSido from "@/components/Attraction/Sido/ChooseSido.vue";
@@ -25,7 +24,7 @@ export default {
       openModal: false,
     };
   },
-  created: {},
+  // created: {},
   methods: {
     openClick() {
       this.openModal = true;

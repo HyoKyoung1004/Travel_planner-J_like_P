@@ -1,6 +1,6 @@
 <template>
   <div>
-    <choose-attrcation></choose-attrcation>
+    <choose-attraction></choose-attraction>
     <br />
     <br />
     <top-plan-addr></top-plan-addr>
@@ -14,14 +14,15 @@
 </template>
 
 <script>
-import ChooseAttrcation from "@/components/Attraction/ChooseAttrcation.vue";
+import ChooseAttraction from "@/components/Attraction/ChooseAttraction.vue";
 import TopAttraction from "@/components/Attraction/TopAttraction.vue";
 import TopPlanAddr from "@/components/Plan/TopPlanAddr.vue";
 import TopTripPlan from "@/components/Plan/TopTripPlan.vue";
+
 export default {
   name: "MainView",
   components: {
-    ChooseAttrcation,
+    ChooseAttraction,
     TopAttraction,
     TopPlanAddr,
     TopTripPlan,

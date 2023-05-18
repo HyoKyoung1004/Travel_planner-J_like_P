@@ -1,19 +1,18 @@
 <template>
   <div id="app">
     <the-header-navi></the-header-navi>
-    <router-link></router-link>
-    <router-view/>
+    <!-- <router-link></router-link> -->
+    <router-view />
   </div>
 </template>
 <script>
-
-import TheHeaderNavi from "@/components/TheHeaderNavi.vue"
-export default ({
+import TheHeaderNavi from "@/components/TheHeaderNavi.vue";
+export default {
   name: "App",
   components: {
     TheHeaderNavi,
   },
-})
+};
 </script>
 
 <style>
@@ -28,7 +27,7 @@ nav {
   padding: 30px;
 }
 
-nav a { 
+nav a {
   font-weight: bold;
   color: #2c3e50;
 }
