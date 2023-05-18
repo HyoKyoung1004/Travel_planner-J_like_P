@@ -276,6 +276,11 @@ public class AttractionService {
 	    return distance;
 	}
 
+	public int[] getContentIdLike() {
+		
+		return attractionRepository.getTopLike();
+	}
+
 
 
 

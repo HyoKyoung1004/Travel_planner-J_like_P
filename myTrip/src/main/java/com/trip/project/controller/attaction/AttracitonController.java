@@ -296,5 +296,26 @@ public class AttracitonController {
 	}
 	
 	
+	
+	@GetMapping("/view/likeTop4")
+	public ResponseEntity<?> likeTop4(){
+		
+		//전체 목록 다 가져오기
+		int[] contentId= attractionService.getContentIdLike();
+
+		Attraction[] attractionArr = new Attraction[4];
+		for(int i=0;i<contentId.length;i++) {
+			attractionArr[i] = attractionService.getAttractionOne(contentId[i]);
+		}
+		
+		
+		List<CommentDto> commentList = commentService.selectList(contentId);
+		map.put("comment", commentList);
+		
+		List<AttractionNear> nearAttraction = attractionService.getNearAttractionList(attraction);
+		map.put("nearAttraction", nearAttraction);
+		
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
 
 }

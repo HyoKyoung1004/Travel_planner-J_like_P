@@ -49,6 +49,7 @@ public interface AttractionRepository {
 	
 	//public List<AttractionNear> nearList(@Param("min_lat")double min_lat, @Param("max_lat")double max_lat, @Param("min_lng")double min_lng, @Param("max_lng")double max_lng);
 	public List<AttractionNear> nearList(Map<String, Double> map);
+	public int[] getTopLike();
 
 	
 

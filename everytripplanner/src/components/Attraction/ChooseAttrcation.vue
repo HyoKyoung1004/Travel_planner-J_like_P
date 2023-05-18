@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import PopUpView from "@/components/Attraction/PopUpView.vue";
+//import PopUpView from "@/components/Attraction/PopUpView.vue";
 export default {
   components: {
-    PopUpView,
+    //PopUpView,
   },
   data() {
     return {

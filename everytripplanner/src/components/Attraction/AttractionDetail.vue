@@ -9,12 +9,13 @@
     <br />
     <!-- 좋아요, 찜표시 아이콘으로 변경 예정 -->
     <div class="post_area">
-      <button type="button" class="btn_good" onclick="setWish();">
-        <span class="ico">좋아요</span>
+      <button type="button" onclick="setWish();" style="border-color: #ff0044">
+        <i class="fa-solid fa-heart"></i>
+        <span class="num" id="위시리스트수">15 </span>
       </button>
-      <button type="button" class="btn_good" onclick="setLike();">
-        <span class="ico">좋아요</span>
-        <span class="num" id="좋아요수"></span>
+      <button type="button" onclick="setLike();" style="border-color: #4b89dc">
+        <i class="fa-solid fa-thumbs-up"></i>
+        <span class="num" id="좋아요수">15 </span>
       </button>
     </div>
 
@@ -23,7 +24,7 @@
         <hr />
         <b-row>
           <b-col>사진보기</b-col> | <b-col>상세정보</b-col> | <b-col>근처 여행지보기</b-col> |
-          <b-col>댓글 남기기</b-col>
+          <b-col>댓글 작성하기</b-col>
         </b-row>
         <hr />
       </b-container>
@@ -97,11 +98,12 @@
       <br /><br />
       <div class="center">
         <b-container class="bv-example-row">
-          <b-row align-v="stretch" style="background= #111111;">
+          <b-row align-v="stretch">
             <div class="inr">
               <ul style="width=50%; float=left">
                 <li>
-                  <strong>문의 및 안내</strong><span class="mo"><a href="#">044-251-0001</a></span>
+                  <strong>문의 및 안내</strong>
+                  <span class="mo"><a href="#">044-251-0001</a></span>
                 </li>
                 <li>
                   <strong>홈페이지</strong
@@ -114,12 +116,15 @@
                     ></span
                   >
                 </li>
-                <li><strong>주소</strong><span>세종특별자치시 연기면 수목원로 136</span></li>
+                <li>
+                  <strong>문의 및 안내</strong>
+                  <span class="mo">044-251-0001</span>
+                </li>
                 <li>
                   <strong>이용시간</strong
                   ><span
                     >[3월~10월] 09:00~18:00<br />
-                    [11월~2월] 09:00~17:00<br />
+                    [11월~[2반] 팀장 채널월] 09:00~17:00<br />
                     ※ 입장마감은 관람시간 마감 1시간전</span
                   >
                 </li>
@@ -131,6 +136,33 @@
                 </li>
               </ul>
             </div>
+          </b-row>
+          <br /><br /><br />
+          <b-row>
+            <b-col cols="1"></b-col>
+            <b-col cols="10">
+              <div class="user_expression">
+                <div class="txt">
+                  <strong id="uriTitle">해당 여행지가 마음에 드시나요?</strong>
+                  <p>
+                    <i class="fa-solid fa-thumbs-up"></i>를 눌러주시면 추천 여행지에 순위가
+                    반영됩니다. <br /><i class="fa-solid fa-heart"></i>를 눌러주시면 위시리스트에
+                    담겨 여행 계획을 만들 때 쉽게 선택할 수 있습니다.
+                  </p>
+                </div>
+                <div class="form">
+                  <span class="good">
+                    <button style="border-color: #4b89dc">
+                      <h3><i class="fa-solid fa-thumbs-up"></i> 좋아요!</h3>
+                    </button>
+                    <button style="border-color: #ff0044">
+                      <h3><i class="fa-solid fa-heart"></i> 찜!</h3>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </b-col>
+            <b-col cols="1"></b-col>
           </b-row>
         </b-container>
       </div>
@@ -169,7 +201,7 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=915cffed372954b7b44804ed422b9cf0";
+        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
       document.head.appendChild(script);
     }
   },
@@ -253,12 +285,68 @@ button {
   margin: 0 3px;
 }
 
-strong {
+/* strong {
   width: 20%;
   float: left;
 }
 span {
   width: 80%;
   float: right;
+} */
+
+ul li {
+  float: left;
+  width: 50%;
+  padding: 3px 0 6px 0;
+  display: table;
+  font-size: 15px;
+  font-weight: 400;
+  background: none !important;
+}
+
+ul li strong {
+  float: none;
+  margin-right: 0;
+  position: relative;
+  display: table-cell;
+  width: 128px;
+  padding: 0 0 0 12px;
+  font-weight: 700;
+  color: #333;
+}
+
+.user_expression {
+  display: flex;
+  width: 940px;
+  margin: 0 auto;
+  padding: 62px 0;
+  justify-content: space-between;
+  word-break: keep-all;
+}
+
+.user_expression strong {
+  text-align: center;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -1px;
+  line-height: 24px;
+  color: #333;
+}
+
+/* .btn-1 {
+  transition: all 0.3s ease;
+}
+.btn-1:hover {
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+} */
+
+button {
+  background-color: transparent;
+  border-radius: 20px;
+  padding: 7px;
+  border-color: #e2e2e2;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 </style>
