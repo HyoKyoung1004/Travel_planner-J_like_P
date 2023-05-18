@@ -1,8 +1,8 @@
 <template>
     <div>
-        <show-plan-list id="planList"></show-plan-list>
+        <show-plan-list id="planList" :card="card"></show-plan-list>
         <showMapViewVue id="map"></showMapViewVue>
-        <show-attraction-list id="list" ></show-attraction-list>
+        <show-attraction-list id="list" @mom="goto"></show-attraction-list>
         <!-- //<router-view></router-view> -->
     </div>
 </template>
@@ -20,10 +20,18 @@ export default {
     data() {
         return {
             message: '',
+            card:[],
         };
     },
     created() {},
-    methods: {},
+    methods: {
+        goto(child){
+            if(!this.card.includes(child)){
+                this.card.push(child);
+            }
+        
+        }
+    },
 };
 </script>
 

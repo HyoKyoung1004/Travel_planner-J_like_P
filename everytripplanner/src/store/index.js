@@ -5,12 +5,25 @@ import axios from 'axios';
 Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
-    bcards: [],
+    bcards: {},
+    startDate:'',
+    endDate:'',
+    dayDifference:0,
   },
   mutations: {
     setBcards(state, bcards) {
       state.bcards = bcards;
     },
+    setStartDate(state,date){
+      state.startDate=date;
+
+    },
+    setEndDate(state,date){
+      state.endDatee=date;
+    },
+    setDayDifference(state,date){
+      state.dayDifference=date;
+    }
   },
   actions: {
     async fetchBcards({ commit}) {

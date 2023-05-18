@@ -35,12 +35,25 @@
   }
   </style> -->
   <template>
-    <div class="drop-zone">
-      <h2>다른 컴포넌트</h2>
-      <div v-for="item in droppedItems" :key="item.id">
-        하하하하
-        {{ item.text }}
-      </div>
+
+    <div style=" overflow: scroll">
+      <h2>B-card List</h2>
+      <ul style="list-style-type:none;">
+        <li v-for="car in card" :key="car.id">
+          <b-card
+              :title="String(car[0])"
+              img-src="https://picsum.photos/600/300/?image=25"
+              img-alt="Image"
+              img-top
+              tag="article"
+              style="max-width: 10rem;"
+              class="mb-2">
+              <b-card-text>
+                {{ car[1] }} {{ car[2]}}
+              </b-card-text>
+          </b-card>
+        </li>
+      </ul>
     </div>
   </template>
   
@@ -48,19 +61,18 @@
   import { mapState } from 'vuex';
   
   export default {
+    props:{
+        card:{
+          type:Array,
+          required:true
+        }
+    },
     computed: {
       ...mapState(['droppedItems'])
-    }
+    },
+
   };
   </script>
   
   <style scoped>
-.drop-zone {
-  width: 200px;
-  height: 200px;
-  background-color: red;
-}
-.drop-zone.valid-drop {
-  background-color: green;
-}
   </style>

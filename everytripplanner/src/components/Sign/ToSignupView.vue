@@ -1,20 +1,50 @@
 <template>
-    <div>
-        <div class="login-wrapper">
-        <h2>Login</h2>
-        <form method="post" id="login-form">
-            <input type="text" name="userAccount" placeholder="아이디">
-            <input type="password" name="userPassword" placeholder="패스워드">
-            <input type="text" name="userEmail" placeholder="이메일">
-            <input type="text" name="nickName" placeholder="닉네임">
-            <input type="text" name="userRole" placeholder="역할">
-            <label for="remember-check">
-                <input type="checkbox" id="remember-check">아이디 저장하기
-            </label>
-            <input type="submit" value="Login">
-        </form>
-    </div>
-    </div>
+<b-container class="bv-example-row mt-3">
+    <b-row>
+      <b-col>
+        <b-alert variant="secondary" show><h3>로그인</h3></b-alert>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col></b-col>
+      <b-col cols="8">
+        <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
+          <b-form class="text-left">
+            <b-alert show variant="danger" v-if="isLoginError">아이디 또는 비밀번호를 확인하세요.</b-alert>
+            <b-form-group label="아이디:" label-for="userid">
+              <b-form-input
+                id="userid"
+              ></b-form-input>
+            </b-form-group>
+            <b-form-group label="비밀번호:" label-for="userpwd">
+              <b-form-input
+                type="password"
+                id="userEmail"
+              >
+            </b-form-input>
+        </b-form-group>
+            <b-form-group label="이메일:" label-for="nickName">
+              <b-form-input
+                type="password"
+                id="userpwd"
+              >
+            </b-form-input>
+        </b-form-group>
+            <b-form-group label="권한:" label-for="userRole">
+              <b-form-input
+                type="password"
+                id="userpwd"
+              >
+            </b-form-input>
+            
+            </b-form-group>
+            <b-button type="button" variant="primary" class="m-1" @click="confirm">회원가입</b-button>
+          </b-form>
+        </b-card>
+      </b-col>
+      <b-col></b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
