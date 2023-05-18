@@ -248,7 +248,7 @@ public class AttractionService {
         for(AttractionNear tmp : nearList) {
         	double dis = distanceInKilometerByHaversine(lat, lng, tmp.getLatitude(), tmp.getLongitude());
         	if(dis<=3.0){
-        		tmp.setDistance(dis);
+        		tmp.setDistance(Math.round(dis*100)/100.0);
         		nearListResult.add(tmp);
         	}
         }
@@ -279,6 +279,10 @@ public class AttractionService {
 	public ArrayList<Integer> getContentIdLike() {
 		
 		return attractionRepository.getTopLike();
+	}
+	public Map<String,Object> getAddrName(int sido, int gugun) {
+		// TODO Auto-generated method stub
+		return attractionRepository.getAddrName(sido, gugun);
 	}
 
 

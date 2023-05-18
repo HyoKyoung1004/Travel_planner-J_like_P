@@ -208,5 +208,11 @@
 		group by content_id
 		order by  count(*) limit 4
 	</select> 
+	
+	<select id="getAddrName" resultType="hashmap">
+	select sido_name as sideName , gugun_name as gugunName 
+	from sido a inner join gugun b on a.sido_code = b.sido_code where a.sido_code=#{sido} and gugun_code=#{gugun};
+	
+	</select>
 
 </mapper>

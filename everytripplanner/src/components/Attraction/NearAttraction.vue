@@ -17,19 +17,21 @@
           </b-col>
           <b-col cols="5">
             <div style="overflow-y: scroll; height: 700px">
-              <ul v-for="(item, idx) in nearAttraction" :key="idx">
+              <ul v-for="(item, idx) in detailNearAttraction" :key="idx">
                 <li style="width: 95%" @click="makeMaker(item)">
                   <div class="flex-container">
                     <div style="flex-grow: 4">
                       <img
+                        v-if="item.firstImage != ''"
                         :src="item.firstImage"
                         alt="My Image"
                         style="width: 180px; height: 120px"
                       />
+                      <div v-else style="width: 180px; height: 120px" id="map2"></div>
                     </div>
                     <div style="flex-grow: 8">
-                      <h7>{{ item.title }}</h7
-                      ><br />
+                      <h6>{{ item.title }}</h6>
+                      <br />
                       <i class="fa-solid fa-map"></i>{{ item.distance }}km<br />
                       <i class="fa-solid fa-star"></i>{{ item.rating }}/ 5
                       <i class="fa-solid fa-thumbs-up"></i>
@@ -54,7 +56,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -64,13 +66,9 @@ export default {
       markers: [],
     };
   },
-  created() {
-    axios.get("http://localhost:9999/trip/attract/view/2729266").then((resp) => {
-      console.log(resp);
-      this.nearAttraction = resp.data.nearAttraction;
-      console.log(this.nearAttraction);
-      console.log(this.nearAttraction[0].latitude, this.nearAttraction[0].longitude);
-    });
+
+  computed: {
+    ...mapState("AttractionStore", ["detailNearAttraction"]),
   },
   mounted() {
     window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
@@ -94,7 +92,7 @@ export default {
       marker.setMap(map2);
 
       this.positions = [];
-      this.nearAttraction.forEach((item) => {
+      this.detailNearAttraction.forEach((item) => {
         let obj = {};
         obj.title = item.title;
         obj.latlng = new kakao.maps.LatLng(item.latitude, item.longitude);

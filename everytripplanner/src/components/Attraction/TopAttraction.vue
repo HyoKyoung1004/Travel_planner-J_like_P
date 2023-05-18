@@ -8,78 +8,26 @@
       <div class="center">
         <b-card-group deck class=".mx-auto">
           <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
+            v-for="attract in attraction"
+            :key="attract.contentId"
+            :img-src="attract.firstImage"
             img-alt="Image"
             img-top
             tag="article"
             style="max-width: 20rem"
             class="mb-2"
+            @click="goDetail(attract.contentId)"
           >
             <b-card-text>
               <div>
-                <h4>솔향강릉오토캠핑장 <title></title></h4>
-                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
-                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
-                <i class="fa-regular fa-comments"></i> 20개<br />
-                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
-              </div>
-            </b-card-text>
-          </b-card>
-          <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/57/1581157_image2_1.jpg"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <div>
-                <small> 레포츠 </small>
-                <h4>남향진해변 <title></title></h4>
-                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
-                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
-                <i class="fa-regular fa-comments"></i> 20개<br />
-                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
-              </div>
-            </b-card-text>
-          </b-card>
-
-          <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/67/2612467_image2_1.jpg"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <div>
-                <small> 레포츠 </small>
-                <h4>해운데 해수욕장 <title></title></h4>
-                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
-                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
-                <i class="fa-regular fa-comments"></i> 20개<br />
-                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
-              </div>
-            </b-card-text>
-          </b-card>
-          <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <div>
-                <small> 레포츠 </small>
-                <h4>솔향강릉오토캠핑장 <title></title></h4>
-                <i class="fa-solid fa-location-dot"></i> 강원도, 강릉시 <br />
-                <i class="fa-solid fa-star"></i>4.7/ 5 <br />
-                <i class="fa-regular fa-comments"></i> 20개<br />
-                <i class="fa-solid fa-thumbs-up"></i> 20개<br />
+                <h4>
+                  {{ attract.title }}
+                </h4>
+                <i class="fa-solid fa-location-dot"></i> {{ attract.sidoName }},
+                {{ attract.gugunName }} <br />
+                <i class="fa-solid fa-star"></i>{{ attract.rating }}/ 5 <br />
+                <!-- <i class="fa-regular fa-comments"></i>{{ attract.likeCheck }}개<br /> -->
+                <i class="fa-solid fa-thumbs-up"></i>{{ attract.likeCheck }}개<br />
               </div>
             </b-card-text>
           </b-card>
@@ -112,7 +60,14 @@ export default {
       }
     );
   },
-  methods: {},
+  methods: {
+    goDetail(contentId) {
+      this.$router.push({
+        name: "attractionDetail",
+        params: { contentId: contentId },
+      });
+    },
+  },
 };
 </script>
 
