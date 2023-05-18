@@ -35,7 +35,7 @@ const routes = [
     component: MyPageView,
   },
   {
-    path: "/planDetail",
+    path: "/planDetail/:contentId",
     name: "planDetail",
     component: PlanDetailView,
   },

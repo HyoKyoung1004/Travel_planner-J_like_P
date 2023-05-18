@@ -208,6 +208,7 @@
 		group by content_id
 		order by  count(*) limit 4
 	</select> 
+<<<<<<< HEAD
 	<select id="getSido" resultType="sidoGugunCodeDto">
 		select left(sido_code,2) sido_code, sido_name
 		from sido
@@ -218,6 +219,13 @@
 		select left(gugun_code,5) gugun_code, gugun_name
 		from gugun
 		where left(gugun_code,2) = #{sido}
+=======
+	
+	<select id="getAddrName" resultType="hashmap">
+	select sido_name as sideName , gugun_name as gugunName 
+	from sido a inner join gugun b on a.sido_code = b.sido_code where a.sido_code=#{sido} and gugun_code=#{gugun};
+	
+>>>>>>> ddbe8bdeec2260b81542480bc89d0f4804948eef
 	</select>
 
 </mapper>

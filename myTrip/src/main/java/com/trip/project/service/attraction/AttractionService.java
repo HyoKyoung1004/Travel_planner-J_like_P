@@ -249,7 +249,7 @@ public class AttractionService {
         for(AttractionNear tmp : nearList) {
         	double dis = distanceInKilometerByHaversine(lat, lng, tmp.getLatitude(), tmp.getLongitude());
         	if(dis<=3.0){
-        		tmp.setDistance(dis);
+        		tmp.setDistance(Math.round(dis*100)/100.0);
         		nearListResult.add(tmp);
         	}
         }
@@ -281,6 +281,7 @@ public class AttractionService {
 		
 		return attractionRepository.getTopLike();
 	}
+<<<<<<< HEAD
 	public List<SidoGugunCodeDto> getSido() {
 		// TODO Auto-generated method stub
 		System.out.println(attractionRepository.getSido());
@@ -289,6 +290,11 @@ public class AttractionService {
 	public List<SidoGugunCodeDto> getGugunInSido(String sido) {
 		// TODO Auto-generated method stub
 		return attractionRepository.getGugunInSido(sido);
+=======
+	public Map<String,Object> getAddrName(int sido, int gugun) {
+		// TODO Auto-generated method stub
+		return attractionRepository.getAddrName(sido, gugun);
+>>>>>>> ddbe8bdeec2260b81542480bc89d0f4804948eef
 	}
 
 

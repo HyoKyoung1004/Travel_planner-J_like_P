@@ -1,45 +1,37 @@
-import { houseList } from "@/api/attraction.js";
+import { attractionDetail } from "@/api/attraction.js";
 
-const houseStore = {
+const AttractionStore = {
   namespaced: true,
   state: {
-    houses: [],
-    house: null,
+    attractionDtailData: [{ test: "test" }],
+    detailNearAttraction: [{ test: "test" }],
+    comment: [],
   },
-  getters: {},
   mutations: {
-    CLEAR_APT_LIST(state) {
-      state.houses = [];
-      state.house = null;
-    },
-    SET_HOUSE_LIST(state, houses) {
-      state.houses = houses;
-    },
-    SET_DETAIL_HOUSE(state, house) {
-      state.house = house;
+    SET_ATTRACTION_DETAIL(state, data) {
+      console.log(data);
+      state.attractionDtailData = data.attraction;
+      state.detailNearAttraction = data.nearAttraction;
+      state.comment = data.comment;
+      console.log("받아온데이터");
+      console.log(state.attraction);
+      console.log(state.detailNearAttraction);
+      //   console.log(state.comment);
     },
   },
   actions: {
-    getHouseList: ({ commit }, gugunCode) => {
-      const params = {
-        LAWD_CD: gugunCode,
-        DEAL_YMD: "202304",
-      };
-      houseList(
-        params,
+    attractionDetail: async ({ commit }, contentId) => {
+      await attractionDetail(
+        contentId,
         ({ data }) => {
-          commit("SET_HOUSE_LIST", data.response.body.items.item);
+          commit("SET_ATTRACTION_DETAIL", data);
         },
         (error) => {
           console.log(error);
         }
       );
     },
-    detailHouse: ({ commit }, house) => {
-      // 나중에 house.일련번호를 이용하여 API 호출
-      commit("SET_DETAIL_HOUSE", house);
-    },
   },
 };
 
-export default houseStore;
+export default AttractionStore;

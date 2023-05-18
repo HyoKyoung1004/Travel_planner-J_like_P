@@ -303,8 +303,17 @@ public class AttracitonController {
 		
 		Attraction attraction = attractionService.getAttractionOne(contentId);
 		attraction.setLikeCheck(attractionService.getLikeCnt(attraction.getContentId()));
-		attraction.setRating(commentService.getCommentRating(attraction.getContentId()));
+		Double commentRating = commentService.getCommentRating(attraction.getContentId());
+		
+		if(commentRating==null)
+			attraction.setRating(0);
+		else attraction.setRating(Math.round(commentRating*100)/100.0);
 
+		Map<String,Object> addrName = attractionService.getAddrName(attraction.getSideCode(), attraction.getGugunCode());
+		System.out.println(addrName);
+		attraction.setSidoName((String)addrName.get("sideName"));
+		attraction.setGugunName((String)addrName.get("gugunName"));
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("attraction", attraction);
 		
@@ -312,6 +321,7 @@ public class AttracitonController {
 		map.put("comment", commentList);
 		
 		List<AttractionNear> nearAttraction = attractionService.getNearAttractionList(attraction);
+
 		map.put("nearAttraction", nearAttraction);
 		
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
@@ -331,9 +341,13 @@ public class AttracitonController {
 			attractionArr[i] = attractionService.getAttractionOne(contentId.get(i));
 			attractionArr[i].setLikeCheck(attractionService.getLikeCnt(contentId.get(i)));
 			Double commentRating =commentService.getCommentRating(contentId.get(i));
+			Map<String,Object> addrName = attractionService.getAddrName(attractionArr[i].getSideCode(), attractionArr[i].getGugunCode());
+			//System.out.println(addrName);
+			attractionArr[i].setSidoName((String)addrName.get("sideName"));
+			attractionArr[i].setGugunName((String)addrName.get("gugunName"));
 			if(commentRating==null)
 				attractionArr[i].setRating(0);
-			else attractionArr[i].setRating(commentService.getCommentRating(contentId.get(i)));
+			else attractionArr[i].setRating((Math.round( commentRating*100)/100.0));
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("attractionArr", attractionArr);

@@ -2,8 +2,8 @@ import { tripInstance } from "./http.js";
 
 const api = tripInstance();
 
-function attractdionDetail(contentId, success, fail) {
-  api.get(`/attraction/view/${contentId}`).then(success).catch(fail);
+function attractionDetail(contentId, success, fail) {
+  api.get(`/attract/view/${contentId}`).then(success).catch(fail);
 }
 // function attractdionList_searchData(searchData, page, orderType, success, fail) {
 //   api.get(`/attract/search/${searchData}/${page}/${orderType}`).then(success).catch(fail);
@@ -46,4 +46,4 @@ function likeTop4(success, fail) {
   api.get(`/attract/view/likeTop4`).then(success).catch(fail);
 }
 
-export { attractdionDetail, route, likeTop4 };
+export { attractionDetail, route, likeTop4 };

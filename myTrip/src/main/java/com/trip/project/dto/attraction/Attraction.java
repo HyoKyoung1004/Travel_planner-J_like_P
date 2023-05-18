@@ -1,7 +1,6 @@
 package com.trip.project.dto.attraction;
 
-
-
+import lombok.NoArgsConstructor;
 
 public class Attraction {
 	
@@ -17,8 +16,8 @@ public class Attraction {
 	private int sideCode;
 	private int gugunCode;
 //	
-//	private String sideName;
-//	private String gugunName;
+	private String sidoName;
+	private String gugunName;
 	
 	private double latitude;
 	private double longitude;
@@ -241,6 +240,33 @@ public class Attraction {
 
 
 
+
+
+
+	public String getSidoName() {
+		return sidoName;
+	}
+
+
+
+	public void setSidoName(String sidoName) {
+		this.sidoName = sidoName;
+	}
+
+
+
+	public String getGugunName() {
+		return gugunName;
+	}
+
+
+
+	public void setGugunName(String gugunName) {
+		this.gugunName = gugunName;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Attraction [contentId=" + contentId + ", title=" + title + ", addr=" + addr + ", tel=" + tel
@@ -248,6 +274,9 @@ public class Attraction {
 				+ ", sideCode=" + sideCode + ", gugunCode=" + gugunCode + ", latitude=" + latitude + ", longitude="
 				+ longitude + ", homepage=" + homepage + ", overview=" + overview + "]\n";
 	}
+
+
+
 	
 
 	

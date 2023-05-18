@@ -18,12 +18,7 @@
 
             <form ref="form" @submit.stop.prevent="handleSubmit">
               <label for="rating-10">별점 남기기</label>
-              <b-form-rating
-                id="rating-10"
-                v-model="value"
-                variant="warning"
-                class="mb-2"
-              ></b-form-rating>
+              <b-form-rating id="rating-10" variant="warning" class="mb-2"></b-form-rating>
               <br />
               <b-form-group
                 label="여행은 어떠셨나요?"
@@ -33,7 +28,6 @@
                 <b-form-textarea
                   placeholder="위치나 교통, 편의시설 등 다른 여행자에게 추천하는 나만의 여행 팁을 알려주세요!"
                   id="name-input"
-                  v-model="name"
                   required
                 ></b-form-textarea>
                 <br />
@@ -67,7 +61,6 @@ export default {
       attraction: [],
       nearAttraction: [],
       comment: [],
-      name: "",
       nameState: null,
       submittedNames: [],
       mainProps: { blank: true, blankColor: "#777", width: 75, height: 75, class: "m1" },
@@ -86,32 +79,8 @@ export default {
   mounted() {},
 
   methods: {
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid;
-      return valid;
-    },
-    resetModal() {
-      this.name = "";
-      this.nameState = null;
-    },
-    handleOk(bvModalEvent) {
-      // Prevent modal from closing
-      bvModalEvent.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      // Push the name to submitted names
-      this.submittedNames.push(this.name);
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-      });
+    handleOk() {
+      console.log("ok");
     },
   },
 };
