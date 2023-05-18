@@ -92,7 +92,48 @@
           <b-col cols="1"></b-col>
         </b-row>
         <br /><br />
+        <br /><br />
       </b-container>
+      <br /><br />
+      <div class="center">
+        <b-container class="bv-example-row">
+          <b-row align-v="stretch" style="background= #111111;">
+            <div class="inr">
+              <ul style="width=50%; float=left">
+                <li>
+                  <strong>문의 및 안내</strong><span class="mo"><a href="#">044-251-0001</a></span>
+                </li>
+                <li>
+                  <strong>홈페이지</strong
+                  ><span
+                    ><a
+                      href="https://www.sejong.go.kr/prog/tursmCn/tour/sub01_17/view.do?cntno=23"
+                      target="_blank"
+                      title="국립세종수목원 홈페이지로 이동"
+                      >https://www.sejong.go.kr/prog/tursmCn/tour/sub01_17/view.do?cntno=23</a
+                    ></span
+                  >
+                </li>
+                <li><strong>주소</strong><span>세종특별자치시 연기면 수목원로 136</span></li>
+                <li>
+                  <strong>이용시간</strong
+                  ><span
+                    >[3월~10월] 09:00~18:00<br />
+                    [11월~2월] 09:00~17:00<br />
+                    ※ 입장마감은 관람시간 마감 1시간전</span
+                  >
+                </li>
+                <li>
+                  <strong>휴일</strong
+                  ><span
+                    >매주 월요일, 1월 1일, 설추석 당일 (월요일이 공휴일인 경우 그 다음날 휴관)</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </b-row>
+        </b-container>
+      </div>
     </div>
   </div>
 </template>
@@ -210,5 +251,14 @@ export default {
 
 button {
   margin: 0 3px;
+}
+
+strong {
+  width: 20%;
+  float: left;
+}
+span {
+  width: 80%;
+  float: right;
 }
 </style>
