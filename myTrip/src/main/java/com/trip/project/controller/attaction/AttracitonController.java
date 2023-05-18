@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +26,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.trip.project.dto.attraction.Attraction;
 import com.trip.project.dto.attraction.AttractionNear;
+import com.trip.project.dto.attraction.SidoGugunCodeDto;
 import com.trip.project.dto.comment.CommentDto;
 import com.trip.project.service.attraction.AttractionService;
 import com.trip.project.service.comment.CommentService;
 import com.trip.project.util.PageNavigation;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/attract")
 @CrossOrigin("*")
 public class AttracitonController {
-
+	
+	private final Logger logger = LoggerFactory.getLogger(AttracitonController.class);
 	@Autowired
 	AttractionService attractionService;
 	
@@ -49,6 +55,19 @@ public class AttracitonController {
 	public List<Integer> isRoute(@RequestParam("point") List<Integer> point) {
 		List<Integer> rotAttractionDtos = attractionService.isRoute(point);
 		return rotAttractionDtos;
+	}
+	
+	@GetMapping("/sido")
+	public ResponseEntity<List<SidoGugunCodeDto>> sido() throws Exception {
+		logger.info("sido - 호출");
+		return new ResponseEntity<List<SidoGugunCodeDto>>(attractionService.getSido(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/gugun")
+	public ResponseEntity<List<SidoGugunCodeDto>> gugun(
+			@RequestParam("sido") @ApiParam(value = "시도코드.", required = true) String sido) throws Exception {
+		logger.info("gugun - 호출");
+		return new ResponseEntity<List<SidoGugunCodeDto>>(attractionService.getGugunInSido(sido), HttpStatus.OK);
 	}
 
 	

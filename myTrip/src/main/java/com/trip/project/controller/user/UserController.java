@@ -1,5 +1,7 @@
 package com.trip.project.controller.user;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,7 +26,8 @@ public class UserController {
     
     
     @PostMapping("/join")
-    public int join(@RequestBody UserDto user) throws Exception{
+    public int join(@RequestBody UserDto user ) throws Exception{
+    	
         System.out.println(user);
         return userService.join(user);        
     }
@@ -36,7 +39,9 @@ public class UserController {
     }
     
     @GetMapping("/viewMyPage/{userId}")
-    public UserDto viewMypage(@PathVariable("userId") long userId) throws Exception{
+    public UserDto viewMypage(@PathVariable("userId") long userId,Principal pirPrincipal) throws Exception{
+    	String op = pirPrincipal.getName();
+    	System.out.println(op);
         return userService.viewMypage(userId);        
     }
     

@@ -1,9 +1,17 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import memberStore from "@/store/modules/memberStore";
+import Attraction from "@/store/modules/Attrraction";
+import itemStore from "@/store/modules/items/itemStore";
 
 Vue.use(Vuex);
 export default new Vuex.Store({
+  modules: {
+    memberStore,
+    Attraction,
+    itemStore
+  },
   state: {
     bcards: {},
     startDate: "",

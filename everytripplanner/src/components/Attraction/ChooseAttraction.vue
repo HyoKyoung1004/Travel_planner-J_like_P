@@ -9,27 +9,39 @@
       <b-nav-item active>숙박</b-nav-item>
     </b-nav>
     <br />
-    <choose-sido></choose-sido>
+    <choose-sido @select-sido="selectSido"></choose-sido>
+    <choose-gu-gun :sidoCode="sidoCode"></choose-gu-gun>
   </div>
 </template>
 
 <script>
 import ChooseSido from "@/components/Attraction/Sido/ChooseSido.vue";
+import ChooseGuGun from "@/components/Attraction/Sido/ChooseGuGun.vue";
+import { mapActions, mapMutations } from "vuex";
+const itemStore = "itemStore";
 export default {
   components: {
     ChooseSido,
+    ChooseGuGun,
   },
   data() {
     return {
       openModal: false,
+      sidoCode:null,
     };
   },
   // created: {},
   methods: {
-    openClick() {
-      this.openModal = true;
+    ...mapActions(itemStore, ["getGugun"]),
+    ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
+
+    selectSido(sidoCode) {
+      console.log(sidoCode);
+      this.sidoCode = sidoCode;
+      console.log(this.sidoCode);
     },
-  },
+  }
+  
 };
 </script>
 

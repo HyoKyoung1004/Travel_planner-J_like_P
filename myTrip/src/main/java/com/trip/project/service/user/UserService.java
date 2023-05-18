@@ -19,15 +19,18 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	public int join(UserDto user) throws Exception {
-		if(userRepository.find(user)!=null) {
+		if(userRepository.find(user)!=null ) {
 			throw new Exception("이미 있는 회원입니다");
+		}
+		if(user.getUserAccount()=="") {
+			return 0;
 		}
 		return userRepository.join(user);
 	}
 	public String login(UserDto user) throws Exception {
 
 		if(userRepository.findLogin(user)==null) {
-			throw new Exception("회원이 없거나 틀렸습니다");
+			return "x";
 		}
 		UserDto userDto = userRepository.login(user);
 		System.out.println(userDto.getUserAccount());

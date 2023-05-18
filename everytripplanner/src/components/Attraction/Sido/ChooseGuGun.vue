@@ -1,27 +1,56 @@
 <template>
-    <div>
-        <tr>
-            <td>{{ ii.gugun_name }}</td>
-        </tr>
-
-    </div>
-</template>
-
-<script>
-export default {
-    name: 'ChooseGugun',
-    components: {},
+    <b-col class="sm-3">
+      <b-form-select v-model="gugunCode" :options="guguns" @change="changeGugun"></b-form-select>
+    </b-col>
+  </template>
+  
+  <script>
+  import { mapState, mapActions, mapMutations } from "vuex";
+  
+  /*
+    namespaced: true를 사용했기 때문에 선언해줍니다.
+    index.js 에서 modules 객체의 '키' 이름입니다.
+  
+    modules: {
+      키: 값
+      memberStore: memberStore,
+      houseStore: houseStore
+    }
+  */
+  const itemStore = "itemStore";
+  
+  export default {
+    name: "ChooseGugun",
     data() {
-        return {
-            message: '',
-        };
+      return {
+        gugunCode: null,
+      };
     },
     props: {
-        ii:Object,
+      sidoCode:null,
+    },
+    watch: {
+        sidoCode() {
+        console.log("우히히히");
+        this.CLEAR_GUGUN_LIST();
+        this.gugunCode = null;
+        console.log(this.sidoCode);
+        if (this.sidoCode) this.getGugun(this.sidoCode);
+      },
+    },
+    computed: {
+      ...mapState(itemStore, ["guguns"]),
     },
     created() {},
-    methods: {},
-};
-</script>
-
-<style scoped></style>
+    methods: {
+      ...mapActions(itemStore, ["getGugun"]),
+      ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
+      changeGugun() {
+        this.$emit("select-gugun", this.gugunCode);
+      },
+    },
+  };
+  </script>
+  
+  <style scoped></style>
+  

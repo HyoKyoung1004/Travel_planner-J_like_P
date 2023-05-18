@@ -5,7 +5,6 @@ const api = tripInstance();
 function attractdionDetail(contentId, success, fail) {
   api.get(`/attraction/view/${contentId}`).then(success).catch(fail);
 }
-
 // function attractdionList_searchData(searchData, page, orderType, success, fail) {
 //   api.get(`/attract/search/${searchData}/${page}/${orderType}`).then(success).catch(fail);
 // }

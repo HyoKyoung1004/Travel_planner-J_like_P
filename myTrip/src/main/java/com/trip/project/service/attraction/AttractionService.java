@@ -12,6 +12,7 @@ import com.trip.project.dto.attraction.Attraction;
 import com.trip.project.dto.attraction.AttractionNear;
 import com.trip.project.dto.attraction.AttractionRepository;
 import com.trip.project.dto.attraction.RouteDistanceDto;
+import com.trip.project.dto.attraction.SidoGugunCodeDto;
 
 @Service
 public class AttractionService {
@@ -279,6 +280,15 @@ public class AttractionService {
 	public ArrayList<Integer> getContentIdLike() {
 		
 		return attractionRepository.getTopLike();
+	}
+	public List<SidoGugunCodeDto> getSido() {
+		// TODO Auto-generated method stub
+		System.out.println(attractionRepository.getSido());
+		return attractionRepository.getSido();
+	}
+	public List<SidoGugunCodeDto> getGugunInSido(String sido) {
+		// TODO Auto-generated method stub
+		return attractionRepository.getGugunInSido(sido);
 	}
 
 
