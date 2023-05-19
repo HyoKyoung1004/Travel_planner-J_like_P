@@ -2,7 +2,7 @@
   <div>
     <attraction-detail></attraction-detail>
     <near-attraction></near-attraction>
-    <attraction-comment></attraction-comment>
+    <attraction-comment :contentId="contentId"></attraction-comment>
   </div>
 </template>
 
@@ -21,11 +21,12 @@ export default {
   },
   data() {
     return {
-      message: "",
+      contentId: 0,
     };
   },
   created() {
     let contentId = this.$route.params.contentId;
+    this.contentId = contentId;
     console.log(contentId);
     this.loadAttractionDetail(contentId);
     // attractionDetail(

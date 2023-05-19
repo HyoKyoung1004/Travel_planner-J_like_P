@@ -45,7 +45,7 @@ const routes = [
     component: PlanListView,
   },
   {
-    path: "/planTrip",
+    path: "/planTrip/:lat/:lng",
     name: "planTrip",
     component: PlanTripView,
   },

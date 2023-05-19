@@ -1,16 +1,24 @@
 <template>
-  <div class="center">
-    <b-nav class="child">
-      <b-nav-item active> 관광지</b-nav-item>
-      <b-nav-item active>문화시설</b-nav-item>
-      <b-nav-item active>축제공연행사</b-nav-item>
-      <b-nav-item active>여행코스</b-nav-item>
-      <b-nav-item active>레포츠</b-nav-item>
-      <b-nav-item active>숙박</b-nav-item>
-    </b-nav>
+  <div>
+    <div class="center">
+      <b-nav class="child">
+        <b-nav-item active @click="viewAttractionList(12)"> 관광지</b-nav-item>
+        <b-nav-item active @click="viewAttractionList(14)">문화시설</b-nav-item>
+        <b-nav-item active @click="viewAttractionList(15)"
+          >축제공연행사</b-nav-item
+        >
+        <b-nav-item active @click="viewAttractionList(25)">여행코스</b-nav-item>
+        <b-nav-item active @click="viewAttractionList(28)"> 레포츠</b-nav-item>
+        <b-nav-item active @click="viewAttractionList(32)">숙박</b-nav-item>
+        <b-nav-item active @click="viewAttractionList(38)">쇼핑</b-nav-item>
+        <b-nav-item active @click="viewAttractionList(39)">음식점</b-nav-item>
+      </b-nav>
+    </div>
     <br />
-    <choose-sido @select-sido="selectSido"></choose-sido>
-    <choose-gu-gun :sidoCode="sidoCode"></choose-gu-gun>
+    <div class="center">
+      <choose-sido @select-sido="selectSido"></choose-sido>
+      <choose-gu-gun :sidoCode="sidoCode"></choose-gu-gun>
+    </div>
   </div>
 </template>
 
@@ -27,7 +35,7 @@ export default {
   data() {
     return {
       openModal: false,
-      sidoCode:null,
+      sidoCode: null,
     };
   },
   // created: {},
@@ -40,8 +48,10 @@ export default {
       this.sidoCode = sidoCode;
       console.log(this.sidoCode);
     },
-  }
-  
+    viewAttractionList(idx) {
+      this.$router.push({ name: "attractionList", query: { type: idx } });
+    },
+  },
 };
 </script>
 

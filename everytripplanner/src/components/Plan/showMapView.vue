@@ -14,10 +14,9 @@ export default {
       map: null,
       value: "",
       context: null,
-      coordinates: {
-        latitude: 33.3617,
-        longitude: 126.5292,
-      },
+
+      latitude: 33.3617,
+      longitude: 126.5292,
     };
   },
   mounted() {
@@ -30,6 +29,7 @@ export default {
   created() {
     this.latitude = this.$route.params.lat;
     this.longitude = this.$route.params.lng;
+    console.log("바뀌니?");
     console.log(this.latitude, this.longitude);
     this.loadMap();
   },
@@ -45,7 +45,7 @@ export default {
     loadMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new window.kakao.maps.LatLng(this.coordinates.latitude, this.coordinates.longitude),
+        center: new window.kakao.maps.LatLng(this.latitude, this.longitude),
         level: 3,
       };
 
@@ -54,15 +54,15 @@ export default {
     },
     changeCoordinates() {
       const center = new window.kakao.maps.LatLng(
-        this.coordinates.latitude,
-        this.coordinates.longitude
+        this.latitude,
+        this.longitude
       );
       this.map.setCenter(center);
     },
     loadMaker() {
       const markerPosition = new window.kakao.maps.LatLng(
-        this.coordinates.latitude,
-        this.coordinates.longitude
+        this.latitude,
+        this.longitude
       );
 
       const marker = new window.kakao.maps.Marker({

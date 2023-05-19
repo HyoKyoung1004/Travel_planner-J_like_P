@@ -128,7 +128,9 @@
         </b-card-group>
       </div>
 
-      <b-button href="#" style="background-color: #6a24fe">여행 만들기</b-button>
+      <b-button href="#" style="background-color: #6a24fe"
+        >여행 만들기</b-button
+      >
     </div>
   </div>
 </template>
@@ -155,7 +157,10 @@ export default {
     MakePlan(idx) {
       this.$router.push({
         name: "planTrip",
-        params: { lat: this.lanlng[idx].lat, lng: this.lanlng[idx].lng },
+        params: {
+          lat: this.lanlng[idx - 1].lat,
+          lng: this.lanlng[idx - 1].lng,
+        },
       });
     },
   },

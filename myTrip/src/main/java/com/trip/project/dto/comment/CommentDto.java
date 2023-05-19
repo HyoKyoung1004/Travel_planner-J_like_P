@@ -9,6 +9,7 @@ public class CommentDto {
 	private long commentId;
 	private int contentId;
 	private long userId;
+	private String userName;
 	private String content;
 	private String regDate;
 	private int rating;
@@ -27,6 +28,14 @@ public class CommentDto {
 	}
 
 
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	public long getCommentId() {
 		return commentId;
