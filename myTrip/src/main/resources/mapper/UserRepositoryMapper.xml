@@ -33,5 +33,6 @@
 <select id="getUserOne" resultType="long">
 	select userId from user where userAccount=#{userAccount}
 </select>
+
 </mapper>
 
