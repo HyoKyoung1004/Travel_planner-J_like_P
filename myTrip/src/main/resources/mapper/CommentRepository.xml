@@ -8,7 +8,7 @@
 		values (#{contentId}, #{userId}, #{content}, now(),#{rating})
 	</insert>
 	<select id="selectList" resultType="com.trip.project.dto.comment.CommentDto">
-		select commentId, content_id as contentId, userId, content, regDate, rating  from comment where content_id=#{contentId}
+		select commentId, content_id as contentId, c.userId, nickName as userName, content, regDate, rating  from comment c join user u on c.userId = u.userId where content_id=#{contentId}
 	</select>
 	
 	<select id="commentRating" resultType="Double">

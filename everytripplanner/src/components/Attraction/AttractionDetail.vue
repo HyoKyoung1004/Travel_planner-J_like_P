@@ -4,18 +4,25 @@
 
     <div class="dbDetail" id="topCp">
       <h2 style="font-weight: 800">{{ attractionDtailData.title }}</h2>
-      <span>{{ attractionDtailData.sidoName }} {{ attractionDtailData.gugunName }}</span>
+      <span
+        >{{ attractionDtailData.sidoName }}
+        {{ attractionDtailData.gugunName }}</span
+      >
     </div>
     <br />
     <!-- 좋아요, 찜표시 아이콘으로 변경 예정 -->
     <div class="post_area">
       <button type="button" onclick="setWish();" style="border-color: #ff0044">
         <i class="fa-solid fa-heart"></i>
-        <span class="num" id="위시리스트수">{{ attractionDtailData.likeCheck }}</span>
+        <span class="num" id="위시리스트수">{{
+          attractionDtailData.likeCheck
+        }}</span>
       </button>
       <button type="button" onclick="setLike();" style="border-color: #4b89dc">
         <i class="fa-solid fa-thumbs-up"></i>
-        <span class="num" id="좋아요수">{{ attractionDtailData.likeCheck }} </span>
+        <span class="num" id="좋아요수"
+          >{{ attractionDtailData.likeCheck }}
+        </span>
       </button>
     </div>
 
@@ -23,7 +30,8 @@
       <b-container class="bv-example-row">
         <hr />
         <b-row>
-          <b-col>사진보기</b-col> | <b-col>상세정보</b-col> | <b-col>근처 여행지보기</b-col> |
+          <b-col>사진보기</b-col> | <b-col>상세정보</b-col> |
+          <b-col>근처 여행지보기</b-col> |
           <b-col>댓글 작성하기</b-col>
         </b-row>
         <hr />
@@ -98,14 +106,19 @@
                 <li>
                   <strong>문의 및 안내</strong>
                   <span class="mo"
-                    ><a v-if="attractionDtailData.tel != ''">{{ attractionDtailData.tel }}</a>
+                    ><a v-if="attractionDtailData.tel != ''">{{
+                      attractionDtailData.tel
+                    }}</a>
                     <a v-else>033-738-3000</a>
                   </span>
                 </li>
                 <li>
                   <strong>홈페이지</strong
                   ><span
-                    ><a :href="attractionDtailData.homepage" target="_blank" title="홈페이지로 이동"
+                    ><a
+                      :href="attractionDtailData.homepage"
+                      target="_blank"
+                      title="홈페이지로 이동"
                       >{{ attractionDtailData.title }} 홈페이지로 이동</a
                     ></span
                   >
@@ -114,7 +127,9 @@
                   <strong>상세 주소</strong>
                   <span class="mo">{{ attractionDtailData.addr }}</span>
                 </li>
-                <li><strong>이용시간</strong><span>[3월~10월] 09:00~18:00</span></li>
+                <li>
+                  <strong>이용시간</strong><span>[3월~10월] 09:00~18:00</span>
+                </li>
               </ul>
             </div>
           </b-row>
@@ -126,9 +141,12 @@
                 <div class="txt">
                   <strong id="uriTitle">해당 여행지가 마음에 드시나요?</strong>
                   <p>
-                    <i class="fa-solid fa-thumbs-up"></i>를 눌러주시면 추천 여행지에 순위가
-                    반영됩니다. <br /><i class="fa-solid fa-heart"></i>를 눌러주시면 위시리스트에
-                    담겨 여행 계획을 만들 때 쉽게 선택할 수 있습니다.
+                    <i class="fa-solid fa-thumbs-up"></i>를 눌러주시면 추천
+                    여행지에 순위가 반영됩니다. <br /><i
+                      class="fa-solid fa-heart"
+                    ></i
+                    >를 눌러주시면 위시리스트에 담겨 여행 계획을 만들 때 쉽게
+                    선택할 수 있습니다.
                   </p>
                 </div>
                 <div class="form">
@@ -136,7 +154,10 @@
                     <button style="border-color: #4b89dc" @click="checkLike()">
                       <h3><i class="fa-solid fa-thumbs-up"></i> 좋아요!</h3>
                     </button>
-                    <button style="border-color: #ff0044" @click="checkWishList()">
+                    <button
+                      style="border-color: #ff0044"
+                      @click="checkWishList()"
+                    >
                       <h3><i class="fa-solid fa-heart"></i> 찜!</h3>
                     </button>
                   </span>
@@ -183,7 +204,7 @@ export default {
     initMap() {
       var lat = this.attractionDtailData.latitude;
       var lng = this.attractionDtailData.longitude;
-
+      console.log("지도의 좌표", lat, lng);
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(lat, lng),
@@ -286,7 +307,7 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-    4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
 }
 </style>

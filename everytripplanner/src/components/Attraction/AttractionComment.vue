@@ -3,7 +3,9 @@
     <b-container>
       <b-row class="text-center">
         <b-col></b-col>
-        <b-col cols="10"> <h3 style="font-weight: 800">댓글 작성하기</h3></b-col>
+        <b-col cols="10">
+          <h3 style="font-weight: 800">댓글 작성하기</h3></b-col
+        >
         <b-col></b-col>
       </b-row>
       <b-row class="text-center">
@@ -14,11 +16,18 @@
           </button>
 
           <b-modal id="modal-prevent-closing" ref="modal" @ok="handleOk">
-            <template #modal-title> {{ attraction.title }}은 어떠셨나요? </template>
+            <template #modal-title
+              >{{ attractionDtailData.title }} 은 어떠셨나요?
+            </template>
 
             <form ref="form" @submit.stop.prevent="handleSubmit">
               <label for="rating-10">별점 남기기</label>
-              <b-form-rating id="rating-10" variant="warning" class="mb-2"></b-form-rating>
+              <b-form-rating
+                id="rating-10"
+                v-model="commentForm.rating"
+                variant="warning"
+                class="mb-2"
+              ></b-form-rating>
               <br />
               <b-form-group
                 label="여행은 어떠셨나요?"
@@ -27,12 +36,16 @@
               >
                 <b-form-textarea
                   placeholder="위치나 교통, 편의시설 등 다른 여행자에게 추천하는 나만의 여행 팁을 알려주세요!"
+                  v-model="commentForm.content"
                   id="name-input"
                   required
                 ></b-form-textarea>
                 <br />
                 <label for="rating-10">사진 첨부(선택)</label>
-                <b-form-file accept="image/*"></b-form-file>
+                <b-form-file
+                  v-model="commentForm.uploadedfiles"
+                  accept="image/*"
+                ></b-form-file>
               </b-form-group>
             </form>
           </b-modal>
@@ -42,45 +55,133 @@
         <b-col cols="9"> <hr class="boldhr" /></b-col>
       </b-row>
       <br />
-      <b-row class="text-center">
-        <div>
-          <span>
-            <b-img v-bind="mainProps" rounded alt="Rounded image"></b-img>
-          </span>
-        </div>
-      </b-row>
+      <template v-for="(comment, idx) in attractionComment">
+        <b-row
+          class="text-center"
+          style="max-height: 70px"
+          v-bind:key="comment.commentId"
+        >
+          <b-col cols="2">
+            <b-avatar variant="secondary"></b-avatar>
+            <br />
+            <span
+              ><h6>{{ comment.userName }}</h6>
+            </span>
+          </b-col>
+          <b-col cols="7">
+            {{ comment.content }}<br />
+            <span
+              class="num"
+              id="좋아요수"
+              v-for="index in comment.rating"
+              :key="index"
+              >⭐</span
+            >
+            | {{ comment.regDate }}
+          </b-col>
+          <b-col cols="3">
+            <img
+              v-if="comment.fileInfo != null"
+              :src="`http://localhost:9999/trip/${comment.fileInfo[0].saveFolder}/${comment.fileInfo[0].saveFileName}`"
+              alt="My Image"
+              style="width: 100px; height: 75px"
+          /></b-col>
+        </b-row>
+        <b-row v-bind:key="idx"><hr /></b-row>
+      </template>
     </b-container>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      attraction: [],
-      nearAttraction: [],
       comment: [],
-      nameState: null,
-      submittedNames: [],
-      mainProps: { blank: true, blankColor: "#777", width: 75, height: 75, class: "m1" },
+      userid: 1,
+      commentForm: {
+        rating: 0,
+        content: "",
+        contentId: 0,
+        uploadedfiles: null,
+      },
     };
   },
-  created() {
-    axios.get("http://localhost:9999/trip/attract/view/2729266").then((resp) => {
-      console.log(resp);
-      this.nearAttraction = resp.data.nearAttraction;
-      this.attraction = resp.data.attraction;
-      this.comment = resp.data.comment;
-      console.log(this.nearAttraction);
-      console.log(this.nearAttraction[0].latitude, this.nearAttraction[0].longitude);
-    });
+  props: {
+    contentId: Number,
   },
-  mounted() {},
+  watch: {
+    contentId() {
+      this.commentDetail(this.contentId);
+      console.log("새로 받아온 댓글");
+      console.log(this.commentAttractionDetail);
+    },
+    attractionComment() {},
+  },
+  created() {
+    console.log("create()");
+    console.log(this.contentId);
+    //this.commentDetail(this.contentId);
+    console.log("새로 받아온 댓글");
+    console.log(this.commentAttractionDetail);
+  },
+  mounted() {
+    console.log("왜 댓글 안보여줘");
+    console.log(this.attractionComment.fileInfo);
+    // console.log(this.attractionComment.fileInfo[0].saveFolder);
+  },
+  computed: {
+    ...mapState("AttractionStore", [
+      "attractionDtailData",
+      "attractionComment",
+      "commentAttractionDetail",
+    ]),
+    ...mapActions("AttractionStore", ["commentDetail"]),
+  },
 
   methods: {
     handleOk() {
-      console.log("ok");
+      console.log(this.commentForm.uploadedfiles);
+      this.addComment();
+    },
+    addComment() {
+      this.commentForm.contentId = this.attractionDtailData.contentId;
+      var comment = {
+        content: this.commentForm.content,
+        contentId: this.commentForm.contentId,
+        rating: this.commentForm.rating,
+      };
+      console.log(comment);
+      const formData = new FormData();
+      formData.append("uploadedfiles", this.commentForm.uploadedfiles);
+      const blob = new Blob([JSON.stringify(comment)], {
+        type: "application/json",
+      });
+      formData.append("comment", blob);
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      console.log(formData);
+
+      // var file = this.commentForm.uploadedfiles;
+      axios
+        .post(
+          "http://localhost:9999/trip/comment/write/" + this.userid,
+          formData,
+          config
+        )
+        .then((resp) => {
+          console.log(resp);
+          alert("성공");
+        })
+        .catch((resp) => {
+          console.log(resp);
+          alert("실패");
+        });
     },
   },
 };
@@ -170,8 +271,8 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-    4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
 }
 
 .flex-container {
@@ -191,4 +292,8 @@ button {
   height: 75;
   class: "m1";
 } */
+
+.offer-review__list--content {
+  margin: 24px 0;
+}
 </style>
