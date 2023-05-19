@@ -34,9 +34,25 @@ function attractionDetail(contentId, success, fail) {
 //     .catch(fail);
 // }
 
-// function attractdionList_type(type, page, orderType, success, fail) {
-//   api.get(`/attract/searchType/${type}/${page}/${orderType}`).then(success).catch(fail);
-// }
+function attractdionList_addr_searchData_type(
+  sido,
+  gugun,
+  searchData,
+  type,
+  page,
+  orderType,
+  success,
+  fail
+) {
+  api
+    .get(`/attract/search/${sido}/${gugun}/${searchData}/${type}/${page}/${orderType}`)
+    .then(success)
+    .catch(fail);
+}
+
+function attractionList_type(type, page, orderType, success, fail) {
+  api.get(`/attract/searchType/${type}/${page}/${orderType}`).then(success).catch(fail);
+}
 
 function route(success, fail) {
   api.get(`/attract/attraction/route`).then(success).catch(fail);
@@ -46,4 +62,10 @@ function likeTop4(success, fail) {
   api.get(`/attract/view/likeTop4`).then(success).catch(fail);
 }
 
-export { attractionDetail, route, likeTop4 };
+export {
+  attractionDetail,
+  attractionList_type,
+  attractdionList_addr_searchData_type,
+  route,
+  likeTop4,
+};

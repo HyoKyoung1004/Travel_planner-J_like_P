@@ -76,7 +76,8 @@ public class AttracitonController {
 	public ResponseEntity<?> serarch(@PathVariable("type") int type, @PathVariable("page") Integer page, 
 			 @PathVariable(value="orderType", required = false) String orderType  ) {
 
-		System.out.println("타입네이베이션: "+ type + ", " + page);
+		System.out.println("타입네이베이션: "+ type + ", " + page+", "+orderType);
+		System.out.println(orderType);
 		int totalCount = attractionService.getAttractionListCnt(type);
 		System.out.println(totalCount);
 		
@@ -84,14 +85,22 @@ public class AttracitonController {
 		System.out.println(map);
 		List<Attraction> list =null;
 		
-		if(orderType!=null || orderType.equals("")|| orderType.equals("latest"))
+		if( orderType.equals("latest")) {
+			System.out.println("여기니?");
 			list = attractionService.getAttractionListPage(type, (int)map.get("start"),sizePerPage );
+			System.out.println(list);
+			}
 		else if(orderType.equals("like")) {
+			System.out.println("여기까지");
 			List<Attraction> listALL = attractionService.getAttractionList(type); 
 			list = likeSort(listALL,(int)map.get("start"));
+			System.out.println(list);
 		}else if(orderType.equals("title")){
+			System.out.println("title?");
+
 			List<Attraction> listALL = attractionService.getAttractionList(type);	
 			list = titleSort(listALL,(int)map.get("start"));
+			System.out.println(list);
 		}
 
 		map.put("list", list);
@@ -121,7 +130,7 @@ public class AttracitonController {
 		
 		List<Attraction> list =null;
 		
-		if(orderType==null || orderType.equals("")||orderType.equals(" ")|| orderType.equals("latest")) {
+		if(orderType.equals("latest")) {
 			list = attractionService.getAttractionListPage(sido,gugun,type, (int)map.get("start"), sizePerPage );
 		}else if(orderType.equals("like")) {
 			List<Attraction> listALL = attractionService.getAttractionList(sido,gugun,type); 
@@ -162,7 +171,7 @@ public class AttracitonController {
 		
 		List<Attraction> list =null;
 		
-		if(orderType==null || orderType.equals("")|| orderType.equals("latest"))
+		if( orderType.equals("latest"))
 			list = attractionService.getAttractionListPage(sido, gugun, type, searchData, (int)map.get("start"), sizePerPage );
 		else if(orderType.equals("like")) {
 			List<Attraction> listALL = attractionService.getAttractionList(sido, gugun, type, searchData); 
@@ -205,7 +214,7 @@ public class AttracitonController {
 	
 		List<Attraction> list =null;
 		
-		if(orderType==null || orderType.equals("")|| orderType.equals("latest"))
+		if( orderType.equals("latest"))
 			list =  attractionService.getAttractionListPage(searchData, type, (int)map.get("start"), sizePerPage );
 		else if(orderType.equals("like")) {
 			List<Attraction> listALL = attractionService.getAttractionList(searchData, type); 
@@ -277,7 +286,9 @@ public class AttracitonController {
 
 			int likeCnt =  attractionService.getLikeCnt(attraction.getContentId());
 			attraction.setLikeCheck(likeCnt);
+			//System.out.println(attraction.getLikeCheck());
 		}
+		
 		
 		Collections.sort(list, new Comparator<Attraction>() {
 			@Override

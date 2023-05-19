@@ -64,6 +64,7 @@ export default {
       map: null,
       position: [],
       markers: [],
+      
     };
   },
 

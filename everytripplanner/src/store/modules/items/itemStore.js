@@ -8,15 +8,15 @@ const itemStore = {
   },
   getters: {},
   mutations: {
-      CLEAR_SIDO_LIST(state) {
+    CLEAR_SIDO_LIST(state) {
       state.sidos = [{ value: null, text: "선택하세요" }];
     },
     CLEAR_GUGUN_LIST(state) {
       state.guguns = [{ value: null, text: "선택하세요" }];
     },
     SET_SIDO_LIST(state, sidos) {
-        sidos.forEach((sido) => {
-        console.log(sido.sido_code);
+      sidos.forEach((sido) => {
+        // console.log(sido.sido_code);
         state.sidos.push({ value: sido.sido_code, text: sido.sido_name });
       });
     },
@@ -28,9 +28,9 @@ const itemStore = {
   },
   actions: {
     getSido: ({ commit }) => {
-          sidoList(
-              ({ data }) => {
-                  console.log(data);
+      sidoList(
+        ({ data }) => {
+          // console.log(data);
           commit("SET_SIDO_LIST", data);
         },
         (error) => {
@@ -40,7 +40,7 @@ const itemStore = {
     },
     getGugun: ({ commit }, sidoCode) => {
       const params = { sido: sidoCode };
-        gugunList(
+      gugunList(
         params,
         ({ data }) => {
           commit("SET_GUGUN_LIST", data);

@@ -4,9 +4,7 @@
       <b-nav class="child">
         <b-nav-item active @click="viewAttractionList(12)"> 관광지</b-nav-item>
         <b-nav-item active @click="viewAttractionList(14)">문화시설</b-nav-item>
-        <b-nav-item active @click="viewAttractionList(15)"
-          >축제공연행사</b-nav-item
-        >
+        <b-nav-item active @click="viewAttractionList(15)">축제공연행사</b-nav-item>
         <b-nav-item active @click="viewAttractionList(25)">여행코스</b-nav-item>
         <b-nav-item active @click="viewAttractionList(28)"> 레포츠</b-nav-item>
         <b-nav-item active @click="viewAttractionList(32)">숙박</b-nav-item>
@@ -15,9 +13,18 @@
       </b-nav>
     </div>
     <br />
-    <div class="center">
+    <!-- <div class="center">
       <choose-sido @select-sido="selectSido"></choose-sido>
       <choose-gu-gun :sidoCode="sidoCode"></choose-gu-gun>
+    </div> -->
+
+    <div>
+      <b-container class="bv-example-row">
+        <b-row>
+          <b-col><choose-sido @select-sido="selectSido"></choose-sido></b-col>
+          <b-col><choose-gu-gun :sidoCode="sidoCode"></choose-gu-gun></b-col>
+        </b-row>
+      </b-container>
     </div>
   </div>
 </template>
