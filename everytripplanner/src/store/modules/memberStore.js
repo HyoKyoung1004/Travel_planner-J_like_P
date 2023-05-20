@@ -1,42 +1,61 @@
 import { login} from "@/api/member";
-
+import jwt_decode from "jwt-decode";
+import { findById } from "@/api/member";
 const memberStore = {
     namespaced: true,
     state: {
-        token: null,
-        isLoggedIn: false
+        isLogin: false,
+        isLoginError: false,
+        userInfo: null,
     },
     mutations: {
-        SET_TOKEN(state, token) {
-            state.token = token;
-            state.isLoggedIn = true;
-        },
-        CLEART_TOKEN(state) {
-            state.token = null;
-            state.isLoggedIn = false;
-        },
-        SET_IS_LOGIN: (state, isLoggedIn) => {
-            state.isLoggedIn = isLoggedIn;
-        }
+        SET_IS_LOGIN: (state, isLogin) => {
+            state.isLogin = isLogin;
+          },
+          SET_IS_LOGIN_ERROR: (state, isLoginError) => {
+            state.isLoginError = isLoginError;
+          },
+          SET_USER_INFO: (state, userInfo) => {
+            state.isLogin = true;
+            state.userInfo = userInfo;
+          },
     },
     actions: {
-        async login({ commit }, user) {
+        async userConfirm({ commit }, user) {
             await login(
-                user,
-                ({ data }) => {
-                    if (data != "x") {
-                        console.log(data);
-                        this.token = data;
-                        commit("SET_IS_LOGIN", true);
-                        commit("SET_TOKEN", this.token);
-                    }
-                    console.log(data);
+              user,
+              (response) => {
+                if (response.data.message === "success") {
+                  let token = response.data["access-token"];
+                  console.log(token);
+                  commit("SET_IS_LOGIN", true);
+                  commit("SET_IS_LOGIN_ERROR", false);
+                  sessionStorage.setItem("access-token", token);
+                } else {
+                  commit("SET_IS_LOGIN", false);
+                  commit("SET_IS_LOGIN_ERROR", true);
                 }
-            )
-            // API 호출 등 로그인 처리
-            // 성공시에는 commit('setToken', 발급된 토큰);
-            // 실패시에는 오류 처리 등 적절한 처리를 한다.
-        },
+              },
+              () => {},
+            );
+          },
+          getUserInfo({ commit }, token) {
+            let decode_token = jwt_decode(token);
+            console.log(decode_token);
+            findById(
+              decode_token.userid,
+              (response) => {
+                if (response.data.message === "success") {
+                  commit("SET_USER_INFO", response.data.userInfo);
+                } else {
+                  console.log("유저 정보 없음!!");
+                }
+              },
+              (error) => {
+                console.log(error);
+              },
+            );
+          },
         // logout({ commit }) {
         //     // 로그아웃 처리
         //     // 서버로 로그아웃 요청을 보낸다.

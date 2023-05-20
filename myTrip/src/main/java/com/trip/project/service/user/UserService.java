@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.trip.project.dto.user.UserDto;
 import com.trip.project.dto.user.UserRepository;
-import com.trip.project.util.JWTUtil;
 
 @Service
 public class UserService {
@@ -27,14 +26,14 @@ public class UserService {
 		}
 		return userRepository.join(user);
 	}
-	public String login(UserDto user) throws Exception {
+	public UserDto login(UserDto user) throws Exception {
 
 		if(userRepository.findLogin(user)==null) {
-			return "x";
+			return null;
 		}
-		UserDto userDto = userRepository.login(user);
-		System.out.println(userDto.getUserAccount());
-		return JWTUtil.createJwt(userDto.getUserAccount(), secretkey, expiredMs);
+		//UserDto userDto = userRepository.login(user);
+		//System.out.println(userDto.getUserAccount());
+		return userRepository.login(user);
 	}
 	public UserDto viewMypage(long userId) throws Exception {
 		if(userRepository.findUserId(userId)==null) {
@@ -51,6 +50,13 @@ public class UserService {
 	
 	
 	public long getUser(String userAccount) {
+		
+		return userRepository.getUser(userAccount);
+	}
+	
+	
+	public UserDto getUserOne(String userAccount) {
+		
 		return userRepository.getUserOne(userAccount);
 	}
 

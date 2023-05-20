@@ -19,5 +19,7 @@ public interface UserRepository {
 
 	int deleteLike(long userId);
 
-	long getUserOne(String userAccount);
+	UserDto getUserOne(String userAccount);
+	
+	long getUser(String userAccount);
 }

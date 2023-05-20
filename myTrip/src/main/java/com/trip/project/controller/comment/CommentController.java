@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.trip.project.dto.comment.CommentDto;
 import com.trip.project.service.comment.CommentService;
 import com.trip.project.service.user.UserService;
-import com.trip.project.util.JWTUtil;
 
 import io.swagger.annotations.ApiOperation;
 
