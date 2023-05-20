@@ -1,7 +1,7 @@
 <template>
   <div>
-    <attraction-detail></attraction-detail>
-    <near-attraction></near-attraction>
+    <attraction-detail :contentId="contentId"></attraction-detail>
+    <near-attraction :contentId="contentId"></near-attraction>
     <attraction-comment :contentId="contentId"></attraction-comment>
   </div>
 </template>

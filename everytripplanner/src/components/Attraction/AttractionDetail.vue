@@ -183,27 +183,47 @@ export default {
       markers: [],
       infowindow: null,
       attraction: [],
+      map: null,
     };
   },
   computed: {
     ...mapState(AttractionStore, ["attractionDtailData"]),
   },
-  mounted() {
-    if (window.kakao && window.kakao.maps) {
+  watch: {
+    map() {
+      this.map.relayout();
+    },
+    attractionDtailData() {
+      console.log("watch에서 바라보고 있음");
       this.initMap();
-    } else {
-      const script = document.createElement("script");
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
-      document.head.appendChild(script);
-    }
+    },
+  },
+  mounted() {
+    //this.initMap();
+    // if (window.kakao && window.kakao.maps) {
+    //   this.initMap();
+    // } else {
+    //   const script = document.createElement("script");
+    //   /* global kakao */
+    //   script.onload = () => kakao.maps.load(this.initMap);
+    //   script.src =
+    //     "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
+    //   document.head.appendChild(script);
+    // }
+
+    const script = document.createElement("script");
+    /* global kakao */
+    script.onload = () => kakao.maps.load(this.initMap);
+    script.src =
+      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
+    document.head.appendChild(script);
   },
   methods: {
     initMap() {
       var lat = this.attractionDtailData.latitude;
       var lng = this.attractionDtailData.longitude;
+      console.log("여기서 변경된 확인");
+      console.log(this.attractionDtailData.title, "여기임");
       console.log("지도의 좌표", lat, lng);
       const container = document.getElementById("map");
       const options = {
@@ -214,6 +234,9 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+      this.map.relayout();
+      console.log("정말");
+      this.map.relayout();
     },
     changeSize(size) {
       const container = document.getElementById("map");

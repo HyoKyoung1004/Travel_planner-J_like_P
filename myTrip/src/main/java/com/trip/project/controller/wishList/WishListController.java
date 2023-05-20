@@ -26,7 +26,7 @@ public class WishListController {
 	
 	//위시리스트에 담기 또는 취소하기, 가져와야 하는 건 content_id, user_id, 반환해야 하는건?
 	@GetMapping("/{userId}/{contentId}")
-	public void insertOrDeleteWish(@PathVariable("userId") long userId, @PathVariable("contentId") int contentId, HttpSession session){
+	public ResponseEntity<String> insertOrDeleteWish(@PathVariable("userId") long userId, @PathVariable("contentId") int contentId, HttpSession session){
 		
 		int n = service.getCount(contentId, userId);
 		
@@ -34,9 +34,12 @@ public class WishListController {
 		if(n==0) { //insert
 			System.out.println("추가:");
 			service.insert(contentId, userId);
+			return new ResponseEntity<String>("insert", HttpStatus.OK);
 		}else { //delete
 			System.out.println("삭제:");
 			service.delete(contentId, userId);
+			return new ResponseEntity<String>("delete", HttpStatus.OK);
+
 		}
 		
 	}

@@ -81,7 +81,10 @@ public class AttracitonController {
 		int totalCount = attractionService.getAttractionListCnt(type);
 		System.out.println(totalCount);
 		
+		
 		Map<String, Object> map = list(page, totalCount);
+		
+		map.put("totalCount", totalCount);
 		System.out.println(map);
 		List<Attraction> list =null;
 		
@@ -126,6 +129,7 @@ public class AttracitonController {
 		System.out.println(totalCount);
 		
 		Map<String, Object> map = list(page, totalCount);
+		map.put("totalCount", totalCount);
 		System.out.println(map);
 		
 		List<Attraction> list =null;
@@ -167,7 +171,7 @@ public class AttracitonController {
 		
 		Map<String, Object> map = list(page, totalCount);
 		System.out.println(map);
-	
+		map.put("totalCount", totalCount);
 		
 		List<Attraction> list =null;
 		
@@ -211,7 +215,7 @@ public class AttracitonController {
 		
 		Map<String, Object> map = list(page, totalCount);
 		System.out.println(map);
-	
+		map.put("totalCount", totalCount);
 		List<Attraction> list =null;
 		
 		if( orderType.equals("latest"))

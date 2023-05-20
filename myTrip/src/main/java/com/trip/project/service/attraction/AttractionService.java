@@ -50,6 +50,10 @@ public class AttractionService {
 	//페이징 처리된 리스트를 가져온다
 	public List<Attraction> getAttractionListPage(int type, int start, int listsize) {
 		  List<Attraction> list =attractionRepository.attractionListPage_type(type, start, listsize);
+		  
+//		  for(Attraction  a: list) {
+//			  a.setSidoName(sidoName);
+//		  }
 		  return list;
 	}
 	

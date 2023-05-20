@@ -4,7 +4,9 @@
       <b-container>
         <b-row class="text-center">
           <b-col></b-col>
-          <b-col cols="10"> <h3 style="font-weight: 800">근처 여행지</h3></b-col>
+          <b-col cols="10">
+            <h3 style="font-weight: 800">근처 여행지</h3></b-col
+          >
           <b-col></b-col>
         </b-row>
         <b-row class="text-center">
@@ -27,7 +29,11 @@
                         alt="My Image"
                         style="width: 180px; height: 120px"
                       />
-                      <div v-else style="width: 180px; height: 120px" id="map2"></div>
+                      <div
+                        v-else
+                        style="width: 180px; height: 120px"
+                        id="map2"
+                      ></div>
                     </div>
                     <div style="flex-grow: 8">
                       <h6>{{ item.title }}</h6>
@@ -64,7 +70,6 @@ export default {
       map: null,
       position: [],
       markers: [],
-      
     };
   },
 
@@ -72,12 +77,23 @@ export default {
     ...mapState("AttractionStore", ["detailNearAttraction"]),
   },
   mounted() {
-    window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
+    // window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
+    // this.addScript();
+
+    const script = document.createElement("script");
+
+    console.log("실행되니?");
+    /* global kakao */
+    script.onload = () => kakao.maps.load(this.initMap);
+
+    script.src =
+      "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
+    document.head.appendChild(script);
   },
 
   methods: {
     initMap() {
-      console.log("initMap() > 여기까지 ");
+      console.log("initMap2() > 여기까지 ");
       var container2 = document.getElementById("map2");
       var options2 = {
         center: new kakao.maps.LatLng(37.76390729, 128.9543806),
@@ -130,16 +146,16 @@ export default {
       //   marker.setMap(map2);
     },
 
-    addScript() {
-      console.log("addScript() >여기까지");
+    // addScript() {
+    //   console.log("addScript() >여기까지");
 
-      const script = document.createElement("script");
-      /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
-      document.head.appendChild(script);
-    },
+    //   const script = document.createElement("script");
+    //   /* global kakao */
+    //   script.onload = () => kakao.maps.load(this.initMap);
+    //   script.src =
+    //     "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
+    //   document.head.appendChild(script);
+    // },
     makeMaker(item) {
       console.log(item);
       this.reMap(item.latitude, item.longitude, item.title);
@@ -175,7 +191,11 @@ export default {
           "mouseover",
           this.makeOverListener(this.map, marker, infowindow)
         );
-        kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
+        kakao.maps.event.addListener(
+          marker,
+          "mouseout",
+          this.makeOutListener(infowindow)
+        );
       });
       console.log("마커수 ::: " + this.markers.length);
 
@@ -187,6 +207,10 @@ export default {
       );
 
       this.map.setBounds(bounds);
+
+      this.map.relayout();
+      console.log("정말");
+      this.map.relayout();
     },
     showMarkers() {
       this.initMap();
@@ -280,8 +304,8 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-    4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
 }
 
 .flex-container {

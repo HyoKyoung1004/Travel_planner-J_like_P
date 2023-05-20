@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 public class Attraction {
 	
 	private int contentId;
+	private int type;
 	//private int contentTypeID;
 	private String title;
 	private String addr;
@@ -67,6 +68,18 @@ public class Attraction {
 
 	public void setContentId(int contentId) {
 		this.contentId = contentId;
+	}
+
+
+
+	public int getType() {
+		return type;
+	}
+
+
+
+	public void setType(int type) {
+		this.type = type;
 	}
 
 

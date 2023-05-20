@@ -4,7 +4,9 @@
       <b-nav class="child">
         <b-nav-item active @click="viewAttractionList(12)"> 관광지</b-nav-item>
         <b-nav-item active @click="viewAttractionList(14)">문화시설</b-nav-item>
-        <b-nav-item active @click="viewAttractionList(15)">축제공연행사</b-nav-item>
+        <b-nav-item active @click="viewAttractionList(15)"
+          >축제공연행사</b-nav-item
+        >
         <b-nav-item active @click="viewAttractionList(25)">여행코스</b-nav-item>
         <b-nav-item active @click="viewAttractionList(28)"> 레포츠</b-nav-item>
         <b-nav-item active @click="viewAttractionList(32)">숙박</b-nav-item>
@@ -56,7 +58,19 @@ export default {
       console.log(this.sidoCode);
     },
     viewAttractionList(idx) {
-      this.$router.push({ name: "attractionList", query: { type: idx } });
+      if (this.$route.path !== "/attractionList") {
+        this.$router.push({ name: "attractionList", query: { type: idx } });
+      } else {
+        console.log("왜 안됨>?");
+        //데이터만 보내야함,,,,
+        var childData = {
+          sidoCode: this.sidoCode,
+          gugunCode: this.gugunCode,
+          type: idx,
+        };
+        this.$emit("childData", childData);
+        console.log("보냈음", childData);
+      }
     },
   },
 };

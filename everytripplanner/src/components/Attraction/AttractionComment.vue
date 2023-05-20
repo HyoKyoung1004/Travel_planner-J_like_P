@@ -109,6 +109,7 @@ export default {
       },
     };
   },
+
   props: {
     contentId: Number,
   },

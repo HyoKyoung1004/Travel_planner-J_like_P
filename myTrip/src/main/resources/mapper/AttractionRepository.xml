@@ -122,7 +122,7 @@
 
 	
 	<select id="attractionListPage_type" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId, content_type_id as type,  title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where content_type_id=#{type}
@@ -131,7 +131,7 @@
 	</select>
 	
 	<select id="attractionListPage_addr" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where sido_code=#{sido} and gugun_code = #{gugun} 
@@ -140,7 +140,7 @@
 	</select>
 	
 	<select id="attractionListPage_addr_type" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where sido_code=#{sido} and gugun_code = #{gugun} and content_type_id=#{type}
@@ -149,7 +149,7 @@
 	</select>
 	
 	<select id="attractionListPage_addr_title" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId, content_type_id as type,  title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData}
@@ -158,7 +158,7 @@
 	</select>
 	
 	<select id="attractionListPage_addr_title_type" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId,  content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData} and content_type_id=#{type}
@@ -167,7 +167,7 @@
 	</select>
 	
 	<select id="attractionListPage_title" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where  title LIKE #{searchData} 
@@ -176,7 +176,7 @@
 	</select>
 	
 	<select id="attractionListPage_title_type" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where  title LIKE #{searchData} and content_type_id=#{type}
