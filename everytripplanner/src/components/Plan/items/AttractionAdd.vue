@@ -1,78 +1,59 @@
-<!-- <template>
-    <div class="drop-zone" @drop="dropItem" @dragover.prevent>
-      <h2>다른 컴포넌트</h2>
-      <div v-for="item in droppedItems" :key="item.id">
-        {{ item.text }}
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  import { mapState, mapMutations } from 'vuex';
-  
-  export default {
-    computed: {
-      ...mapState(['droppedItems'])
-    },
-    methods: {
-      ...mapMutations(['moveItem']),
-          dropItem(event) {
-                console.log("난 받았어");
-      const itemId = parseInt(event.dataTransfer.getData('text/plain'), 10);
-      const targetId = null; // 이동하고자 하는 타겟 아이템의 ID
-
-      this.moveItem({ itemId, targetId });
-    }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  .drop-zone {
-    width: 200px;
-    height: 200px;
-    background-color: red;
-  }
-  </style> -->
-  <template>
-
-    <div style=" overflow: scroll">
-      <h2>B-card List</h2>
+<template>
+  <div class="scroll-container">
       <ul style="list-style-type:none;">
-        <li v-for="car in card" :key="car.id">
+        <li v-for="(value, key) in plannerItems" :key="key"  >
           <b-card
-              :title="String(car[0])"
-              img-src="https://picsum.photos/600/300/?image=25"
+              v-if="key !== 0"
+              :title="value.title"
+              :img-src="value.img"
               img-alt="Image"
               img-top
               tag="article"
               style="max-width: 10rem;"
               class="mb-2">
               <b-card-text>
-                {{ car[1] }} {{ car[2]}}
+                {{ value.addr1 }} 
               </b-card-text>
+              <b-button variant="primary" @click="removeItem(key)">삭제하기</b-button>
           </b-card>
         </li>
       </ul>
-    </div>
-  </template>
-  
-  <script>
-  import { mapState } from 'vuex';
-  
-  export default {
-    props:{
-        card:{
-          type:Array,
-          required:true
-        }
-    },
-    computed: {
-      ...mapState(['droppedItems'])
-    },
+  </div>
+</template>
 
-  };
-  </script>
-  
+<script>
+import { mapState,mapMutations} from "vuex";
+const planStore = "planStore";
+
+export default {
+  props: {
+    day: {
+      type: Number, // 수정된 부분
+      required: true
+    }
+  },
+  computed: {
+    ...mapState(planStore, ["planItems"]), // 수정된 부분
+   ...mapMutations(planStore, ["removePlannerItem"]),
+    plannerItems() {
+      console.log('sdassadsad',this.planItems[this.day]);
+      return this.planItems[this.day] || []; // 수정된 부분
+    }
+  },
+  methods:{
+      removeItem(index) {
+      this.removePlannerItem({
+        key: this.day,
+        index
+      });
+    }
+  }
+};
+</script>
+
   <style scoped>
-  </style>
+.scroll-container {
+  max-height: 1000px; /* 원하는 높이로 설정 */
+  overflow-y: scroll;
+}
+</style>
