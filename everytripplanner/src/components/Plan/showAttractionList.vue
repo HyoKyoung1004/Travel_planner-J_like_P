@@ -1,7 +1,8 @@
 <template>
     <div id="attraction">
-        <attraction-list ></attraction-list>
-        <show-attraction @mom="goto"></show-attraction>
+        <attraction-list :latitude="latitude" :longitude="longitude"></attraction-list>
+        <show-attraction @mom="goto" ></show-attraction>
+        
     </div>
 </template>
 
@@ -16,8 +17,14 @@ export default {
     data() {
         return {
             message: '',
+            
         };
     },
+    props:[
+        'latitude',
+        'longitude'
+        ]
+    ,
     created() {},
     methods: {
         goto(child){

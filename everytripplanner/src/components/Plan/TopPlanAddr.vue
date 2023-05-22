@@ -136,6 +136,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+const planStore ="planStore";
 export default {
   components: {},
   data() {
@@ -154,7 +156,10 @@ export default {
   },
   created() {},
   methods: {
+    ...mapMutations(planStore, ['clearMapState','clearDayPlan']),
     MakePlan(idx) {
+      this.clearMapState();
+      this.clearDayPlan();
       this.$router.push({
         name: "planTrip",
         params: {

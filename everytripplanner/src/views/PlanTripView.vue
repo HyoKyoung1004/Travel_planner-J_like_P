@@ -1,8 +1,9 @@
 <template>
     <div>
         <show-plan-list id="planList" :card="card"></show-plan-list>
-        <showMapViewVue id="map"></showMapViewVue>
-        <show-attraction-list id="list" @mom="goto"></show-attraction-list>
+        <showMapViewVue id="map" @lat="lat" @lng="lng"></showMapViewVue>
+        <show-attraction-list id="list" @mom="goto" :latitude="latitude" :longitude="longitude"></show-attraction-list>
+        
         <!-- //<router-view></router-view> -->
     </div>
 </template>
@@ -21,6 +22,8 @@ export default {
         return {
             message: '',
             card:[],
+            latitude:0,
+            longitude:0,
         };
     },
     created() {},
@@ -29,8 +32,15 @@ export default {
             if(!this.card.includes(child)){
                 this.card.push(child);
             }
-        
-        }
+        },
+        lat(data){
+            console.log(data);
+            this.latitude=data;
+        },
+        lng(data){
+            console.log(data);
+            this.longitude=data;
+        },
     },
 };
 </script>

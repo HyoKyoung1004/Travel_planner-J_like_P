@@ -5,6 +5,10 @@
       :options="guguns"
       @change="changeGugun"
     ></b-form-select>
+    <b-form-input></b-form-input>
+    <b-input-group-append>
+      <b-button variant="info">Button</b-button>
+    </b-input-group-append>
   </b-col>
 </template>
   
@@ -40,7 +44,6 @@ export default {
       this.gugunCode = null;
       console.log(this.sidoCode);
       if (this.sidoCode) this.getGugun(this.sidoCode);
-      console.log(this.guguns);
     },
   },
   computed: {

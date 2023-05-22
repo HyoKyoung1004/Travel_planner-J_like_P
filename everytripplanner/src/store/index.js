@@ -5,6 +5,7 @@ import Attraction from "@/store/modules/Attrraction";
 import itemStore from "@/store/modules/items/itemStore";
 import AttractionStore from "./modules/Attrraction";
 import createPersistedState from 'vuex-persistedstate';
+import planStore from "@/store/modules/planStore";
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     Attraction,
     itemStore,
     AttractionStore,
+    planStore
   },
   state: {
     bcards: {},

@@ -1,49 +1,18 @@
-<!-- <template>
-    <div>
-      <div v-for="item in items" :key="item.id" draggable="true" @dragstart="dragStart(item, $event)">
-        {{ item.text }}
-      </div>
-      <div class="drop-zone" @drop="dropItem" @dragover.prevent></div>
-    </div>
-  </template>
-  
-  <script>
-  import { mapState, mapMutations } from 'vuex';
-  
-  export default {
-    computed: {
-      ...mapState(['items'])
-    },
-    methods: {
-      ...mapMutations(['moveItem']),
-          dragStart(item, event) {
-                console.log("asdasd");
-        event.dataTransfer.setData('text/plain', item.id);
-      },
-      dropItem(event) {
-        const itemId = parseInt(event.dataTransfer.getData('text/plain'), 10);
-        const targetId = null; // 이동하고자 하는 타겟 아이템의 ID
-  
-        this.moveItem({ itemId, targetId });
-      }
-    }
-  };
-  </script> -->
-  <template>
-    <div style=" overflow: scroll">
-      <h2>B-card List</h2>
+<template>
+    <div v-if="stateVisible"  class="scroll-container">
+      <h2>B-cardtss</h2>
       <ul style="list-style-type:none;">
-        <li v-for="card in bcards" :key="card.id">
+        <li v-for="card in nearAttraction" :key="card.id">
           <b-card
-              :title="String(card.content_id)"
-              img-src="https://picsum.photos/600/300/?image=25"
+              :title="card.title"
+              :img-src="card.firstImage"
               img-alt="Image"
               img-top
               tag="article"
               style="max-width: 10rem;"
               class="mb-2">
               <b-card-text>
-                {{ card.userId }} {{ card.wishId }}
+                {{ card.addr1 }} 
               </b-card-text>
               <b-button v-on:click="move(card)" variant="primary">추가하기</b-button>
           </b-card>
@@ -51,32 +20,43 @@
       </ul>
     </div>
   </template>
-  
   <script>
-  import {mapState } from 'vuex';
-  
+  import {mapActions, mapState } from 'vuex';
+  const planStore ="planStore"
   export default {
-    data(){
-      return{
-        items:{
-          type:Array,
-          required: true
-        }
-      }
-    },
     computed: {
-            ...mapState(['bcards','moveOn']),
+      ...mapState(planStore, ["nearAttraction","stateVisible","markersV","selectedDayNum"]),
     },
     methods: {
-      move(card){
-        const cardObj = [
-          this.content_id= card.content_id,
-          this.userId= card.userId,
-          this.wishId= card.wishId
-      ];
-        
-        this.$emit("mom",cardObj);
+      ...mapActions(planStore,["addMarker","setPlannerItemMachine"]),
+      async move(card){
+        console.log(card);
+        const marker={
+              latitude:card.latitude,
+              longitude:card.longitude
+            }
+        console.log("maker: ",marker);        
+        this.addMarker(marker);
+        console.log("this.markersV: ",this.markersV);
+        const day = this.selectedDayNum;
+        console.log("day",day);
+        const plannerItem = {
+              // 선택된 카드 정보를 plannerItem에 저장
+              title: card.title,
+              addr1: card.addr1,
+              img:card.firstImage,
+              content_id:card.contentId
+            };
+            console.log("contentid",card.contentId);
+    console.log("여기 한번봐보자",plannerItem);
+       await this.setPlannerItemMachine({ day, value: plannerItem });
       }
     }
   };
   </script>
+  <style scoped>
+.scroll-container {
+  max-height: 1000px; /* 원하는 높이로 설정 */
+  overflow-y: scroll;
+}
+</style>
