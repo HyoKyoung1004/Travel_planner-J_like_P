@@ -35,5 +35,9 @@ public interface PlanRepository {
 
 	UserPlanList getUserPlanData(int planId);
 
+	int getPlanDate(int planId);
+
+	ArrayList<PlanDetail> getPlanDatail(@Param("planId")int planId, @Param("date")int date);
+
 	
 }

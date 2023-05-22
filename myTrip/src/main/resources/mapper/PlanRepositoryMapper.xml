@@ -42,5 +42,12 @@
  where b.plan_id = #{planId};
 	</select>
 	
+	<select id="getPlanDate" resultType="int">
+	select date_num from planList where plan_id=${planId}  order by date_num desc limit 1;
+	</select>
 	
+	<select id="getPlanDatail"  resultType="com.trip.project.dto.plan.PlanDetail">
+	select planList_id, plan_id, a. content_id, route_num, date_num, pnum, content_type_id, title, addr1, first_image,latitude,longitude
+from planList p join attraction_info a on p.content_id = a.content_id where plan_id=#{planId} and date_num=#{date}  order by route_num
+	</select>
 </mapper>

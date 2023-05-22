@@ -16,6 +16,7 @@
     "bootstrap": "^4.6.1",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
+    "instal": "^0.0.1-security",
     "install": "^0.13.0",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.9.4",

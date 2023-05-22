@@ -11,17 +11,9 @@
     <br />
     <b-container class="bv-example-row">
       <template>
-        <b-row
-          style="margin-top: 20px"
-          v-for="planData in UserPlanList"
-          :key="planData.plan_id"
-        >
+        <b-row style="margin-top: 20px" v-for="planData in UserPlanList" :key="planData.plan_id">
           <b-col cols="12" class="center">
-            <b-card
-              no-body
-              class="overflow-hidden"
-              style="width: 100%; height: 200px"
-            >
+            <b-card no-body class="overflow-hidden" style="width: 100%; height: 200px">
               <b-row no-gutters>
                 <b-col md="3" @click="goPlanDetail(planData.plan_id)">
                   <b-card-img
@@ -50,66 +42,39 @@
                             >
                               plan 주인
                             </div> -->
-                            <div
-                              class="info-container"
-                              style="margin-top: 40px"
-                            ></div>
+                            <div class="info-container" style="margin-top: 40px"></div>
                           </div>
                         </b-col>
                         <b-col cols="8">
                           <div style="height: 50%">
-                            <div
-                              class="small-title"
-                              style="float: left; width: 50%"
-                            >
+                            <div class="small-title" style="float: left; width: 60%">
                               여행이름
-                              <span
-                                class="content-text"
-                                style="line-height: 40px"
-                              >
+                              <span class="content-text" style="line-height: 40px">
                                 {{ planData.plan_name }}
                               </span>
                             </div>
 
-                            <div
-                              class="small-title"
-                              style="float: right; width: 50%"
-                            >
+                            <div class="small-title" style="float: right; width: 40%">
                               최종인원
 
-                              <span
-                                class="content-text"
-                                style="line-height: 40px"
-                              >
+                              <span class="content-text" style="line-height: 40px">
                                 {{ planData.userCount }}인
                               </span>
                             </div>
                           </div>
                           <div style="height: 50%">
-                            <div
-                              class="small-title"
-                              style="float: left; width: 50%"
-                            >
+                            <div class="small-title" style="float: left; width: 60%">
                               여행 일자
-                              <span
-                                class="content-text"
-                                style="line-height: 40px"
-                              >
+                              <span class="content-text" style="line-height: 40px">
                                 {{ planData.plan_start }} ~
                                 {{ planData.plan_end }}
                               </span>
                             </div>
 
-                            <div
-                              class="small-title"
-                              style="float: right; width: 50%"
-                            >
+                            <div class="small-title" style="float: right; width: 40%">
                               선택장소
 
-                              <span
-                                class="content-text"
-                                style="line-height: 40px"
-                              >
+                              <span class="content-text" style="line-height: 40px">
                                 {{ planData.stopCount }}
                               </span>
                             </div>
@@ -119,18 +84,11 @@
                       <b-row style="margin: 0px">
                         <b-col>
                           <div>
-                            <button
-                              class="plan-button"
-                              @click="goPlanDetail(planData.plan_id)"
-                            >
+                            <button class="plan-button" @click="goPlanDetail(planData.plan_id)">
                               일정 상세
                             </button>
-                            <button class="plan-button" @click="sharePlan">
-                              일정 공유
-                            </button>
-                            <button class="plan-button" @click="deletePlan">
-                              일정 삭제
-                            </button>
+                            <button class="plan-button" @click="sharePlan">일정 공유</button>
+                            <button class="plan-button" @click="deletePlan">일정 삭제</button>
                           </div>
                         </b-col>
                       </b-row>
@@ -157,8 +115,7 @@ export default {
     return {
       planLength: 0,
       UserPlanList: null,
-      mainImg:
-        "http://tong.visitkorea.or.kr/cms/resource/25/2823725_image2_1.jpg",
+      mainImg: "http://tong.visitkorea.or.kr/cms/resource/25/2823725_image2_1.jpg",
     };
   },
   created() {
@@ -187,9 +144,9 @@ export default {
     },
   },
   methods: {
-    goPlanDetail(plan_id) {
-      console.log(plan_id);
-      this.$router.push({ path: "planDetail" });
+    goPlanDetail(planId) {
+      // alert(planId);
+      this.$router.push({ name: "planDetail", params: { planId: planId } });
     },
     sharePlan() {
       alert("일정 공유 구현");
@@ -208,9 +165,9 @@ export default {
   justify-content: center;
 }
 h3 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
   font-weight: 600;
   color: #333;
   text-transform: none;
@@ -356,8 +313,8 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 
 .plan-button {

@@ -16,84 +16,106 @@
       <hr style="margin-top: 0px" />
     </b-container>
 
-    <b-container>
-      <b-row>
-        <div class="day_info_box">
-          <div class="day_txt">DAY1</div>
-          <div class="day_info">
-            <div class="day_info_left">
-              <div class="day_title">2023.05.22(월)</div>
+    <b-container v-for="idx in date" :key="idx">
+      <div style="padding: 0 0 0 0; margin: 0 0 0 0">
+        <b-row>
+          <div class="day_info_box">
+            <div class="day_txt">DAY{{ idx }}</div>
+            <div class="day_info">
+              <div class="day_info_left">
+                <div class="day_title">2023.05.22(월)</div>
+              </div>
             </div>
           </div>
-        </div>
-      </b-row>
-      <br />
-      <b-row>
-        <b-container class="bv-example-row">
-          <template>
-            <b-row>
-              <b-col cols="12" class="center">
-                <b-card
-                  no-body
-                  class="overflow-hidden"
-                  style="width: 100%; height: 130px"
-                >
-                  <b-row no-gutters>
-                    <b-col md="2" style="align-items: center">
-                      <b-card-body style="align-items: center">
-                        <b-card-text style="align-items: center"
-                          ><div class="sch_num">1</div>
-                        </b-card-text>
-                      </b-card-body>
-                    </b-col>
-                    <b-col md="2" @click="goPlanDetail">
-                      <b-card-img
-                        :src="mainImg"
-                        alt="Image"
-                        class="rounded-0"
-                        style="height: 100%"
-                      ></b-card-img>
-                    </b-col>
-                    <b-col md="8">
-                      <b-card-body>
-                        <div class="travel-title" style="float: left">
-                          여행지 제목
-                        </div>
-                      </b-card-body>
-                    </b-col>
-                  </b-row>
-                </b-card>
-              </b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="12" class="center">
-                <div class="day_sch_distance">
-                  <a
-                    href="https://www.google.com/maps/dir/?api=1&amp;origin=33.46220616,126.3122813&amp;destination=33.44340178,126.7786189"
-                    onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;"
-                    >-&gt; 2.79km 추천경로</a
-                  >
-                </div>
-              </b-col>
-            </b-row>
-          </template>
-        </b-container>
-      </b-row>
+        </b-row>
+        <br />
+        <b-row v-for="(detailPlan, i) in planDetailArr[idx - 1]" :key="i">
+          <b-container class="bv-example-row">
+            <template>
+              <b-row>
+                <b-col cols="12" class="center">
+                  <b-card no-body class="overflow-hidden" style="width: 100%; height: 130px">
+                    <b-row no-gutters>
+                      <b-col md="2" style="align-items: center">
+                        <b-card-body style="align-items: center">
+                          <b-card-text style="align-items: center"
+                            ><div class="sch_num">{{ i + 1 }}</div>
+                          </b-card-text>
+                        </b-card-body>
+                      </b-col>
+                      <b-col md="2">
+                        <b-card-img
+                          :src="detailPlan.first_image"
+                          alt="Image"
+                          class="rounded-0"
+                          style="height: 100%"
+                        ></b-card-img>
+                      </b-col>
+                      <b-col md="8">
+                        <b-card-body>
+                          <div class="travel-title" style="float: left">{{ detailPlan.title }}</div>
+                        </b-card-body>
+                      </b-col>
+                    </b-row>
+                  </b-card>
+                </b-col>
+              </b-row>
+              <b-row v-if="planDetailArr[idx - 1].length - 1 != i">
+                <b-col cols="12" class="center">
+                  <div class="day_sch_distance">
+                    <a
+                      :href="`https://www.google.com/maps/dir/?api=1&amp;origin=${
+                        latlng[idx - 1][i][0]
+                      },${latlng[idx - 1][i][1]}&amp;destination=${latlng[idx - 1][i + 1][0]},${
+                        latlng[idx - 1][i + 1][1]
+                      }`"
+                      onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;"
+                      >-&gt; {{ disArr[idx - 1][i] }}km 추천경로 {{ idx }}
+                      {{ i }}
+                    </a>
+                  </div>
+                </b-col>
+              </b-row>
+            </template>
+          </b-container>
+        </b-row>
+      </div>
     </b-container>
   </div>
 </template>
 
 <script>
+import { planDetail } from "@/api/plan";
+
 export default {
   components: {},
   data() {
     return {
       map: null,
-      mainImg:
-        "http://tong.visitkorea.or.kr/cms/resource/25/2823725_image2_1.jpg",
+      date: 0,
+      disArr: null,
+      planDetailArr: null,
+      latlng: null,
     };
   },
-  created() {},
+  created() {
+    let planId = this.$route.params.planId;
+    console.log("여긴 plan 상세", planId);
+    var this_temp = this;
+    planDetail(
+      planId,
+      ({ data }) => {
+        console.log(data);
+        this_temp.date = data.date;
+        this_temp.disArr = data.disArr;
+        this_temp.planDetailArr = data.planDetailArr;
+        this_temp.latlng = data.latlng;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
   mounted() {
     const script = document.createElement("script");
     /* global kakao */
@@ -102,55 +124,48 @@ export default {
       "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=94b8d2908a19fbb8a3e35c6690f180ce";
     document.head.appendChild(script);
 
-    if (typeof kakao === "undefined") {
-      // Kakao Maps API가 로드되지 않은 경우에 대한 처리
-      console.error("Kakao Maps API가 로드되지 않았습니다.");
-      return;
-    }
-
     // this.initializeMap();
   },
   methods: {
     initializeMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(33.46763376, 126.3389899), // 초기 지도 중심 좌표 설정
-        level: 10, // 초기 지도 줌 레벨 설정
+        center: new kakao.maps.LatLng(this.latlng[0][0][0], this.latlng[0][0][1]), // 초기 지도 중심 좌표 설정
+        level: 7, // 초기 지도 줌 레벨 설정
       };
 
       const map = new kakao.maps.Map(container, options);
 
-      const latLngArray = [
-        new kakao.maps.LatLng(33.46763376, 126.3389899),
-        new kakao.maps.LatLng(33.46220616, 126.3122813),
-        new kakao.maps.LatLng(33.44340178, 126.7786189),
-        // ... 추가 위경도 배열
-      ];
+      for (var i = 0; i < this.date; i++) {
+        const latLngArray = [];
+        for (var j = 0; j < this.latlng[i].length; j++) {
+          latLngArray.push(new kakao.maps.LatLng(this.latlng[i][j][0], this.latlng[i][j][1]));
+        }
 
-      // 선 그리기
-      const polyline = new kakao.maps.Polyline({
-        path: latLngArray,
-        strokeWeight: 5,
-        strokeColor: "#FF0000",
-        strokeOpacity: 1,
-      });
-      polyline.setMap(map);
+        const color = ["#FF0000", "#00FF00", "#0000FF"];
+        // 선 그리기
+        const polyline = new kakao.maps.Polyline({
+          path: latLngArray,
+          strokeWeight: 5,
+          strokeColor: `${color[i]}`,
+          strokeOpacity: 3,
+        });
+        polyline.setMap(map);
 
-      // 마커와 인덱스 표시
-
-      latLngArray.forEach((latLng, index) => {
-        const marker = new kakao.maps.Marker({
-          position: latLng,
-          map: map,
+        latLngArray.forEach((latLng, index) => {
+          const marker = new kakao.maps.Marker({
+            position: latLng,
+            map: map,
+          });
+          const infowindow = new kakao.maps.InfoWindow({
+            content: ` ${i + 1}일차 여행순서 : ${index + 1}`,
+            removable: true,
+          });
+          kakao.maps.event.addListener(marker, "click", function () {
+            infowindow.open(map, marker);
+          });
         });
-        const infowindow = new kakao.maps.InfoWindow({
-          content: `여행순서 : ${index + 1}`,
-          removable: true,
-        });
-        kakao.maps.event.addListener(marker, "click", function () {
-          infowindow.open(map, marker);
-        });
-      });
+      }
     },
   },
 };
@@ -170,6 +185,7 @@ export default {
 }
 
 .day_info_box {
+  margin-top: 20px;
   width: 100%;
   height: 60px;
 }
@@ -229,9 +245,9 @@ export default {
 }
 
 h3 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
   font-weight: 600;
   color: #333;
   text-transform: none;
@@ -397,8 +413,8 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 
 .plan-button {

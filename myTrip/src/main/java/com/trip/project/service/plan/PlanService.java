@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.trip.project.dto.attraction.AttractionDto;
 import com.trip.project.dto.plan.Plan;
+import com.trip.project.dto.plan.PlanDetail;
 import com.trip.project.dto.plan.PlanRepository;
 import com.trip.project.dto.plan.PlanRequestDto;
 import com.trip.project.dto.plan.UserPlanList;
@@ -63,6 +64,15 @@ public class PlanService {
 
 	public UserPlanList getUserplan(int planId) {
 		return planRepository.getUserPlanData(planId);
+	}
+
+	public int getPlanDate(int planId) {
+	
+		return planRepository.getPlanDate(planId);
+	}
+
+	public ArrayList<PlanDetail> getPlanDetail(int planId, int date) {
+		return planRepository.getPlanDatail(planId, date);
 	}
 	
 
