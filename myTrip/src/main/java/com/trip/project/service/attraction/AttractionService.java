@@ -297,6 +297,7 @@ public class AttractionService {
 	}
 	
 	public Map<String,Object> getAddrName(int sido, int gugun) {
+		System.out.println(sido+", "+gugun);
 		// TODO Auto-generated method stub
 		return attractionRepository.getAddrName(sido, gugun);
 	}

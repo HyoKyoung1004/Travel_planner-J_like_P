@@ -4,14 +4,18 @@
       <b-row>
         <h3>여행 일정 -</h3>
         &nbsp; &nbsp;
-        <h3 style="color: #0a97cd">3 건</h3>
+        <h3 style="color: #0a97cd">{{ planLength }} 건</h3>
       </b-row>
       <hr style="margin-top: 0px" />
     </b-container>
     <br />
     <b-container class="bv-example-row">
       <template>
-        <b-row>
+        <b-row
+          style="margin-top: 20px"
+          v-for="planData in UserPlanList"
+          :key="planData.plan_id"
+        >
           <b-col cols="12" class="center">
             <b-card
               no-body
@@ -19,14 +23,14 @@
               style="width: 100%; height: 200px"
             >
               <b-row no-gutters>
-                <b-col md="3" @click="goPlanDetail">
+                <b-col md="3" @click="goPlanDetail(planData.plan_id)">
                   <b-card-img
-                    :src="mainImg"
+                    :src="planData.first_image"
                     alt="Image"
                     class="rounded-0"
                     style="height: 100%"
                   ></b-card-img>
-                  <div class="d-day-circle">D-15</div>
+                  <div class="d-day-circle">{{ planData.dday }}</div>
                 </b-col>
                 <b-col md="9">
                   <b-card-body>
@@ -34,14 +38,18 @@
                       <b-row style="margin: 0px">
                         <b-col cols="4">
                           <div>
-                            <div class="travel-title">NAMWON</div>
-                            <div class="uk-text-meta">대한민국 남원</div>
-                            <div
+                            <div class="travel-title">
+                              {{ planData.sidoName }}
+                            </div>
+                            <div class="uk-text-meta">
+                              {{ planData.sidoName }}, {{ planData.gugunName }}
+                            </div>
+                            <!-- <div
                               class="uk-text-meta"
                               style="font-size: 12px; margin-top: 8px"
                             >
                               plan 주인
-                            </div>
+                            </div> -->
                             <div
                               class="info-container"
                               style="margin-top: 40px"
@@ -59,7 +67,7 @@
                                 class="content-text"
                                 style="line-height: 40px"
                               >
-                                plan Name
+                                {{ planData.plan_name }}
                               </span>
                             </div>
 
@@ -73,7 +81,7 @@
                                 class="content-text"
                                 style="line-height: 40px"
                               >
-                                3인
+                                {{ planData.userCount }}인
                               </span>
                             </div>
                           </div>
@@ -87,7 +95,8 @@
                                 class="content-text"
                                 style="line-height: 40px"
                               >
-                                2023.5.21 ~ 2023.5.25
+                                {{ planData.plan_start }} ~
+                                {{ planData.plan_end }}
                               </span>
                             </div>
 
@@ -101,7 +110,7 @@
                                 class="content-text"
                                 style="line-height: 40px"
                               >
-                                12
+                                {{ planData.stopCount }}
                               </span>
                             </div>
                           </div>
@@ -110,7 +119,10 @@
                       <b-row style="margin: 0px">
                         <b-col>
                           <div>
-                            <button class="plan-button" @click="goPlanDetail">
+                            <button
+                              class="plan-button"
+                              @click="goPlanDetail(planData.plan_id)"
+                            >
                               일정 상세
                             </button>
                             <button class="plan-button" @click="sharePlan">
@@ -135,20 +147,48 @@
 </template>
 
 <script>
+import { userPlan } from "@/api/plan";
+import { mapState } from "vuex";
+const memberStore = "memberStore";
+
 export default {
   components: {},
   data() {
     return {
+      planLength: 0,
+      UserPlanList: null,
       mainImg:
         "http://tong.visitkorea.or.kr/cms/resource/25/2823725_image2_1.jpg",
     };
   },
-  created() {},
+  created() {
+    var userId = this.userInfo.userId;
+    var this_temp = this;
+    userPlan(
+      userId,
+      ({ data }) => {
+        console.log(data);
+        this_temp.planLength = data.planLength;
+        this_temp.UserPlanList = data.UserPlanList;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
   mounted() {},
-  computed: {},
-  watch: {},
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
+  watch: {
+    UserPlanList() {
+      console.log("여긴 watch");
+      console.log(this.UserPlanList);
+    },
+  },
   methods: {
-    goPlanDetail() {
+    goPlanDetail(plan_id) {
+      console.log(plan_id);
       this.$router.push({ path: "planDetail" });
     },
     sharePlan() {

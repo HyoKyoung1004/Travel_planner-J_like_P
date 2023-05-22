@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.trip.project.dto.plan.PlanRepository">
 	
-	<insert id="planAdd" parameterType="PlanRequestDto" >
-		INSERT INTO PLAN(PLAN_START,PLAN_END,USERID,PLAN_NAME)
-		VALUES (#{plan_start},#{plan_end},#{userId},#{plan_name})
+	<insert id="addPlan" parameterType="PlanRequestDto" >
+		INSERT INTO PLAN(PLAN_START,PLAN_END,PLAN_NAME,userId)
+		VALUES (#{plan_start},#{plan_end},#{plan_name},#{userId})
 	</insert>
 	<select id="findPlanId" parameterType="String" resultType="int">
 		SELECT plan_id from plan where plan_name=#{plan_name}
@@ -16,4 +16,31 @@
 	<select id="findPlanNameAnduserId" parameterType="map" resultType="Plan">
 		SELECT * from plan where plan_name=#{plan_name} and userId=#{userId}
 	</select>
+	<select id= "findAttraction" resultType="AttractionDto" parameterType="double">
+		SELECT * from attraction_info where (latitude between #{minY} and #{maxY}) and (longitude between #{minX} and #{maxX})
+	</select>
+	
+	<select id="findUserId" resultType="int" parameterType="String">
+	SELECT userId FROM USER WHERE userAccount=#{userAccount}
+</select>
+	
+	<insert id="addPlanUser">
+		INSERT INTO invite(plan_id, userId)
+		VALUES (#{planId},#{userId})
+	</insert>
+	
+	<select id="getUserPlan" resultType="Integer">
+		select plan_id from invite where userId=#{userId}
+	</select>
+	
+	<select id="getUserPlanData" resultType="UserPlanList">
+	select * from 
+(select first_image, sido_code, gugun_code  from attraction_info where content_id in
+(select content_id from planlist where plan_id =#{planId} and route_num=1 and date_num=1 )) a , plan b, 
+(select count(*) as userCount from invite where plan_id=#{planId}) c,
+(select count(*) as stopCount from planlist where plan_id=#{planId}) d
+ where b.plan_id = #{planId};
+	</select>
+	
+	
 </mapper>
