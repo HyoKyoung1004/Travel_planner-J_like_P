@@ -7,7 +7,7 @@
 	VALUES (#{userId},#{contentId},1)
 </insert>
 
-<select id="isLikeCheck" resultType="int" parameterType="map">
+<select id="isLikeCheck" resultType="Integer" parameterType="map">
 	SELECT likeCheck FROM likeAttraction WHERE userId=#{userId} and content_id=#{contentId}
 </select>
 
@@ -19,4 +19,9 @@
 <delete id="deleteLike" parameterType="long">
 	delete from likeAttraction WHERE likeId=#{likeId}
 </delete>
+
+<delete id="likeDelete" >
+	delete from likeAttraction WHERE userId=#{userId} and content_id=#{contentId}
+</delete>
+
 </mapper>

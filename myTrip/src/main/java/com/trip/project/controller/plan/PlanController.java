@@ -5,6 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +23,9 @@ import com.trip.project.service.plan.PlanService;
 @RestController
 @RequestMapping("/plan")
 public class PlanController {
+	
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
 	
 	@Autowired
 	private PlanService planservice;
@@ -63,5 +68,16 @@ public class PlanController {
 	public int addMember(@PathVariable("plan_name")String plan_name,@PathVariable("userId")int userId) {
 		return planservice.addMember(plan_name,userId);
 	}
+	
+	
+	@GetMapping("/myplanList/${userId}")
+	public ResponseEntity<?> myPlanList(@PathVariable("userId") long userId){
+		
+		return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+	}
+	
+	
+	
+
 
 }

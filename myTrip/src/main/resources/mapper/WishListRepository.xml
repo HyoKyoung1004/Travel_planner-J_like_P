@@ -27,4 +27,7 @@
 		delete from wishlist  where userId=#{userId} and content_id = #{contentId}
 	</delete>
 	
+	<select id="getWishCount" resultType="int">
+	        select count(*) from wishlist where content_id = #{contentId}
+	</select>
 </mapper>

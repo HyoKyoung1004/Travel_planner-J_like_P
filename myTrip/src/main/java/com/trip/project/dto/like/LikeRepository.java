@@ -16,4 +16,6 @@ public interface LikeRepository {
 
 	int deleteLike(long likeId);
 
+	int likeDelete(@Param("contentId") int contentId, @Param("userId") long userId);
+
 }

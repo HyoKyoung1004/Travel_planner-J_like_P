@@ -24,7 +24,12 @@
       <b-container class="bv-example-row">
         <b-row>
           <b-col><choose-sido @select-sido="selectSido"></choose-sido></b-col>
-          <b-col><choose-gu-gun :sidoCode="sidoCode"></choose-gu-gun></b-col>
+          <b-col
+            ><choose-gu-gun
+              :sidoCode="sidoCode"
+              @select-gugun="selectGugun"
+            ></choose-gu-gun
+          ></b-col>
         </b-row>
       </b-container>
     </div>
@@ -45,6 +50,7 @@ export default {
     return {
       openModal: false,
       sidoCode: null,
+      type: null,
     };
   },
   // created: {},
@@ -57,12 +63,28 @@ export default {
       this.sidoCode = sidoCode;
       console.log(this.sidoCode);
     },
+
+    selectGugun(guguncode) {
+      this.gugunCode = guguncode;
+      if (this.$route.path !== "/attractionList") {
+        this.$router.push({
+          name: "attractionList",
+          query: { sido: this.sidoCode, gugun: this.gugunCode },
+        });
+      } else {
+        this.$emit("childData", { sido: this.sidoCode, gugun: this.gugunCode });
+        // this.sidoCode = undefined;
+        // this.gugunCode = undefined;
+      }
+    },
+
     viewAttractionList(idx) {
       if (this.$route.path !== "/attractionList") {
         this.$router.push({ name: "attractionList", query: { type: idx } });
       } else {
         console.log("왜 안됨>?");
         //데이터만 보내야함,,,,
+
         var childData = {
           sidoCode: this.sidoCode,
           gugunCode: this.gugunCode,
@@ -70,6 +92,7 @@ export default {
         };
         this.$emit("childData", childData);
         console.log("보냈음", childData);
+        this.type = idx;
       }
     },
   },

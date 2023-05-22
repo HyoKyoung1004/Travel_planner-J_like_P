@@ -16,4 +16,7 @@ public interface WishListRepository {
 
 	int delete(@Param("contentId") int contentId, @Param("userId") Long userId);
 
+	int getWishCount(int contentId);
+	
+
 }

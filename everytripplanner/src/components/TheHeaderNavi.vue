@@ -11,28 +11,31 @@
           <b-navbar-nav class="ml-auto"></b-navbar-nav>
           <!-- Right aligned nav items -->
 
-          <b-navbar-nav class="ml-auto" right>
+          <b-navbar-nav class="ml-auto" right v-if="userInfo">
+            <b-nav-item @click="planList">내 여행 확인</b-nav-item>
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
-            <b-nav-item>위시리스트</b-nav-item>
+            <b-nav-item @click="wishList">위시리스트</b-nav-item>
+            <b-nav-item @click.prevent="onClickLogout">로그아웃</b-nav-item>
+            <b-nav-item
+              >{{ userInfo.nickName }}({{ userInfo.userAccount }}) 님,
+            </b-nav-item>
+          </b-navbar-nav>
+
+          <b-navbar-nav class="ml-auto" right v-else>
+            <b-nav-item @click="planList">내 여행 확인</b-nav-item>
+            <b-nav-item @click="plantripview">여행만들기</b-nav-item>
+            <b-nav-item @click="wishList">위시리스트</b-nav-item>
             <b-nav-item @click="sigin">로그인</b-nav-item>
             <b-nav-item @click="signup">회원가입</b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav>
-            <!-- <b-navbar-nav>
-              <b-nav-item href="#">여행만들기</b-nav-item>
-              <b-nav-item href="#">위시리스트</b-nav-item>
-              <b-nav-item href="#">sign In</b-nav-item>
-              <b-nav-item href="#">회원가입</b-nav-item>
-            </b-navbar-nav> -->
-
             <b-navbar-nav right>
               <b-nav-item-dropdown>
                 <template #button-content>
                   <b-avatar></b-avatar>
                 </template>
                 <b-dropdown-item href="#">마이페이지</b-dropdown-item>
-                <b-dropdown-item href="#">Sign Out</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
           </b-navbar-nav>
@@ -43,6 +46,11 @@
 </template>
 
 <script>
+// import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import { mapState, mapActions } from "vuex";
+
+const memberStore = "memberStore";
+
 export default {
   name: "TheHeaderNavbar",
   components: {},
@@ -51,8 +59,12 @@ export default {
       message: "",
     };
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   created() {},
   methods: {
+    ...mapActions(memberStore, ["logout"]),
     sigin() {
       this.$router.push({ path: "signin" });
     },
@@ -60,7 +72,33 @@ export default {
       this.$router.push({ path: "signup" });
     },
     plantripview() {
-      this.$router.push({ path: "planTrip" });
+      if (this.userInfo == null) alert("로그인을 후 이용 가능합니다.");
+      else this.$router.push({ path: "planTrip" });
+    },
+    planList() {
+      // if (this.userInfo == null) alert("로그인을 후 이용 가능합니다.");
+      // else this.$router.push({ path: "planList" });
+      this.$router.push({ path: "planList" });
+    },
+    wishList() {
+      console.log("위시리스트");
+      if (this.userInfo == null) {
+        alert("로그인을 후 이용 가능합니다.");
+      } else {
+        this.$router.push({
+          name: "wishList",
+          query: { userId: this.userInfo.userId },
+        });
+      }
+    },
+    onClickLogout() {
+      //로그아웃
+      console.log(this.userInfo.userid);
+      //여기 로그아웃 기능 구현 안되어 있음,,,,
+      // this.logout(this.userInfo.userid);
+      sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
+      sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
+      if (this.$route.path != "/") this.$router.push({ name: "main" });
     },
   },
 };

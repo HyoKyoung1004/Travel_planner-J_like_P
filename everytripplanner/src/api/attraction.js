@@ -9,9 +9,10 @@ function attractionDetail(contentId, success, fail) {
 //   api.get(`/attract/search/${searchData}/${page}/${orderType}`).then(success).catch(fail);
 // }
 
-// function attractdionList_addr(sido, gugun, page, orderType, success, fail) {
-//   api.get(`/attract/search/${sido}/${gugun}/${page}/${orderType}`).then(success).catch(fail);
-// }
+function attractdionList_addr(sido, gugun, page, orderType, success, fail) {
+  console.log(sido, gugun, page, orderType);
+  api.get(`/attract/search/${sido}/${gugun}/${page}/${orderType}`).then(success).catch(fail);
+}
 
 // function attractdionList_addr_searchData(sido, gugun, searchData, page, orderType, success, fail) {
 //   api
@@ -27,12 +28,12 @@ function attractionDetail(contentId, success, fail) {
 //     .catch(fail);
 // }
 
-// function attractdionList_addr_type(sido, gugun, type, page, orderType, success, fail) {
-//   api
-//     .get(`/attract/searchType/${sido}/${gugun}/${type}/${page}/${orderType}`)
-//     .then(success)
-//     .catch(fail);
-// }
+function attractdionList_addr_type(sido, gugun, type, page, orderType, success, fail) {
+  api
+    .get(`/attract/searchType/${sido}/${gugun}/${type}/${page}/${orderType}`)
+    .then(success)
+    .catch(fail);
+}
 
 function attractdionList_addr_searchData_type(
   sido,
@@ -68,4 +69,6 @@ export {
   attractdionList_addr_searchData_type,
   route,
   likeTop4,
+  attractdionList_addr,
+  attractdionList_addr_type,
 };

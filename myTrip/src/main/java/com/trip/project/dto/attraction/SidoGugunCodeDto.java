@@ -38,6 +38,11 @@ public class SidoGugunCodeDto {
 	public void setGugun_name(String gugun_name) {
 		this.gugun_name = gugun_name;
 	}
+	@Override
+	public String toString() {
+		return "SidoGugunCodeDto [sido_code=" + sido_code + ", sido_name=" + sido_name + ", gugun_code=" + gugun_code
+				+ ", gugun_name=" + gugun_name + "]";
+	}
 
 	
 }

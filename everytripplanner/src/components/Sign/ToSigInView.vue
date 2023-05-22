@@ -55,20 +55,20 @@ export default {
         };
     },
     computed: {
-        ...mapState(memberStore,["token","isLoggedIn"])
+        ...mapState(memberStore,["isLogin", "isLoginError"])
     },
     created() {},
     methods: {
-    ...mapActions(memberStore,['login']),
-        confirm() {
-            this.login(this.user);
-            if (this.isLoggedIn) {
-                this.$router.push({ name: "main" });
-            }
-            else {
-                alert("로그인실패 ㅅㄱ");
-            }
-        },
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    async confirm() {
+      await this.userConfirm(this.user);
+      let token = sessionStorage.getItem("access-token");
+      console.log(token);
+      if (this.isLogin) {
+        await this.getUserInfo(token);
+        this.$router.push({ name: "main" });
+      }
+    },
         movePage() {
             this.$router.push({ name: "signup" });
         }

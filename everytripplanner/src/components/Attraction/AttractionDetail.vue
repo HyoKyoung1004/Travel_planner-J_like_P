@@ -12,13 +12,19 @@
     <br />
     <!-- 좋아요, 찜표시 아이콘으로 변경 예정 -->
     <div class="post_area">
-      <button type="button" onclick="setWish();" style="border-color: #ff0044">
+      <button
+        type="button"
+        @click="setWish(attractionDtailData.contentId)"
+        style="border-color: #ff0044"
+      >
         <i class="fa-solid fa-heart"></i>
-        <span class="num" id="위시리스트수">{{
-          attractionDtailData.likeCheck
-        }}</span>
+        <span class="num" id="위시리스트수">{{ wishCount }}</span>
       </button>
-      <button type="button" onclick="setLike();" style="border-color: #4b89dc">
+      <button
+        type="button"
+        @click="setLike(attractionDtailData.contentId)"
+        style="border-color: #4b89dc"
+      >
         <i class="fa-solid fa-thumbs-up"></i>
         <span class="num" id="좋아요수"
           >{{ attractionDtailData.likeCheck }}
@@ -151,14 +157,19 @@
                 </div>
                 <div class="form">
                   <span class="good">
-                    <button style="border-color: #4b89dc" @click="checkLike()">
+                    <button
+                      style="border-color: #4b89dc"
+                      @click="setLike(attractionDtailData.contentId)"
+                    >
                       <h3><i class="fa-solid fa-thumbs-up"></i> 좋아요!</h3>
                     </button>
                     <button
                       style="border-color: #ff0044"
-                      @click="checkWishList()"
+                      @click="setWish(attractionDtailData.contentId)"
                     >
-                      <h3><i class="fa-solid fa-heart"></i> 찜!</h3>
+                      <h3>
+                        <i class="fa-solid fa-heart" @click="setWish"></i> 찜!
+                      </h3>
                     </button>
                   </span>
                 </div>
@@ -174,7 +185,11 @@
 
 <script>
 import { mapState } from "vuex";
+import { setWishList, getAttractionWishCount } from "@/api/wishList";
+import { setLikeAttraction } from "@/api/like";
+
 const AttractionStore = "AttractionStore";
+const memberStore = "memberStore";
 
 export default {
   name: "KakaoMap",
@@ -184,9 +199,12 @@ export default {
       infowindow: null,
       attraction: [],
       map: null,
+      wishCount: 0,
     };
   },
+  created() {},
   computed: {
+    ...mapState(memberStore, ["userInfo"]),
     ...mapState(AttractionStore, ["attractionDtailData"]),
   },
   watch: {
@@ -196,6 +214,17 @@ export default {
     attractionDtailData() {
       console.log("watch에서 바라보고 있음");
       this.initMap();
+
+      getAttractionWishCount(
+        this.attractionDtailData.contentId,
+        ({ data }) => {
+          console.log(data);
+          this.wishCount = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
   mounted() {
@@ -245,11 +274,64 @@ export default {
       this.map.relayout();
     },
 
-    checkLike() {
-      alert("좋아요 누름, 구현 필요");
+    setLike(contentId) {
+      if (this.userInfo == null) {
+        alert("로그인 후 이용 가능합니다.");
+      } else {
+        // const buttonElement = this.$refs.myWish;
+
+        var userId = this.userInfo.userId;
+        //로그인 한 사용자라면,,,,
+        setLikeAttraction(
+          contentId,
+          userId,
+          ({ data }) => {
+            console.log("좋아요");
+            console.log(data);
+
+            if (data == "insert") {
+              alert("좋아요를 추가");
+              this.attractionDtailData.likeCheck =
+                this.attractionDtailData.likeCheck + 1;
+            } else if (data == "delete") {
+              alert("좋아요 취소");
+              this.attractionDtailData.likeCheck =
+                this.attractionDtailData.likeCheck - 1;
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     },
-    checkWishList() {
-      alert("찜 누름, 구현 필요");
+    setWish(contentId) {
+      if (this.userInfo == null) {
+        alert("로그인 후 이용 가능합니다.");
+      } else {
+        // const buttonElement = this.$refs.myWish;
+
+        var userId = this.userInfo.userId;
+        //로그인 한 사용자라면,,,,
+        setWishList(
+          contentId,
+          userId,
+          ({ data }) => {
+            console.log(data);
+
+            if (data == "insert") {
+              alert("위시리스트에 담겼습니다.");
+              this.wishCount = this.wishCount + 1;
+            } else if (data == "delete") {
+              alert("위시리스트에서 삭제되었습니다.");
+              this.wishCount = this.wishCount - 1;
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     },
   },
 };

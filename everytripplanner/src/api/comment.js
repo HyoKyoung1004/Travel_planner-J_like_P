@@ -2,8 +2,9 @@ import { tripInstance } from "./http.js";
 
 const api = tripInstance();
 
-function commentDetail(contentId, success, fail) {
-    api.get(`/comment/${contentId}`).then(success).catch(fail);
+function commentDetailFunction(contentId, success, fail) {
+    console.log(contentId.contentId);
+    api.get(`/comment/${contentId.contentId}`).then(success).catch(fail);
 }
 
-export { commentDetail };
+export { commentDetailFunction };

@@ -167,7 +167,7 @@
 	</select>
 	
 	<select id="attractionListPage_title" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId, content_type_id as type,title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where  title LIKE #{searchData} 
@@ -176,7 +176,7 @@
 	</select>
 	
 	<select id="attractionListPage_title_type" resultType="com.trip.project.dto.attraction.Attraction">
-		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		select a.content_id as contentId,content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
 		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
 		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
 		where  title LIKE #{searchData} and content_type_id=#{type}
@@ -214,10 +214,12 @@
 		order by sido_code;
 	</select>
 	
-	<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
-		select left(gugun_code,5) gugun_code, gugun_name
+
+	
+		<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
+				select left(gugun_code,5) gugun_code, gugun_name
 		from gugun
-		where left(gugun_code,2) = #{sido}
+		where left(sido_code,2) = #{sido}
 	</select>
 
 	<select id="getAddrName" resultType="hashmap">

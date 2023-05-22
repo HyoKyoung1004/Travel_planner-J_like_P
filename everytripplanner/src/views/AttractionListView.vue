@@ -1,7 +1,7 @@
 <template .center>
   <div class=".center">
     <div>
-      <choose-attraction @childData="typeChange"></choose-attraction>
+      <choose-attraction @childData="Change"></choose-attraction>
       <hr />
     </div>
     <div>
@@ -140,9 +140,14 @@
 
 <script>
 import ChooseAttraction from "@/components/Attraction/ChooseAttraction.vue";
+import { mapState } from "vuex";
+
+const memberStore = "memberStore";
 import {
   attractdionList_addr_searchData_type,
   attractionList_type,
+  attractdionList_addr,
+  attractdionList_addr_type,
 } from "@/api/attraction";
 
 import { setWishList } from "@/api/wishList";
@@ -173,7 +178,7 @@ export default {
     };
   },
   created() {
-    var sido = this.$route.query.contant;
+    var sido = this.$route.query.sido;
     var gugun = this.$route.query.gugun;
     var type = this.$route.query.type;
     var searchData = this.$route.query.searchData;
@@ -183,6 +188,7 @@ export default {
   },
   mounted() {},
   computed: {
+    ...mapState(memberStore, ["userInfo"]),
     getTypeString(type) {
       return this.typeString(type);
     },
@@ -191,6 +197,18 @@ export default {
     },
   },
   watch: {
+    gugun() {
+      console.log("구 변경됨");
+      console.log(this.page);
+      this.diviceSearch(
+        this.sido,
+        this.gugun,
+        this.type,
+        this.searchData,
+        this.page,
+        this.orderType
+      );
+    },
     page() {
       console.log(this.page);
       this.diviceSearch(
@@ -204,9 +222,21 @@ export default {
     },
   },
   methods: {
-    typeChange(childData) {
-      this.type = childData.type;
-      this.search_type(this.type, 1, this.orderType);
+    Change(childData) {
+      console.log(childData);
+      if (childData.sido != undefined && childData.type != undefined) {
+        this.sido = childData.sido;
+        this.gugun = childData.gugun;
+        this.type = childData.type;
+        this.search_addr_type(this.sido, this.gugun, this.type);
+      } else if (childData.sido != undefined) {
+        this.sido = childData.sido;
+        this.gugun = childData.gugun;
+        this.search_addr(this.sido, this.gugun);
+      } else if (childData.type != undefined) {
+        this.type = childData.type;
+        this.search_type(this.type, 1, this.orderType);
+      }
     },
     goDetail(contentId, e) {
       //상세페이지 이동
@@ -244,14 +274,16 @@ export default {
         orderType = "latest";
         this.orderType = orderType;
       }
+      console.log("갈라짐");
       console.log(sido, gugun, type, searchData, page, orderType);
 
       if (
-        sido != undefined &&
-        gugun != undefined &&
-        searchData != undefined &&
-        type != undefined
+        sido !== undefined &&
+        gugun !== undefined &&
+        searchData !== undefined &&
+        type !== undefined
       ) {
+        console.log("설마 여기로감?");
         this.search_addr_title_type(
           sido,
           gugun,
@@ -260,8 +292,15 @@ export default {
           page,
           orderType
         );
-      }
-      if (type != undefined) {
+      } else if (sido != undefined && gugun != undefined && type != undefined) {
+        console.log("시도_타압");
+        this.search_addr_type(sido, gugun, type, page, orderType);
+      } else if (sido != undefined && gugun != undefined) {
+        console.log("시도");
+        console.log(this.page, this.orderType);
+        this.search_addr(sido, gugun, this.page, this.orderType);
+      } else if (type != undefined) {
+        console.log("타압");
         this.search_type(type, page, orderType);
       }
     },
@@ -283,6 +322,54 @@ export default {
         }
       );
     },
+    search_addr(sido, gugun, page, orderType) {
+      console.log(sido, gugun, page, orderType);
+      attractdionList_addr(
+        sido,
+        gugun,
+        page,
+        orderType,
+        ({ data }) => {
+          console.log(data);
+          this.page = page;
+          this.totalCount = data.totalCount;
+          this.endPage = data.endPage;
+          this.next = data.next;
+          this.pre = data.pre;
+          this.start = data.start;
+          this.startPage = data.startPage;
+          this.attractionList = data.list;
+          console.log(this.attractionList);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    search_addr_type(sido, gugun, type, page, orderType) {
+      attractdionList_addr_type(
+        sido,
+        gugun,
+        type,
+        page,
+        orderType,
+        ({ data }) => {
+          console.log(data);
+          this.page = page;
+          this.totalCount = data.totalCount;
+          this.endPage = data.endPage;
+          this.next = data.next;
+          this.pre = data.pre;
+          this.start = data.start;
+          this.startPage = data.startPage;
+          this.attractionList = data.list;
+          console.log(this.attractionList);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     search_type(type, page, orderType) {
       attractionList_type(
         type,
@@ -291,6 +378,7 @@ export default {
         ({ data }) => {
           console.log("타입만 선택");
           console.log(data);
+          this.page = page;
           this.totalCount = data.totalCount;
           this.endPage = data.endPage;
           this.next = data.next;
@@ -308,14 +396,13 @@ export default {
     makeOrder(tmp) {
       console.log("최신순을 누름");
       this.diviceSearch(
-        this.ido,
+        this.sido,
         this.gugun,
         this.type,
         this.searchData,
         this.page,
         tmp
       );
-      this.latest = false;
       this.like = false;
       this.title = false;
       if (tmp == "latest") this.latest = true;
@@ -325,39 +412,44 @@ export default {
 
     setWish(contentId, event) {
       //로그인 하지 않은 사용자라면,,
-      // const buttonElement = this.$refs.myWish;
+      if (this.userInfo == null) {
+        alert("로그인 후 이용 가능합니다.");
+      } else {
+        // const buttonElement = this.$refs.myWish;
 
-      console.log(this.$refs.myWish);
-      console.log(this.$refs.myWish.innerHTML);
-
-      this.$nextTick(() => {
         console.log(this.$refs.myWish);
         console.log(this.$refs.myWish.innerHTML);
-      });
 
-      const button = event.target;
-      console.log(button);
-      console.log(button.innerHTML);
+        this.$nextTick(() => {
+          console.log(this.$refs.myWish);
+          console.log(this.$refs.myWish.innerHTML);
+        });
 
-      //로그인 한 사용자라면,,,,
-      setWishList(
-        contentId,
-        1,
-        ({ data }) => {
-          console.log(data);
+        const button = event.target;
+        console.log(button);
+        console.log(button.innerHTML);
 
-          if (data == "insert") {
-            alert("위시리스트에 담겼습니다.");
-            button.innerHTML = "❤";
-          } else if (data == "delete") {
-            alert("위시리스트에서 삭제되었습니다.");
-            button.innerHTML = '<i class="fa-solid fa-heart"></i>';
+        var userId = this.userInfo.userId;
+        //로그인 한 사용자라면,,,,
+        setWishList(
+          contentId,
+          userId,
+          ({ data }) => {
+            console.log(data);
+
+            if (data == "insert") {
+              alert("위시리스트에 담겼습니다.");
+              button.innerHTML = "❤";
+            } else if (data == "delete") {
+              alert("위시리스트에서 삭제되었습니다.");
+              button.innerHTML = '<i class="fa-solid fa-heart"></i>';
+            }
+          },
+          (error) => {
+            console.log(error);
           }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+        );
+      }
     },
   },
 };

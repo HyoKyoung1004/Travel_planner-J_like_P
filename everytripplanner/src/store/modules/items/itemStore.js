@@ -21,8 +21,10 @@ const itemStore = {
       });
     },
     SET_GUGUN_LIST(state, guguns) {
+      console.log(guguns);
       guguns.forEach((gugun) => {
-        state.guguns.push({ value: gugun.gugunCode, text: gugun.gugunName });
+
+        state.guguns.push({ value: gugun.gugun_code, text: gugun.gugun_name });
       });
     },
   },

@@ -9,7 +9,7 @@ import PlanDetailView from "@/views/PlanDetailView.vue";
 import AttractionListView from "@/views/AttractionListView.vue";
 import MyPageView from "@/views/MyPageView.vue";
 import MainView from "@/views/MainView.vue";
-
+import WishList from '@/views/MyWishList'
 Vue.use(VueRouter);
 
 const routes = [
@@ -35,7 +35,7 @@ const routes = [
     component: MyPageView,
   },
   {
-    path: "/planDetail/:contentId",
+    path: "/planDetail",
     name: "planDetail",
     component: PlanDetailView,
   },
@@ -58,6 +58,11 @@ const routes = [
     path: "/signup",
     name: "signup",
     component: SignupView,
+  },
+  {
+    path: "/wishLst",
+    name: "wishList",
+    component: WishList,
   },
 ];
 

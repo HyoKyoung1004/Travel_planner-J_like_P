@@ -1,5 +1,5 @@
 import { attractionDetail } from "@/api/attraction.js";
-import { commentDetail } from "@/api/comment.js";
+import { commentDetailFunction } from "@/api/comment.js";
 
 const AttractionStore = {
   namespaced: true,
@@ -43,7 +43,8 @@ const AttractionStore = {
     },
     commentDetail: ({ commit }, contentId_1) => {
       console.log("store까지 오니?")
-      commentDetail(
+      console.log(contentId_1)
+      commentDetailFunction(
         contentId_1,
         ({ data }) => {
           commit("SET_COMMENT_DETAIL", data);

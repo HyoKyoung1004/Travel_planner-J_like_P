@@ -30,9 +30,12 @@
 	delete from user WHERE userId=#{userId}
 </delete>
 
-<select id="getUserOne" resultType="long">
-	select userId from user where userAccount=#{userAccount}
+<select id="getUserOne" resultType="UserDto">
+	select * from user where userAccount=#{userAccount}
 </select>
 
+<select id="getUser" resultType="long">
+	select userId from user where userAccount=#{userAccount}
+</select>
 </mapper>
 

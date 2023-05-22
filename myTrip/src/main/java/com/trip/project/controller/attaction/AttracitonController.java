@@ -67,6 +67,8 @@ public class AttracitonController {
 	public ResponseEntity<List<SidoGugunCodeDto>> gugun(
 			@RequestParam("sido") @ApiParam(value = "시도코드.", required = true) String sido) throws Exception {
 		logger.info("gugun - 호출");
+		System.out.println("요기: "+sido);
+		System.out.println(attractionService.getGugunInSido(sido));
 		return new ResponseEntity<List<SidoGugunCodeDto>>(attractionService.getGugunInSido(sido), HttpStatus.OK);
 	}
 

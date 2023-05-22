@@ -11,11 +11,20 @@
       <b-row class="text-center">
         <b-col cols="9"> </b-col>
         <b-col cols="3">
-          <button v-b-modal.modal-prevent-closing style="border-color: #ffc314">
+          <button
+            v-b-modal.modal-prevent-closing
+            style="border-color: #ffc314"
+            @click="userCheck"
+          >
             <h5><i class="fa-regular fa-comments"></i> 리뷰 작성</h5>
           </button>
 
-          <b-modal id="modal-prevent-closing" ref="modal" @ok="handleOk">
+          <b-modal
+            v-if="userInfo"
+            id="modal-prevent-closing"
+            ref="modal"
+            @ok="handleOk"
+          >
             <template #modal-title
               >{{ attractionDtailData.title }} 은 어떠셨나요?
             </template>
@@ -81,7 +90,7 @@
           </b-col>
           <b-col cols="3">
             <img
-              v-if="comment.fileInfo != null"
+              v-if="comment.fileInfo != null && comment.fileInfo[0] != null"
               :src="`http://localhost:9999/trip/${comment.fileInfo[0].saveFolder}/${comment.fileInfo[0].saveFileName}`"
               alt="My Image"
               style="width: 100px; height: 75px"
@@ -96,6 +105,8 @@
 <script>
 import axios from "axios";
 import { mapState, mapActions } from "vuex";
+
+const memberStore = "memberStore";
 export default {
   data() {
     return {
@@ -119,7 +130,9 @@ export default {
       console.log("새로 받아온 댓글");
       console.log(this.commentAttractionDetail);
     },
-    attractionComment() {},
+    attractionComment() {
+      console.log("변경됨");
+    },
   },
   created() {
     console.log("create()");
@@ -140,12 +153,17 @@ export default {
       "commentAttractionDetail",
     ]),
     ...mapActions("AttractionStore", ["commentDetail"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
 
   methods: {
-    handleOk() {
+    async handleOk() {
       console.log(this.commentForm.uploadedfiles);
-      this.addComment();
+      if (this.addComment()) {
+        this.commentDetail(this.contentId);
+      }
+      console.log("addComment실행 후");
+      console.log(this.attractionComment);
     },
     addComment() {
       this.commentForm.contentId = this.attractionDtailData.contentId;
@@ -154,6 +172,7 @@ export default {
         contentId: this.commentForm.contentId,
         rating: this.commentForm.rating,
       };
+
       console.log(comment);
       const formData = new FormData();
       formData.append("uploadedfiles", this.commentForm.uploadedfiles);
@@ -167,22 +186,32 @@ export default {
         },
       };
       console.log(formData);
-
       // var file = this.commentForm.uploadedfiles;
       axios
         .post(
-          "http://localhost:9999/trip/comment/write/" + this.userid,
+          "http://localhost:9999/trip/comment/write/" + this.userInfo.userId,
           formData,
           config
         )
         .then((resp) => {
           console.log(resp);
           alert("성공");
+          console.log();
+          return true;
         })
         .catch((resp) => {
           console.log(resp);
           alert("실패");
         });
+    },
+    userCheck() {
+      console.log("로그인 체크");
+      if (this.userInfo == null) {
+        alert("로그인 후 이용 가능합니다");
+        return false;
+      } else {
+        return true;
+      }
     },
   },
 };

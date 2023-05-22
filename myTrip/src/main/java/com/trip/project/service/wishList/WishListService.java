@@ -31,6 +31,11 @@ public class WishListService {
 		return wishRepo.delete( contentId,  userId);
 		
 	}
+
+	public int getWishCount(int contentId) {
+	
+		return wishRepo.getWishCount(contentId);
+	}
 	
 	
 
