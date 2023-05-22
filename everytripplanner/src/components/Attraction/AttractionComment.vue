@@ -64,7 +64,7 @@
         <b-col cols="9"> <hr class="boldhr" /></b-col>
       </b-row>
       <br />
-      <template v-for="(comment, idx) in attractionComment">
+      <template v-for="(comment, idx) in commentDetailDetail">
         <b-row
           class="text-center"
           style="max-height: 70px"
@@ -110,6 +110,7 @@ const memberStore = "memberStore";
 export default {
   data() {
     return {
+      commentDetailDetail: [],
       comment: [],
       userid: 1,
       commentForm: {
@@ -127,19 +128,16 @@ export default {
   watch: {
     contentId() {
       this.commentDetail(this.contentId);
-      console.log("새로 받아온 댓글");
-      console.log(this.commentAttractionDetail);
     },
     attractionComment() {
       console.log("변경됨");
+      this.commentDetailDetail = this.attractionComment;
     },
   },
   created() {
     console.log("create()");
     console.log(this.contentId);
-    //this.commentDetail(this.contentId);
-    console.log("새로 받아온 댓글");
-    console.log(this.commentAttractionDetail);
+    this.commentDetailDetail = this.attractionComment;
   },
   mounted() {
     console.log("왜 댓글 안보여줘");
@@ -196,8 +194,16 @@ export default {
         .then((resp) => {
           console.log(resp);
           alert("성공");
-          console.log();
-          return true;
+          axios
+            .get("http://localhost:9999/trip/comment/" + this.contentId)
+            .then((resp) => {
+              console.log(resp);
+              console.log("이전");
+              console.log(this.commentDetailDetail);
+              this.commentDetailDetail = resp.data;
+              console.log("이후");
+              console.log(this.commentDetailDetail);
+            });
         })
         .catch((resp) => {
           console.log(resp);

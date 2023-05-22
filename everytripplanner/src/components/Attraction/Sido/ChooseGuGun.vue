@@ -51,8 +51,13 @@ export default {
     ...mapActions(itemStore, ["getGugun"]),
     ...mapMutations(itemStore, ["CLEAR_GUGUN_LIST"]),
     changeGugun() {
+      console.log("여기가 chooseGuGun");
+      console.log(this.sidoCode);
       console.log(this.gugunCode);
-      this.$emit("select-gugun", this.gugunCode);
+      this.$emit("select-gugun", {
+        sidoCode: this.sidoCode,
+        gugunCode: this.gugunCode,
+      });
     },
   },
 };

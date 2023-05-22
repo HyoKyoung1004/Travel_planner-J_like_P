@@ -7,7 +7,6 @@
         <b-nav-item active @click="viewAttractionList(15)"
           >축제공연행사</b-nav-item
         >
-        <b-nav-item active @click="viewAttractionList(25)">여행코스</b-nav-item>
         <b-nav-item active @click="viewAttractionList(28)"> 레포츠</b-nav-item>
         <b-nav-item active @click="viewAttractionList(32)">숙박</b-nav-item>
         <b-nav-item active @click="viewAttractionList(38)">쇼핑</b-nav-item>
@@ -51,6 +50,7 @@ export default {
       openModal: false,
       sidoCode: null,
       type: null,
+      gugunCode: null,
     };
   },
   // created: {},
@@ -64,14 +64,18 @@ export default {
       console.log(this.sidoCode);
     },
 
-    selectGugun(guguncode) {
-      this.gugunCode = guguncode;
+    selectGugun(addr) {
+      this.sidoCode = addr.sidoCode;
+      this.gugunCode = addr.gugunCode;
       if (this.$route.path !== "/attractionList") {
         this.$router.push({
           name: "attractionList",
           query: { sido: this.sidoCode, gugun: this.gugunCode },
         });
       } else {
+        console.log("데이터 변경됨,,,,,");
+        console.log(this.sidoCode);
+        console.log(this.gugunCode);
         this.$emit("childData", { sido: this.sidoCode, gugun: this.gugunCode });
         // this.sidoCode = undefined;
         // this.gugunCode = undefined;

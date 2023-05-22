@@ -76,7 +76,7 @@ public class AttracitonController {
 	// 타입을 눌렀을 떄,
 	@GetMapping(value = { "/searchType/{type}/{page}/{orderType}" })
 	public ResponseEntity<?> serarch(@PathVariable("type") int type, @PathVariable("page") Integer page, 
-			 @PathVariable(value="orderType", required = false) String orderType  ) {
+			 @PathVariable(value="orderType") String orderType  ) {
 
 		System.out.println("타입네이베이션: "+ type + ", " + page+", "+orderType);
 		System.out.println(orderType);
@@ -120,8 +120,47 @@ public class AttracitonController {
 
 
 	//검색바에서 시, 구만으로 검색
-	@GetMapping(value = { "/search/{sido}/{gugun}/{page}/{orderType}", "/searchType/{sido}/{gugun}/{type}/{page}/{orderType}" } )
-	public ResponseEntity<?> serarch(@PathVariable("sido") int sido, @PathVariable("gugun") int gugun, @PathVariable(value = "type",required =false) Integer type, @PathVariable(value = "page") Integer page, @PathVariable(value="orderType", required = false) String orderType    ) {
+	@GetMapping(value = { "/search/{sido}/{gugun}/{page}/{orderType}" } )
+	public ResponseEntity<?> serarch(@PathVariable("sido") int sido, @PathVariable("gugun") int gugun, @PathVariable(value = "page") int page, @PathVariable(value="orderType") String orderType    ) {
+		
+		Integer type = null;
+		System.out.println("시,구로 검색: "+sido+" "+gugun+" "+type+" "+page+", "+orderType);
+		System.out.println(orderType);
+		int totalCount=0;
+		if(type==null)  totalCount = attractionService.getAttractionListCnt(sido, gugun);
+		else totalCount = attractionService.getAttractionListCnt(sido, gugun, type);
+		System.out.println(totalCount);
+		
+		Map<String, Object> map = list(page, totalCount);
+		map.put("totalCount", totalCount);
+		System.out.println(map);
+		
+		List<Attraction> list =null;
+		
+		if(orderType.equals("latest")) {
+			list = attractionService.getAttractionListPage(sido,gugun,type, (int)map.get("start"), sizePerPage );
+		}else if(orderType.equals("like")) {
+			List<Attraction> listALL = attractionService.getAttractionList(sido,gugun,type); 
+			list = likeSort(listALL,(int)map.get("start"));
+		}else if(orderType.equals("title")){
+			List<Attraction> listALL = attractionService.getAttractionList(sido,gugun,type);	
+			list = titleSort(listALL,(int)map.get("start"));
+		}
+	
+		//List<Attraction> list = attractionService.getAttractionList(sido,gugun,type, (int)map.get("start"), sizePerPage );
+		//System.out.println(list);
+		map.put("list", list);
+		if(list != null && !list.isEmpty()) {
+				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+	
+	}
+	
+	//검색바에서 시, 구만으로 검색
+	@GetMapping(value = { "/searchType/{sido}/{gugun}/{type}/{page}/{orderType}" } )
+	public ResponseEntity<?> serarch(@PathVariable("sido") int sido, @PathVariable("gugun") int gugun, @PathVariable(value = "type") Integer type, @PathVariable(value = "page") Integer page, @PathVariable(value="orderType") String orderType    ) {
 		
 		System.out.println("시,구로 검색: "+sido+" "+gugun+" "+type+" "+page+", "+orderType);
 		System.out.println(orderType);
@@ -162,8 +201,8 @@ public class AttracitonController {
 	//검색바로 시,군,검색데이터로 검색,
 	@GetMapping(value = {"/search/{sido}/{gugun}/{searchData}/{page}/{orderType}", "/searchType/{sido}/{gugun}/{searchData}/{type}/{page}/{orderType}" })
 	public ResponseEntity<?> serarchBar(@PathVariable("sido") int sido, @PathVariable("gugun") int gugun,
-			@PathVariable(value = "type", required = false) Integer type, @PathVariable("searchData") String searchData,
-			@PathVariable(value = "page") Integer page, @PathVariable(value="orderType", required = false) String orderType  ) {
+			@PathVariable(value = "type") Integer type, @PathVariable("searchData") String searchData,
+			@PathVariable(value = "page") Integer page, @PathVariable(value="orderType") String orderType  ) {
 
 		System.out.println("주소, 검색데이터: "+sido + " " + gugun + " "  + searchData+" " +type + " "+ page + " ");
 		int totalCount=0;
@@ -205,7 +244,7 @@ public class AttracitonController {
 	//@GetMapping("/search/{searchData}")
 	//검색바에서 검색데이터로만 검색했을 때, 
 	@GetMapping(value = {"/search/{searchData}/{page}/{orderType}", "/searchType/{searchData}/{type}/{page}/{orderType}" })
-	public ResponseEntity<?> serarch(@PathVariable("searchData") String searchData, @PathVariable(value = "type", required = false) Integer type, @PathVariable(value = "page") Integer page, @PathVariable(value="orderType", required = false) String orderType  ) {
+	public ResponseEntity<?> serarch(@PathVariable("searchData") String searchData, @PathVariable(value = "type") Integer type, @PathVariable(value = "page") Integer page, @PathVariable(value="orderType") String orderType  ) {
 
 		System.out.println("검색데이터만: "+searchData+", "+type);
 		int totalCount=0;
