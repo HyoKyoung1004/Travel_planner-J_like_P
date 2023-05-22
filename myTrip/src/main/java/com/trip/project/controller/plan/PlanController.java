@@ -174,9 +174,6 @@ public class PlanController {
 		}
 		
 		
-		
-		
-		
 		//거리를 계산할꺼야
 		for(int i=0;i<n;i++) {
 			for(int j=0;j<planDetailArr[i].size()-1;j++) {
