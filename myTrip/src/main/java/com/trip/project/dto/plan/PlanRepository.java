@@ -1,7 +1,12 @@
 package com.trip.project.dto.plan;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.trip.project.dto.attraction.AttractionDto;
 
 @Mapper
 public interface PlanRepository {
@@ -16,4 +21,11 @@ public interface PlanRepository {
 
 	Plan findPlanNameAnduserId(@Param("plan_name")String plan_name,@Param("userId")int userId);
 
+
+	List<AttractionDto> findAttraction(@Param("minY")double minY, @Param("maxY")double maxY, @Param("minX")double minX, @Param("maxX")double maxX);
+
+	void addPlan(@Param("plan_name") String planName, @Param("plan_start")LocalDate startDate, @Param("plan_end")LocalDate endDate, @Param("userId")int userId);
+	
+	int findUserId(String name);
+	
 }
