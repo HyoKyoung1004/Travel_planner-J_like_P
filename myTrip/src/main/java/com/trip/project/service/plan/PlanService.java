@@ -11,24 +11,27 @@ import com.trip.project.dto.attraction.AttractionDto;
 import com.trip.project.dto.plan.Plan;
 import com.trip.project.dto.plan.PlanDetail;
 import com.trip.project.dto.plan.PlanRepository;
-import com.trip.project.dto.plan.PlanRequestDto;
 import com.trip.project.dto.plan.UserPlanList;
+import com.trip.project.dto.user.UserRepository;
 
 @Service
 public class PlanService {
 	
 	@Autowired
 	private PlanRepository planRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	public int planDelete(int plan_id) {
 		
 		return planRepository.planDelete(plan_id);
 	}
 
-	public int addMember(String plan_name, int userId) {
-		Plan plan = planRepository.findPlanNameAnduserId(plan_name,userId);
-		return planRepository.addMember(plan_name,userId);
-	}
+//	public int addMember(String plan_name, int userId) {
+//		Plan plan = planRepository.findPlanNameAnduserId(plan_name,userId);
+//		return planRepository.addMember(plan_name,userId);
+//	}
 
 	public void addPlan(String planName, LocalDate startDate, LocalDate endDate, int userId) {
 		
@@ -74,6 +77,34 @@ public class PlanService {
 	public ArrayList<PlanDetail> getPlanDetail(int planId, int date) {
 		return planRepository.getPlanDatail(planId, date);
 	}
+
+	public Plan getPlanOne(int planId) {
+		return planRepository.getPlanOne(planId);
+	}
+
+	public int joinPlanMember(int planId, String userAccount) {
+
+		Long userId = userRepository.getUserId( userAccount);
+		if(userId == null) return -1;
+		
+		System.out.println("유저 아이디: " + userId);
+		
+		Integer tmp =  planRepository.getPlanUser(planId,userId);
+		
+		if(tmp!=null && tmp>=1)
+			return -2;
+		
+		return  planRepository.addPlanUser(planId, userId);
+	
+		
+	}
+
+	public int inviteUserDelete(int planId, long userId) {
+		return planRepository.deleteInviteUser(planId, userId);
+		
+	}
+
+
 	
 
 }

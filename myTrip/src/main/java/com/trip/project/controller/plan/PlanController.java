@@ -3,6 +3,7 @@ package com.trip.project.controller.plan;
 import java.io.Console;
 import java.lang.reflect.Array;
 import java.security.Principal;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.trip.project.dto.attraction.AttractionDto;
+import com.trip.project.dto.plan.Plan;
 import com.trip.project.dto.plan.PlanDetail;
 import com.trip.project.dto.plan.PlanListRequestDto;
 import com.trip.project.dto.plan.PlanRequestDto;
@@ -92,11 +94,30 @@ public class PlanController {
 		return planservice.planDelete(plan_id);
 	}
 
-	@GetMapping("/callMember/{plan_name}/{userId}")
-	public int addMember(@PathVariable("plan_name") String plan_name, @PathVariable("userId") int userId) {
-		return planservice.addMember(plan_name, userId);
-	}
+//	@GetMapping("/callMember/{plan_name}/{userId}")
+//	public int addMember(@PathVariable("plan_name") String plan_name, @PathVariable("userId") int userId) {
+//		return planservice.addMember(plan_name, userId);
+//	}
 
+	
+	@GetMapping("/joinPlanMember/{planId}/{userAccount}")
+	public ResponseEntity<?> joinPlanMember(@PathVariable("planId") int planId, @PathVariable("userAccount") String userAccount) {
+		System.out.println(planId +", "+userAccount);
+		int n= planservice.joinPlanMember(planId, userAccount);
+		if(n==-1) {
+			return new ResponseEntity<String>("not user", HttpStatus.OK);
+		}else if(n==1) {
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+		}else if(n==-2) {
+			System.out.println("이미 추가된 멤버");
+			return new ResponseEntity<String>("already", HttpStatus.OK);
+
+		}
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+
+	}
+	
+	
 	@GetMapping("/myplanList/{userId}")
 	public ResponseEntity<?> myPlanList(@PathVariable("userId") long userId) {
 
@@ -114,8 +135,8 @@ public class PlanController {
 			tmp.setSidoName((String) addrName.get("sideName"));
 			tmp.setGugunName((String) addrName.get("gugunName"));
 			tmp.setDday(calDday(tmp.getPlan_start()));
-
 		}
+		
 		System.out.println(userPlanList);
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -152,11 +173,13 @@ public class PlanController {
 		int n = planservice.getPlanDate(planId);
 		System.out.println(n);
 		
+		
 		ArrayList<PlanDetail> planDetailArr[] = new ArrayList[n];
 		ArrayList<Double>[] disArr = new ArrayList[n];
 		ArrayList<double[]> latlng[] = new ArrayList[n];
 
 
+		
 		for(int i=0;i<n;i++) {
 			planDetailArr[i] = new ArrayList<PlanDetail>();
 			disArr[i] = new ArrayList<Double>();
@@ -185,15 +208,84 @@ public class PlanController {
 			System.out.println(disArr[i]);
 		}
 		
+		
+		
+//---------------------------------------------------------------------------------
+		Plan planData = planservice.getPlanOne(planId);
+		
+		String[] planDate  = new String[n];
+		LocalDate plan_start = planData.getPlan_start();
+		for(int i=0;i<n;i++) {
+			
+			LocalDate tmpDate= plan_start.plusDays(i);
+//			System.out
+//			.println(tmpDate.getYear() + ", " + tmpDate.getMonthValue() + ", " + tmpDate.getDayOfMonth()+", "+tmpDate.getDayOfWeek());
+//		
+		
+			String answer = "";
+			answer +=tmpDate.getYear() + ". " + tmpDate.getMonthValue() + ". " + tmpDate.getDayOfMonth()+"(";
+			DayOfWeek dayOfWeek = tmpDate.getDayOfWeek();
+			if(dayOfWeek.getValue() == 1) {
+				answer += "MON";
+			}else if (dayOfWeek.getValue() == 2) {
+				answer += "TUE";
+			}else if (dayOfWeek.getValue() == 3) {
+				answer += "WED";
+			}else if (dayOfWeek.getValue() == 4) {
+				answer += "THU";
+			}else if (dayOfWeek.getValue() == 5) {
+				answer += "FRI";
+			}else if (dayOfWeek.getValue() == 6) {
+				answer += "SAT";
+			}else if (dayOfWeek.getValue() == 7) {
+				answer += "SUN";
+			}
+			answer+=")";
+			System.out.println(answer);
+			
+			planDate[i] = answer;
+		}
+		 
+		
+		UserPlanList plan = planservice.getUserplan(planId);
+		
+		
+		//----------------------------
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println(map);
 		map.put("date",n);
 		map.put("planDetailArr",planDetailArr);
 		map.put("disArr",disArr);
 		map.put("latlng",latlng);
+		map.put("planDate",planDate);
+		map.put("plan",plan);
 
 		
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+
+	}
+	
+	
+	@GetMapping("/deletePlan/{planId}/{ownerUserId}/{userId}")
+	public ResponseEntity<?> deletePlan(@PathVariable("planId") int planId, @PathVariable("ownerUserId") long ownerUserId, @PathVariable("userId") long userId) {
+		
+		//유저의 아이디가 플랜 생성자이면 플랜을 삭제, 
+		int n=0;
+		if(ownerUserId == userId) {
+			System.out.println("플랜 삭제");
+			n=planservice.planDelete(planId);
+
+			if(n==1) return new ResponseEntity<String>("plan delete success", HttpStatus.OK);
+
+		}
+		else {
+			System.out.println("사용자 한명 삭제");
+			n=planservice.inviteUserDelete(planId,userId);
+			if(n==1) return new ResponseEntity<String>("user delete success", HttpStatus.OK);
+
+		}
+		
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
 	}
 

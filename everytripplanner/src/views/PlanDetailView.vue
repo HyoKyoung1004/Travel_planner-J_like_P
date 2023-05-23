@@ -4,7 +4,7 @@
       <b-row>
         <h3>여행 일정 -</h3>
         &nbsp; &nbsp;
-        <h3 style="color: #0a97cd">여긴 여행 제목</h3>
+        <h3 style="color: #0a97cd" v-if="plan != null">{{ plan.plan_name }}</h3>
       </b-row>
       <hr style="margin-top: 0px" />
     </b-container>
@@ -23,7 +23,7 @@
             <div class="day_txt">DAY{{ idx }}</div>
             <div class="day_info">
               <div class="day_info_left">
-                <div class="day_title">2023.05.22(월)</div>
+                <div class="day_title">{{ planDate[idx - 1] }}</div>
               </div>
             </div>
           </div>
@@ -53,7 +53,23 @@
                       </b-col>
                       <b-col md="8">
                         <b-card-body>
-                          <div class="travel-title" style="float: left">{{ detailPlan.title }}</div>
+                          <b-row>
+                            <div class="travel-title" style="float: left; margin-left: 15px">
+                              {{ detailPlan.title }}
+                            </div>
+                          </b-row>
+                          <br />
+                          <b-row>
+                            <b-col cols="10">
+                              <div style="float: left; margin-left: 15px">
+                                <i class="fa-solid fa-location-dot"></i> {{ detailPlan.addr1 }}
+                                <br />
+                              </div>
+                            </b-col>
+                            <b-col cols="2" @click="goAttractionDetail(detailPlan.content_id)">
+                              <i class="fa-solid fa-circle-info" style="font-size: 30px"></i>
+                            </b-col>
+                          </b-row>
                         </b-card-body>
                       </b-col>
                     </b-row>
@@ -70,8 +86,7 @@
                         latlng[idx - 1][i + 1][1]
                       }`"
                       onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;"
-                      >-&gt; {{ disArr[idx - 1][i] }}km 추천경로 {{ idx }}
-                      {{ i }}
+                      >-&gt; {{ disArr[idx - 1][i] }}km 추천경로
                     </a>
                   </div>
                 </b-col>
@@ -96,10 +111,12 @@ export default {
       disArr: null,
       planDetailArr: null,
       latlng: null,
+      plan: null,
+      planDate: null,
     };
   },
   created() {
-    let planId = this.$route.params.planId;
+    let planId = this.$route.query.planId;
     console.log("여긴 plan 상세", planId);
     var this_temp = this;
     planDetail(
@@ -110,6 +127,8 @@ export default {
         this_temp.disArr = data.disArr;
         this_temp.planDetailArr = data.planDetailArr;
         this_temp.latlng = data.latlng;
+        this_temp.plan = data.plan;
+        this_temp.planDate = data.planDate;
       },
       (error) => {
         console.log(error);
@@ -142,7 +161,7 @@ export default {
           latLngArray.push(new kakao.maps.LatLng(this.latlng[i][j][0], this.latlng[i][j][1]));
         }
 
-        const color = ["#FF0000", "#00FF00", "#0000FF"];
+        const color = ["#FF0000", "#00FF00", "#0000FF", "#555555", "#444400"];
         // 선 그리기
         const polyline = new kakao.maps.Polyline({
           path: latLngArray,
@@ -166,6 +185,13 @@ export default {
           });
         });
       }
+    },
+    goAttractionDetail(contentId) {
+      console.log(contentId);
+      this.$router.push({
+        name: "attractionDetail",
+        params: { contentId: contentId },
+      });
     },
   },
 };
@@ -281,12 +307,13 @@ h3 {
   color: #555555;
   font-size: 12px;
   background: #d6e1f1;
+  font-weight: 900;
 }
 
 a {
   color: #555555;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 900;
   background: #d6e1f1;
 }
 

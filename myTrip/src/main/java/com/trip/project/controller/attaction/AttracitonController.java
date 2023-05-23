@@ -83,7 +83,6 @@ public class AttracitonController {
 		int totalCount = attractionService.getAttractionListCnt(type);
 		System.out.println(totalCount);
 		
-		
 		Map<String, Object> map = list(page, totalCount);
 		
 		map.put("totalCount", totalCount);

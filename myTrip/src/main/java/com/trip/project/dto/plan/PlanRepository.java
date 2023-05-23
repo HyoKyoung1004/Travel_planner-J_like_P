@@ -18,7 +18,7 @@ public interface PlanRepository {
 
 	int planDelete(int plan_id);
 
-	int addMember(@Param("plan_name")String plan_name,@Param("userId")int userId);
+//	int addMember(@Param("plan_name")int plan_name, @Param("userId")long userId);
 
 	Plan findPlanNameAnduserId(@Param("plan_name")String plan_name,@Param("userId")int userId);
 
@@ -29,7 +29,7 @@ public interface PlanRepository {
 	
 	int findUserId(String name);
 
-	int addPlanUser(@Param("userId")int userId, @Param("planId")int planId);
+	int addPlanUser(@Param("planId")int planId, @Param("userId")long userId);
 	
 	ArrayList<Integer> getUserPlan(@Param("userId")long userId);
 
@@ -39,5 +39,10 @@ public interface PlanRepository {
 
 	ArrayList<PlanDetail> getPlanDatail(@Param("planId")int planId, @Param("date")int date);
 
-	
+	Plan getPlanOne (int planId);
+
+	int deleteInviteUser(@Param("planId")int planId, @Param("userId")long userId);
+
+	Integer getPlanUser(int planId, long userId);
+
 }

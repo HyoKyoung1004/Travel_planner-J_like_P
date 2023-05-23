@@ -22,4 +22,6 @@ public interface UserRepository {
 	UserDto getUserOne(String userAccount);
 	
 	long getUser(String userAccount);
+
+	Long getUserId(String userAccount);
 }
