@@ -393,7 +393,9 @@ public class AttracitonController {
 
 		Attraction[] attractionArr = new Attraction[4];
 		for(int i=0;i<contentId.size();i++) {
+			
 			attractionArr[i] = attractionService.getAttractionOne(contentId.get(i));
+			
 			attractionArr[i].setLikeCheck(attractionService.getLikeCnt(contentId.get(i)));
 			Double commentRating =commentService.getCommentRating(contentId.get(i));
 			Map<String,Object> addrName = attractionService.getAddrName(attractionArr[i].getSideCode(), attractionArr[i].getGugunCode());

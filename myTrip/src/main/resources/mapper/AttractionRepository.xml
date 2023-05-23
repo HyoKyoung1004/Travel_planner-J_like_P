@@ -206,7 +206,7 @@
 		from likeattraction
 		where likeCheck=1
 		group by content_id
-		order by  count(*) limit 4
+		order by  count(*)  desc limit 4
 	</select> 
 	<select id="getSido" resultType="sidoGugunCodeDto">
 		select left(sido_code,2) sido_code, sido_name
