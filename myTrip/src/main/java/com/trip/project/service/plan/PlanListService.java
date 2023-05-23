@@ -57,8 +57,8 @@ public class PlanListService {
 		
 		planSave(plan_name,plan_id,test);
 		
-    	int userId = (int) test.get("userId");
-    	planRepository.addPlanUser(userId,plan_id);
+    	int userId=  (int)test.get("userId");
+    	planRepository.addPlanPlanUser(plan_id,userId);
 
 		//여기부터가 수정 
 //		int teamId = planRepository.findPlanId(plan_name);

@@ -29,6 +29,8 @@ public interface PlanRepository {
 	
 	int findUserId(String name);
 
+	int addPlanPlanUser(@Param("planId")int planId, @Param("userId")int userId);
+
 	int addPlanUser(@Param("planId")int planId, @Param("userId")long userId);
 	
 	ArrayList<Integer> getUserPlan(@Param("userId")long userId);

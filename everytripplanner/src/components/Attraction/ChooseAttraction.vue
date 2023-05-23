@@ -2,15 +2,13 @@
   <div>
     <div class="center">
       <b-nav class="child">
-        <b-nav-item active @click="viewAttractionList(12)"> 관광지</b-nav-item>
-        <b-nav-item active @click="viewAttractionList(14)">문화시설</b-nav-item>
-        <b-nav-item active @click="viewAttractionList(15)"
-          >축제공연행사</b-nav-item
-        >
-        <b-nav-item active @click="viewAttractionList(28)"> 레포츠</b-nav-item>
-        <b-nav-item active @click="viewAttractionList(32)">숙박</b-nav-item>
-        <b-nav-item active @click="viewAttractionList(38)">쇼핑</b-nav-item>
-        <b-nav-item active @click="viewAttractionList(39)">음식점</b-nav-item>
+        <b-nav-item class="tmp" active @click="viewAttractionList(12)"> 관광지</b-nav-item>
+        <b-nav-item class="tmp" active @click="viewAttractionList(14)">문화시설</b-nav-item>
+        <b-nav-item class="tmp" active @click="viewAttractionList(15)">축제공연행사</b-nav-item>
+        <b-nav-item class="tmp" active @click="viewAttractionList(28)"> 레포츠</b-nav-item>
+        <b-nav-item class="tmp" active @click="viewAttractionList(32)">숙박</b-nav-item>
+        <b-nav-item class="tmp" active @click="viewAttractionList(38)">쇼핑</b-nav-item>
+        <b-nav-item class="tmp" active @click="viewAttractionList(39)">음식점</b-nav-item>
       </b-nav>
     </div>
     <br />
@@ -24,10 +22,7 @@
         <b-row>
           <b-col><choose-sido @select-sido="selectSido"></choose-sido></b-col>
           <b-col
-            ><choose-gu-gun
-              :sidoCode="sidoCode"
-              @select-gugun="selectGugun"
-            ></choose-gu-gun
+            ><choose-gu-gun :sidoCode="sidoCode" @select-gugun="selectGugun"></choose-gu-gun
           ></b-col>
         </b-row>
       </b-container>
@@ -111,5 +106,21 @@ export default {
 }
 .row {
   position: static;
+}
+
+a {
+  float: left;
+  line-height: 56px;
+  height: 57px;
+  color: #383d41;
+  position: relative;
+  font-weight: 800;
+  padding: 35px;
+  display: block;
+  font-size: 20px;
+  letter-spacing: -1px;
+  /* color: #333; */
+  position: relative;
+  text-align: center;
 }
 </style>

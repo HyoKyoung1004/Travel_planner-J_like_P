@@ -21,6 +21,7 @@ public class TomcatConfig implements WebServerFactoryCustomizer<TomcatServletWeb
 		if (factory instanceof TomcatServletWebServerFactory) {
             TomcatServletWebServerFactory tomcat = (TomcatServletWebServerFactory) factory;
             if (!StringUtils.isEmpty(documentRoot)) {
+            	
                 File root = new File(documentRoot);
                 tomcat.setDocumentRoot(root);
 //                tomcat.setContextPath("/img");

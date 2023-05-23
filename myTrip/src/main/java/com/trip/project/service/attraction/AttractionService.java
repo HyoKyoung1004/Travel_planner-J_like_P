@@ -250,6 +250,10 @@ public class AttractionService {
         List<AttractionNear> nearListResult =new ArrayList<AttractionNear>();
         List<AttractionNear> nearList = attractionRepository.nearList(map);
         
+        System.out.println("근처");
+        System.out.println(map);
+        System.out.println(nearList);
+        
         for(AttractionNear tmp : nearList) {
         	double dis = distanceInKilometerByHaversine(lat, lng, tmp.getLatitude(), tmp.getLongitude());
         	if(dis<=3.0){

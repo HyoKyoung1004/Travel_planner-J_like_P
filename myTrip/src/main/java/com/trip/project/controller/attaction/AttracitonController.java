@@ -376,9 +376,11 @@ public class AttracitonController {
 		map.put("comment", commentList);
 		
 		List<AttractionNear> nearAttraction = attractionService.getNearAttractionList(attraction);
-
+		
 		map.put("nearAttraction", nearAttraction);
 		
+		System.out.println("상세정보");
+		System.out.println(map);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	
@@ -393,7 +395,9 @@ public class AttracitonController {
 
 		Attraction[] attractionArr = new Attraction[4];
 		for(int i=0;i<contentId.size();i++) {
+			
 			attractionArr[i] = attractionService.getAttractionOne(contentId.get(i));
+			
 			attractionArr[i].setLikeCheck(attractionService.getLikeCnt(contentId.get(i)));
 			Double commentRating =commentService.getCommentRating(contentId.get(i));
 			Map<String,Object> addrName = attractionService.getAddrName(attractionArr[i].getSideCode(), attractionArr[i].getGugunCode());
