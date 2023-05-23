@@ -1,15 +1,11 @@
 <template>
   <b-col class="sm-3">
-    <b-form-select
-      v-model="gugunCode"
-      :options="guguns"
-      @change="changeGugun"
-    ></b-form-select>
+    <b-form-select v-model="gugunCode" :options="guguns" @change="changeGugun"></b-form-select>
     <b-form-input></b-form-input>
   </b-col>
 </template>
-  
-  <script>
+
+<script>
 import { mapState, mapActions, mapMutations } from "vuex";
 
 /*
@@ -62,6 +58,5 @@ export default {
   },
 };
 </script>
-  
-  <style scoped></style>
-  
+
+<style scoped></style>

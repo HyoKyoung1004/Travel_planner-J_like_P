@@ -16,20 +16,11 @@
           <b-col cols="7"></b-col>
           <b-col cols="3">
             <b-row>
-              <b-col
-                :class="{ clickedOrder: latest }"
-                @click="makeOrder('latest')"
-                >최신순</b-col
-              >
+              <b-col :class="{ clickedOrder: latest }" @click="makeOrder('latest')">최신순</b-col>
               |
-              <b-col :class="{ clickedOrder: like }" @click="makeOrder('like')"
-                >인기순</b-col
-              >
+              <b-col :class="{ clickedOrder: like }" @click="makeOrder('like')">인기순</b-col>
               |
-              <b-col
-                id="title"
-                :class="{ clickedOrder: title }"
-                @click="makeOrder('title')"
+              <b-col id="title" :class="{ clickedOrder: title }" @click="makeOrder('title')"
                 >이름순</b-col
               >
             </b-row>
@@ -43,11 +34,7 @@
       <template v-for="(attraction, idx) in attractionList">
         <b-row :key="idx">
           <b-col cols="12" class="center">
-            <b-card
-              no-body
-              class="overflow-hidden"
-              style="width: 1000px; height: 200px"
-            >
+            <b-card no-body class="overflow-hidden" style="width: 1000px; height: 200px">
               <b-row no-gutters>
                 <b-col md="4">
                   <b-card-img
@@ -81,8 +68,7 @@
                               ></template
                             >
                             <template v-else>⭐</template>
-                            ( {{ attraction.rating }} ) 👍 (
-                            {{ attraction.likeCheck }} )
+                            ( {{ attraction.rating }} ) 👍 ( {{ attraction.likeCheck }} )
                           </div>
                         </b-col>
                       </b-row>
@@ -109,9 +95,7 @@
                           <button
                             ref="myWish"
                             type="button"
-                            @click.capture.stop="
-                              setWish(attraction.contentId, $event)
-                            "
+                            @click.capture.stop="setWish(attraction.contentId, $event)"
                             style="border-color: #ff0044"
                           >
                             <i class="fa-solid fa-heart"></i>
@@ -128,7 +112,7 @@
         <br :key="attraction.contentId" />
       </template>
       <div class="center">
-        <b-pagination v-model="page" :total-rows="rows"></b-pagination>
+        <b-pagination v-model="page" :total-rows="totalCount" per-page="10"></b-pagination>
       </div>
     </b-container>
   </div>
@@ -301,14 +285,7 @@ export default {
         type !== undefined
       ) {
         console.log("설마 여기로감?");
-        this.search_addr_title_type(
-          sido,
-          gugun,
-          searchData,
-          type,
-          page,
-          orderType
-        );
+        this.search_addr_title_type(sido, gugun, searchData, type, page, orderType);
       } else if (sido != undefined && gugun != undefined && type != undefined) {
         console.log("시도_타압");
         this.search_addr_type(sido, gugun, type, page, orderType);
@@ -424,14 +401,7 @@ export default {
     },
     makeOrder(tmp) {
       console.log("최신순을 누름");
-      this.diviceSearch(
-        this.sido,
-        this.gugun,
-        this.type,
-        this.searchData,
-        this.page,
-        tmp
-      );
+      this.diviceSearch(this.sido, this.gugun, this.type, this.searchData, this.page, tmp);
       this.like = false;
       this.latest = false;
 
@@ -580,7 +550,7 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 </style>

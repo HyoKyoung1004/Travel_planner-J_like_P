@@ -376,9 +376,11 @@ public class AttracitonController {
 		map.put("comment", commentList);
 		
 		List<AttractionNear> nearAttraction = attractionService.getNearAttractionList(attraction);
-
+		
 		map.put("nearAttraction", nearAttraction);
 		
+		System.out.println("상세정보");
+		System.out.println(map);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 	

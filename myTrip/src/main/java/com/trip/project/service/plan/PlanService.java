@@ -36,8 +36,7 @@ public class PlanService {
 	public void addPlan(String planName, LocalDate startDate, LocalDate endDate, int userId) {
 		
 		planRepository.addPlan(planName,startDate,endDate,userId);
-		
-		
+
 	}
 
 	public int findUserId(String name) {

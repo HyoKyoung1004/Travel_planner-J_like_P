@@ -198,7 +198,7 @@
 	<select id="nearList" parameterType="hashmap" resultType="com.trip.project.dto.attraction.AttractionNear" >
 		select content_id as contentId, title, addr1 as addr, first_image as firstImage, latitude, longitude 
 		from attraction_info 
-		where latitude = #{min_lat} AND latitude = #{max_lat} AND longitude = #{min_lng} AND longitude = #{max_lng}
+		where latitude &gt;= #{min_lat} AND latitude &lt;= #{max_lat} AND longitude &gt;= #{min_lng} AND longitude &lt;= #{max_lng}
 	</select>
 	
  	<select id="getTopLike" resultType="Integer">

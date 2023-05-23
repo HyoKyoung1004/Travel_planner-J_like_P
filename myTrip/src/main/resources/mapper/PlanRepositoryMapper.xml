@@ -24,10 +24,16 @@
 	SELECT userId FROM USER WHERE userAccount=#{userAccount}
 </select>
 	
-	<insert id="addPlanUser">
+<insert id="addPlanUser">
 		INSERT INTO invite(plan_id, userId)
 		VALUES (#{planId},#{userId})
-	</insert>
+	</insert> 
+	
+	<insert id="addPlanPlanUser">
+		INSERT INTO invite(plan_id, userId)
+		VALUES (#{planId},#{userId})
+	</insert> 
+	
 	
 	<select id="getUserPlan" resultType="Integer">
 		select plan_id from invite where userId=#{userId}
@@ -64,6 +70,5 @@ from planList p join attraction_info a on p.content_id = a.content_id where plan
 	
 	<select id="getPlanUser" resultType="Integer">
 	        select count(*) from invite where plan_id = #{planId} and userId= #{userId}
-	
 	</select>
 </mapper>
