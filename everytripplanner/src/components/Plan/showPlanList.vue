@@ -49,9 +49,13 @@ export default {
             this.setEndDate(this.endDate);
             let diff = Math.abs(newDate.getTime() - oldDate.getTime());
             diff = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            this.dayDifference=diff;
-              for (let i = 1; i <= this.dayDifference; i++) {
+            this.dayDifference=diff+1;
+            console.log(this.dayDifference)
+            
+              for (let i = 0; i < this.dayDifference; i++) {
                 const key = i;
+                this.dayNum[i]=1;
+                console.log("!!!!!!!!!!!!!!!!",this.dayNum);
                 this.setPlannerItem( {key, value : {} });
             }
         },
@@ -65,20 +69,32 @@ export default {
             this.setSelectedDay(day);
             },
         shootPlan(){
+            console.log("GNGNGNGNGNGNGNGNG",this.dayNum);
             const shootMyPlan={
                 startDate:this.startDate,
                 endDate:this.endDate,
                 userId:1,
                 planlist: this.planItems.map((items) =>
-                            items.map((item) => ({ content_id: item.content_id, num:1}))),
-                plan_name:"myFan"
+                        items.map((item, subIndex) => {
+                            if (subIndex === 0 && item.__ob__) {
+                            // 첫 번째 요소가 옵저버 객체인 경우, 넘어감
+                            return null;
+                            }
+                            return {
+                            content_id: item.content_id,
+                            num: subIndex + 1
+                            };
+                        }).filter(Boolean)
+                        )
+            ,
+                plan_name:"myOperation"
             }
             console.log("shoooooooot",shootMyPlan);
             axios.post("http://localhost:9999/trip/plan/realPlanAdd",shootMyPlan);
         },  
         },
     computed: {
-        ...mapState(planStore, ["planItems",'selectedDayNum']),
+        ...mapState(planStore, ["planItems",'selectedDayNum','dayNum']),
     }
 };
 </script>

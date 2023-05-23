@@ -11,9 +11,6 @@
               tag="article"
               style="max-width: 10rem;"
               class="mb-2">
-              <b-card-text>
-                {{ card.addr1 }} 
-              </b-card-text>
               <b-button v-on:click="move(card)" variant="primary">추가하기</b-button>
           </b-card>
         </li>
@@ -25,11 +22,11 @@
   const planStore ="planStore"
   export default {
     computed: {
-      ...mapState(planStore, ["nearAttraction","stateVisible","markersV","selectedDayNum"]),
+      ...mapState(planStore, ["nearAttraction","stateVisible","markersV","selectedDayNum","dayNum"]),
     },
     methods: {
-      ...mapActions(planStore,["addMarker","setPlannerItemMachine"]),
-      async move(card){
+      ...mapActions(planStore,["addMarker","setPlannerItemMachine","setPlannerItemElement"]),
+      move(card){
         console.log(card);
         const marker={
               latitude:card.latitude,
@@ -38,18 +35,20 @@
         console.log("maker: ",marker);        
         this.addMarker(marker);
         console.log("this.markersV: ",this.markersV);
-        const day = this.selectedDayNum;
+        const day = this.selectedDayNum-1;
         console.log("day",day);
+        console.log("왜 자꾸? : ",card.contentId);
         const plannerItem = {
               // 선택된 카드 정보를 plannerItem에 저장
               title: card.title,
               addr1: card.addr1,
               img:card.firstImage,
-              content_id:card.contentId
+              content_id:card.contentId,
+              num:this.dayNum[day]
             };
-            console.log("contentid",card.contentId);
-    console.log("여기 한번봐보자",plannerItem);
-       await this.setPlannerItemMachine({ day, value: plannerItem });
+        this.dayNum[day]= this.dayNum[day]+1;
+        console.log("여기 한번봐보자",plannerItem);
+       this.setPlannerItemElement({ day, value: plannerItem });
       }
     }
   };

@@ -1,5 +1,6 @@
 package com.trip.project.controller.user;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.trip.project.dto.user.UserDto;
 import com.trip.project.service.jwt.JwtServiceImpl;
 import com.trip.project.service.user.UserService;
@@ -104,9 +108,8 @@ public class UserController {
 	}
     
     @GetMapping("/viewMyPage/{userId}")
-    public UserDto viewMypage(@PathVariable("userId") long userId,Principal pirPrincipal) throws Exception{
-    	String op = pirPrincipal.getName();
-    	System.out.println(op);
+    public UserDto viewMypage(@PathVariable("userId") long userId) throws Exception{
+    	
         return userService.viewMypage(userId);        
     }
     
@@ -114,4 +117,13 @@ public class UserController {
     public int deleteUser(@PathVariable("userId") long userId) throws Exception {
         return userService.deleteLike(userId);
     }
+    @PostMapping("/viewMyPage/image/{userId}")
+    public ResponseEntity<String> addImage(@PathVariable("userId") long userid,@RequestPart(value = "uploadedfiles", required = false) MultipartFile[] uploadedfiles) throws IllegalStateException, IOException {
+    	if(userService.addImage(userid,uploadedfiles)) {
+    		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+    	}
+    	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+    }
+    
+    
 }
