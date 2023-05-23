@@ -6,9 +6,6 @@
       @change="changeGugun"
     ></b-form-select>
     <b-form-input></b-form-input>
-    <b-input-group-append>
-      <b-button variant="info">Button</b-button>
-    </b-input-group-append>
   </b-col>
 </template>
   

@@ -1,5 +1,9 @@
 package com.trip.project.dto.user;
 
+import java.util.List;
+
+import com.trip.project.dto.comment.CommentFileDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +22,14 @@ public class UserDto {
 	private String userPassword;
 	private String userRole;
 	private String joinDate;
+	private List<UserFileDto> fileInfo;
 	
+	public List<UserFileDto> getFileInfo() {
+		return fileInfo;
+	}
+	public void setFileInfo(List<UserFileDto> fileInfo) {
+		this.fileInfo = fileInfo;
+	}
 	@Override
 	public String toString() {
 		return "UserDto [userId=" + userId + ", userAccount=" + userAccount + ", userEmail=" + userEmail + ", nickName="

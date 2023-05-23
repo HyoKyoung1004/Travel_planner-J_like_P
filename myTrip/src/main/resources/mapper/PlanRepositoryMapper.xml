@@ -16,9 +16,9 @@
 	<select id="findPlanNameAnduserId" parameterType="map" resultType="Plan">
 		SELECT * from plan where plan_name=#{plan_name} and userId=#{userId}
 	</select>
-	<select id= "findAttraction" resultType="AttractionDto" parameterType="double">
+	<!-- <select id= "findAttraction" resultType="AttractionDto" parameterType="double">
 		SELECT * from attraction_info where (latitude between #{minY} and #{maxY}) and (longitude between #{minX} and #{maxX})
-	</select>
+	</select> -->
 	
 	<select id="findUserId" resultType="int" parameterType="String">
 	SELECT userId FROM USER WHERE userAccount=#{userAccount}
@@ -47,10 +47,13 @@
 	</select>
 	
 	<select id="getPlanDatail"  resultType="com.trip.project.dto.plan.PlanDetail">
-	select planList_id, plan_id, a. content_id, route_num, date_num, pnum, content_type_id, title, addr1, first_image,latitude,longitude
+	select planList_id, plan_id, a. content_id, route_num, date_num, pnum, content_type_id, title, addr1, first_image, latitude, longitude
 from planList p join attraction_info a on p.content_id = a.content_id where plan_id=#{planId} and date_num=#{date}  order by route_num
 	</select>
-	
+
+		<select id= "findAttraction" resultType="AttractionDto" parameterType="double">
+		SELECT content_id as contentId, title, addr1 , tel, first_image as firstImage, readcount ,latitude, longitude from attraction_info where (latitude between #{minY} and #{maxY}) and (longitude between #{minX} and #{maxX})
+		</select>
 	<select id="getPlanOne" resultType="com.trip.project.dto.plan.Plan" >
 	select * from plan where plan_id=#{planId};
 	</select>

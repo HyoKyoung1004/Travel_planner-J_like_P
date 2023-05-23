@@ -57,6 +57,14 @@ const memberStore = {
         },
       );
     },
+    logout({ commit }) {
+      commit('SET_IS_LOGIN', false);
+      commit('SET_IS_LOGIN_ERROR', false);
+      commit('SET_USER_INFO', null);
+      sessionStorage.removeItem('access-token');
+      sessionStorage.removeItem('refresh-token');
+      // 필요에 따라 추가적인 로그아웃 동작을 수행할 수 있습니다.
+    }
 
     // logout({ commit }) {
     //     // 로그아웃 처리

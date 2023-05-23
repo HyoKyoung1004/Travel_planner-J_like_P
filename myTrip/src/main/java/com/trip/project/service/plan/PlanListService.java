@@ -58,7 +58,7 @@ public class PlanListService {
 		planSave(plan_name,plan_id,test);
 		
     	int userId = (int) test.get("userId");
-    	planRepository.addPlanUser(userId,plan_id );
+    	planRepository.addPlanUser(userId,plan_id);
 
 		//여기부터가 수정 
 //		int teamId = planRepository.findPlanId(plan_name);
@@ -152,8 +152,10 @@ public class PlanListService {
 	    	ArrayList<ArrayList<Object>> obj = (ArrayList<ArrayList<Object>>) test.get("planlist");
 			int date_num=1;
 			for (int i = 0; i < obj.size(); i++) {
-				
-				
+				if (obj.get(i) == null) {
+		            obj.remove(i);
+		            continue;
+		        }
 				Comparator<Integer> comparator = (s1,s2) ->s1.compareTo(s2);
 				
 				Map<Integer, Integer> map = new TreeMap<>(comparator);
@@ -161,6 +163,7 @@ public class PlanListService {
 					Integer contentId = ((LinkedHashMap<String, Integer>) (obj.get(i).get(j))).get("content_id");
 					Integer num = ((LinkedHashMap<String, Integer>) (obj.get(i).get(j))).get("num");
 					map.put(num, contentId);
+					System.out.println("한번 날뛰어봐 너가 : "+contentId);
 				}
 				ArrayList<Integer> arr = new ArrayList<>();
 				ArrayList<Integer> brr = new ArrayList<>();

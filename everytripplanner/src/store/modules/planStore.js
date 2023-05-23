@@ -14,8 +14,12 @@ const planStore = {
     markersV: [],
     planItems: [], // 변경된 부분
     selectedDayNum: null,
+    dayNum:[],
   },
   mutations: {
+    SET_DAYNUM(state,count){
+        state.dayNum[count] +=1;
+    },
     setSelectedDay(state, day) {
       state.selectedDayNum = day;
       console.log(state.selectedDayNum);
@@ -27,11 +31,17 @@ const planStore = {
       console.log("asdasd", state.planItems);
     },
     setPlannerItem(state, { key, value }) {
+      console.log("before",state.planItems[key]);
       if (!state.planItems[key]) {
         Vue.set(state.planItems, key, []);
       }
+      if (state.planItems[key][0] && state.planItems[key][0].__ob__) {
+        state.planItems[key].shift();
+        }
+  
+      console.log("after",state.planItems);
       state.planItems[key].push(value);
-      console.log("asdasd", state.planItems);
+      console.log("이게 진짜 내가 궁금한것", state.planItems);
     },
     clearMapState(state) {
       state.markersV = [];
@@ -66,6 +76,16 @@ const planStore = {
     SET_MAP_STATE_VISIBILITY(state, isVisible) {
       state.stateVisible = isVisible;
     },
+    setPlannerElement(state,{key,value}){
+      if (state.planItems[key][0] && !state.planItems[key][0].__ob__) {
+        console.log("삭제했당ㅇㅋㅋㅋㅋ");
+        Vue.delete(state.planItems[key], 0);
+      }
+  
+      console.log("after",state.planItems);
+      state.planItems[key].push(value);
+      console.log("이게 진짜 내가 궁금한것", state.planItems);
+    }
   },
   actions: {
     choose({ commit }) {
@@ -99,10 +119,17 @@ const planStore = {
     addMarker({ commit }, chooseMarker) {
       commit('setMarkers', chooseMarker);
     },
-    setPlannerItemMachine({ commit }, { day, value }) {
-      commit('setPlannerItem', { key: day, value });
-      console.log(day);
-      console.log(value);
+    setPlannerItemMachine({ commit }, temp) {
+      console.log(temp);
+      commit('setPlannerItem', { key: temp.day, value:temp.value });
+      // console.log(day);
+      // console.log(value);
+    },
+    setPlannerItemElement({ commit }, temp) {
+      console.log(temp);
+      commit('setPlannerElement', { key: temp.day, value:temp.value });
+      // console.log(day);
+      // console.log(value);
     }
   },
   getters: {

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,55 @@ public class PlanController {
 		String planName = (String) test.get("plan_name");
 		LocalDate startDate = LocalDate.parse((String) test.get("startDate"));
 		LocalDate endDate = LocalDate.parse((String) test.get("endDate"));
-		System.out.println(userId + " " + planName + " " + startDate + " " + endDate);
+		//System.out.println(userId + " " + planName + " " + startDate + " " + endDate);
+		
+		
+        ArrayList<ArrayList<Object>> obj =  (ArrayList<ArrayList<Object>>) test.get("planlist");
+//        for (int i = 0; i < obj.size(); i++) {
+//            ArrayList<Object> innerList = obj.get(i);
+//            for (int j = 0; j < innerList.size(); j++) {
+//                Object element = innerList.get(j);
+//                if (i == 0 && j == 0) {
+//                    innerList.remove(element);
+//                    j--; // 요소를 제거하면 인덱스를 하나 감소시켜야합니다.
+//                }
+//            }
+//        }
+        for (int i = 0; i < obj.size(); i++) {
+            ArrayList<Object> innerList = obj.get(i);
+            
+            for (int j = innerList.size() - 1; j >= 0; j--) {
+                Object element = innerList.get(j);
+                
+                if (element instanceof Map) {
+                    Map<String, Object> map = (Map<String, Object>) element;
+                    
+                    if (!map.containsKey("content_id") || map.isEmpty()) {
+                        innerList.remove(j);
+                    }
+                }
+            }
+            
+            if (innerList.isEmpty()) {
+                obj.remove(innerList);
+            }
+        }
+
+        System.out.println("어떻게될까??");
+        System.out.println(obj);
+        System.out.println("어떻게될까??");
+        for(int i=0;i<obj.size();i++) {
+            for(int j=0;j<obj.get(i).size();j++) {
+                Integer contentId = ((LinkedHashMap<String, Integer>)(obj.get(i).get(j))).get("content_id");
+                Integer num = ((LinkedHashMap<String, Integer>)(obj.get(i).get(j))).get("num");        
+                System.out.println(contentId+", "+num);
+                
+            }
+		
+        }
+		
+		
+		
 		planservice.addPlan(planName, startDate, endDate, userId);
 		planListService.addPlanList(test);
 		return ResponseEntity.ok().body(1);

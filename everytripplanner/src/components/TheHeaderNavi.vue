@@ -35,7 +35,7 @@
                 <template #button-content>
                   <b-avatar></b-avatar>
                 </template>
-                <b-dropdown-item href="#">마이페이지</b-dropdown-item>
+                <b-dropdown-item @click="myPage">마이페이지</b-dropdown-item>
               </b-nav-item-dropdown>
             </b-navbar-nav>
           </b-navbar-nav>
@@ -47,7 +47,7 @@
 
 <script>
 // import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions} from "vuex";
 
 const memberStore = "memberStore";
 
@@ -71,6 +71,13 @@ export default {
     signup() {
       this.$router.push({ path: "signup" });
     },
+    myPage() {
+      if(this.userInfo  !=null ){
+      this.$router.push({ path: "myPage" });
+      }else{
+        alert("로그인점 ㅋㅋ");
+      }
+    },
     plantripview() {
       if (this.userInfo == null) alert("로그인을 후 이용 가능합니다.");
       else this.$router.push({ path: "planTrip" });
@@ -93,11 +100,12 @@ export default {
     },
     onClickLogout() {
       //로그아웃
-      console.log(this.userInfo.userid);
-      //여기 로그아웃 기능 구현 안되어 있음,,,,
-      // this.logout(this.userInfo.userid);
-      sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
-      sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
+      // console.log(this.userInfo.userid);
+      // //여기 로그아웃 기능 구현 안되어 있음,,,,
+      // // this.logout(this.userInfo.userid);
+      // sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
+      // sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
+      this.logout();
       if (this.$route.path != "/") this.$router.push({ name: "main" });
     },
   },

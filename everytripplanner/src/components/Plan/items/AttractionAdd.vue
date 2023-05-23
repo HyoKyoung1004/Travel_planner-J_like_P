@@ -11,9 +11,6 @@
               tag="article"
               style="max-width: 10rem;"
               class="mb-2">
-              <b-card-text>
-                {{ value.addr1 }} 
-              </b-card-text>
               <b-button variant="primary" @click="removeItem(key)">삭제하기</b-button>
           </b-card>
         </li>
@@ -36,8 +33,10 @@ export default {
     ...mapState(planStore, ["planItems"]), // 수정된 부분
    ...mapMutations(planStore, ["removePlannerItem"]),
     plannerItems() {
-      console.log('sdassadsad',this.planItems[this.day]);
-      return this.planItems[this.day] || []; // 수정된 부분
+      console.log("나는 아름 다운 나비 ",this.day);
+      console.log("나는 아름 다운 나비ㅋㅋㅋㅋ ",this.day-1);
+      console.log('sdassadsad',this.planItems[this.day-1]);
+      return this.planItems[this.day-1] || []; // 수정된 부분
     }
   },
   methods:{
