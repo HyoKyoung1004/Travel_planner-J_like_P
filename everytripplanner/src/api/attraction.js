@@ -10,6 +10,7 @@ function attractionDetail(contentId, success, fail) {
 // }
 
 function attractdionList_addr(sido, gugun, page, orderType, success, fail) {
+  console.log("시도")
   console.log(sido, gugun, page, orderType);
   api.get(`/attract/search/${sido}/${gugun}/${page}/${orderType}`).then(success).catch(fail);
 }
@@ -29,6 +30,8 @@ function attractdionList_addr(sido, gugun, page, orderType, success, fail) {
 // }
 
 function attractdionList_addr_type(sido, gugun, type, page, orderType, success, fail) {
+  console.log("시도 타입")
+  console.log(sido, gugun, type, page, orderType);
   api
     .get(`/attract/searchType/${sido}/${gugun}/${type}/${page}/${orderType}`)
     .then(success)
@@ -45,6 +48,7 @@ function attractdionList_addr_searchData_type(
   success,
   fail
 ) {
+
   api
     .get(`/attract/search/${sido}/${gugun}/${searchData}/${type}/${page}/${orderType}`)
     .then(success)
@@ -52,6 +56,8 @@ function attractdionList_addr_searchData_type(
 }
 
 function attractionList_type(type, page, orderType, success, fail) {
+  console.log("타입만")
+  console.log(type, page, orderType);
   api.get(`/attract/searchType/${type}/${page}/${orderType}`).then(success).catch(fail);
 }
 

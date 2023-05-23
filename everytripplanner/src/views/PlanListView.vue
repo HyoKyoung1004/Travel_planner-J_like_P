@@ -87,8 +87,19 @@
                             <button class="plan-button" @click="goPlanDetail(planData.plan_id)">
                               일정 상세
                             </button>
-                            <button class="plan-button" @click="sharePlan">일정 공유</button>
-                            <button class="plan-button" @click="deletePlan">일정 삭제</button>
+                            <button
+                              class="plan-button"
+                              v-b-modal.modal-prevent-closing
+                              @click="sharePlan(planData.plan_id)"
+                            >
+                              초대 하기
+                            </button>
+                            <button
+                              class="plan-button"
+                              @click="deletePlan(planData.plan_id, planData.userId)"
+                            >
+                              일정 삭제
+                            </button>
                           </div>
                         </b-col>
                       </b-row>
@@ -101,12 +112,38 @@
         </b-row>
       </template>
     </b-container>
+
+    <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="여행 일정 초대하기"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <h6 style="font-weight: 900">
+          여행 일정에 초대할 사용자의 계정 또는 닉네임을 입력해주세요
+        </h6>
+        <br />
+        <b-form-group
+          label="Account or NickName"
+          label-for="name-input"
+          invalid-feedback="Account or NickName is required"
+          :state="nameState"
+        >
+          <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import { userPlan } from "@/api/plan";
 import { mapState } from "vuex";
+import { joinPlanMember, deletePlan_User } from "@/api/plan";
+
 const memberStore = "memberStore";
 
 export default {
@@ -116,6 +153,9 @@ export default {
       planLength: 0,
       UserPlanList: null,
       mainImg: "http://tong.visitkorea.or.kr/cms/resource/25/2823725_image2_1.jpg",
+      name: "",
+      nameState: null,
+      tmp_planId: null,
     };
   },
   created() {
@@ -146,13 +186,109 @@ export default {
   methods: {
     goPlanDetail(planId) {
       // alert(planId);
-      this.$router.push({ name: "planDetail", params: { planId: planId } });
+      this.$router.push({ name: "planDetail", query: { planId: planId } });
     },
-    sharePlan() {
-      alert("일정 공유 구현");
+    sharePlan(planId) {
+      this.tmp_planId = planId;
+      // alert("일정 공유 구현");
     },
-    deletePlan() {
-      alert("여행 삭제 구현");
+    deletePlan(planId, ownerUserId) {
+      var userId = this.userInfo.userId;
+      console.log(planId, ownerUserId, userId);
+
+      var this_temp = this;
+
+      deletePlan_User(
+        planId,
+        ownerUserId,
+        userId,
+        ({ data }) => {
+          console.log(data);
+          if (data == "plan delete success") {
+            alert("여행 삭제가 완료되었습니다.");
+          }
+          if (data == "success") {
+            alert("여행 일정에서 사용자가 삭제되었습니다.");
+          }
+          userPlan(
+            userId,
+            ({ data }) => {
+              console.log(data);
+              this_temp.planLength = data.planLength;
+              this_temp.UserPlanList = data.UserPlanList;
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    handleOk(bvModalEvent) {
+      bvModalEvent.preventDefault();
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      console.log(this.name);
+
+      var userAccount = this.name;
+      var userId = this.userInfo.userId;
+      var this_temp = this;
+
+      joinPlanMember(
+        this.tmp_planId,
+        userAccount,
+        ({ data }) => {
+          console.log(data);
+          if (data == "not user") {
+            alert("등록된 계정이 없습니다. 다시 확인해주세요");
+            this.resetModal();
+          }
+          if (data == "already") {
+            alert("이미 추가된 사용자입니다.");
+            this.resetModal();
+            this.$nextTick(() => {
+              this.$bvModal.hide("modal-prevent-closing");
+            });
+          }
+          if (data == "success") {
+            alert("여행 일정에 사용자가 추가되었습니다.");
+            this.$nextTick(() => {
+              this.$bvModal.hide("modal-prevent-closing");
+              this.tmp_planId = null;
+              userPlan(
+                userId,
+                ({ data }) => {
+                  console.log(data);
+                  this_temp.planLength = data.planLength;
+                  this_temp.UserPlanList = data.UserPlanList;
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+            });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.nameState = valid;
+      return valid;
+    },
+    resetModal() {
+      this.name = "";
+      this.nameState = null;
     },
   },
 };

@@ -50,8 +50,20 @@
 	select planList_id, plan_id, a. content_id, route_num, date_num, pnum, content_type_id, title, addr1, first_image, latitude, longitude
 from planList p join attraction_info a on p.content_id = a.content_id where plan_id=#{planId} and date_num=#{date}  order by route_num
 	</select>
-	
+
 		<select id= "findAttraction" resultType="AttractionDto" parameterType="double">
 		SELECT content_id as contentId, title, addr1 , tel, first_image as firstImage, readcount ,latitude, longitude from attraction_info where (latitude between #{minY} and #{maxY}) and (longitude between #{minX} and #{maxX})
+		</select>
+	<select id="getPlanOne" resultType="com.trip.project.dto.plan.Plan" >
+	select * from plan where plan_id=#{planId};
+	</select>
+	
+	<delete id="deleteInviteUser">
+		delete from invite where plan_id = #{planId} and userId = #{userId}
+	</delete>
+	
+	<select id="getPlanUser" resultType="Integer">
+	        select count(*) from invite where plan_id = #{planId} and userId= #{userId}
+	
 	</select>
 </mapper>

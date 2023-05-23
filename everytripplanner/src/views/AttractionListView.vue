@@ -16,11 +16,20 @@
           <b-col cols="7"></b-col>
           <b-col cols="3">
             <b-row>
-              <b-col :class="{ clickedOrder: latest }" @click="makeOrder('latest')">최신순</b-col>
+              <b-col
+                :class="{ clickedOrder: latest }"
+                @click="makeOrder('latest')"
+                >최신순</b-col
+              >
               |
-              <b-col :class="{ clickedOrder: like }" @click="makeOrder('like')">인기순</b-col>
+              <b-col :class="{ clickedOrder: like }" @click="makeOrder('like')"
+                >인기순</b-col
+              >
               |
-              <b-col id="title" :class="{ clickedOrder: title }" @click="makeOrder('title')"
+              <b-col
+                id="title"
+                :class="{ clickedOrder: title }"
+                @click="makeOrder('title')"
                 >이름순</b-col
               >
             </b-row>
@@ -34,7 +43,11 @@
       <template v-for="(attraction, idx) in attractionList">
         <b-row :key="idx">
           <b-col cols="12" class="center">
-            <b-card no-body class="overflow-hidden" style="width: 1000px; height: 200px">
+            <b-card
+              no-body
+              class="overflow-hidden"
+              style="width: 1000px; height: 200px"
+            >
               <b-row no-gutters>
                 <b-col md="4">
                   <b-card-img
@@ -68,7 +81,8 @@
                               ></template
                             >
                             <template v-else>⭐</template>
-                            ( {{ attraction.rating }} ) 👍 ( {{ attraction.likeCheck }} )
+                            ( {{ attraction.rating }} ) 👍 (
+                            {{ attraction.likeCheck }} )
                           </div>
                         </b-col>
                       </b-row>
@@ -95,7 +109,9 @@
                           <button
                             ref="myWish"
                             type="button"
-                            @click.capture.stop="setWish(attraction.contentId, $event)"
+                            @click.capture.stop="
+                              setWish(attraction.contentId, $event)
+                            "
                             style="border-color: #ff0044"
                           >
                             <i class="fa-solid fa-heart"></i>
@@ -112,11 +128,7 @@
         <br :key="attraction.contentId" />
       </template>
       <div class="center">
-        <b-pagination
-          v-model="page"
-          :total-rows="getTotolPage"
-          aria-controls="my-table"
-        ></b-pagination>
+        <b-pagination v-model="page" :total-rows="rows"></b-pagination>
       </div>
     </b-container>
   </div>
@@ -159,6 +171,7 @@ export default {
       next: 11,
       start: 0,
       totalCount: 0,
+      rows: 0,
     };
   },
   created() {
@@ -176,13 +189,18 @@ export default {
     getTypeString(type) {
       return this.typeString(type);
     },
-    getTotolPage() {
-      return this.totalCount / 10 + 1;
-    },
+    // getTotolPage() {
+    //   console.log("페이징 개수 변경됨");
+    //   console.log("this.totalCount", this.totalCount);
+    //  this.rows = Math.floor(this.totalCount / 10) + 1;
+    //   console.log("페이징 수 ", this.totalCount / 10 + 1);
+    //   return this.totalCount / 10 + 1;
+    // },
   },
   watch: {
     gugun() {
       console.log("구 변경됨");
+      console.log(this.sido);
       console.log(this.page);
       this.diviceSearch(
         this.sido,
@@ -204,20 +222,34 @@ export default {
         this.orderType
       );
     },
+    totalCount() {
+      console.log("페이지 변경 완료?");
+      this.rows = Math.floor(this.totalCount / 10) + 1;
+      console.log(this.rows);
+      this.rows = Math.floor(this.totalCount / 10) + 1;
+    },
   },
   methods: {
     Change(childData) {
       console.log(childData);
+      console.log(this.type);
+      console.log("Change()");
+
+      this.sido = childData.sido;
+      this.gugun = childData.gugun;
+
       if (childData.sido != undefined && childData.type != undefined) {
-        this.sido = childData.sido;
-        this.gugun = childData.gugun;
+        console.log("시도, type");
         this.type = childData.type;
+
         this.search_addr_type(this.sido, this.gugun, this.type);
       } else if (childData.sido != undefined) {
-        this.sido = childData.sido;
-        this.gugun = childData.gugun;
+        console.log("시도");
+
         this.search_addr(this.sido, this.gugun);
       } else if (childData.type != undefined) {
+        console.log("타입만");
+
         this.type = childData.type;
         this.search_type(this.type, 1, this.orderType);
       }
@@ -242,6 +274,7 @@ export default {
     },
     diviceSearch(sido, gugun, type, searchData, page, orderType) {
       if (sido != undefined && gugun != undefined) {
+        this.sido = sido;
         this.gugun = gugun;
       }
       if (type != undefined) {
@@ -268,7 +301,14 @@ export default {
         type !== undefined
       ) {
         console.log("설마 여기로감?");
-        this.search_addr_title_type(sido, gugun, searchData, type, page, orderType);
+        this.search_addr_title_type(
+          sido,
+          gugun,
+          searchData,
+          type,
+          page,
+          orderType
+        );
       } else if (sido != undefined && gugun != undefined && type != undefined) {
         console.log("시도_타압");
         this.search_addr_type(sido, gugun, type, page, orderType);
@@ -293,6 +333,14 @@ export default {
           console.log(data);
           this.attractionList = data.list;
           this.length = this.attractionList.length;
+          this.page = page;
+          this.totalCount = data.totalCount;
+          this.endPage = data.endPage;
+          this.next = data.next;
+          this.pre = data.pre;
+          this.start = data.start;
+          this.startPage = data.startPage;
+          this.attractionList = data.list;
         },
         (error) => {
           console.log(error);
@@ -301,6 +349,8 @@ export default {
     },
     search_addr(sido, gugun, page, orderType) {
       console.log(sido, gugun, page, orderType);
+      if (page == undefined) page = 1;
+      if (orderType == undefined) orderType = "latest";
       attractdionList_addr(
         sido,
         gugun,
@@ -324,6 +374,8 @@ export default {
       );
     },
     search_addr_type(sido, gugun, type, page, orderType) {
+      console.log("시도_타입");
+      console.log(sido, gugun, type, page, orderType);
       attractdionList_addr_type(
         sido,
         gugun,
@@ -372,8 +424,17 @@ export default {
     },
     makeOrder(tmp) {
       console.log("최신순을 누름");
-      this.diviceSearch(this.sido, this.gugun, this.type, this.searchData, this.page, tmp);
+      this.diviceSearch(
+        this.sido,
+        this.gugun,
+        this.type,
+        this.searchData,
+        this.page,
+        tmp
+      );
       this.like = false;
+      this.latest = false;
+
       this.title = false;
       if (tmp == "latest") this.latest = true;
       if (tmp == "like") this.like = true;
@@ -519,7 +580,7 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-    4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
 }
 </style>
