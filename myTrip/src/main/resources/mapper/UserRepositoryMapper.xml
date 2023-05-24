@@ -42,5 +42,14 @@
 	select userId from user where userAccount Like #{userAccount} OR nickName Like #{userAccount}
 </select>
 
+<select id="findByUsername" resultType="UserDto">
+select * from user where nickName Like  #{userNickName};
+</select>
+
+<select id="findByUserEmail" resultType="UserDto">
+select * from user where UserEmail Like  #{email};
+</select>
+
+
 </mapper>
 

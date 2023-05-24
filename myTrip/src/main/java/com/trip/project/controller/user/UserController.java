@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +29,12 @@ import com.trip.project.service.jwt.JwtServiceImpl;
 import com.trip.project.service.user.UserService;
 
 import io.swagger.annotations.ApiParam;
+import javax.servlet.http.Cookie;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*", allowCredentials = "true")
 public class UserController {
     
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -123,6 +126,35 @@ public class UserController {
     		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     	}
     	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+    }
+    
+    @GetMapping("/login/oauth2/test")
+    
+    public ResponseEntity<?> loginData(HttpServletRequest req) {
+    
+    	System.out.println("여기까지?");
+    	HttpSession session = req.getSession();
+    	System.out.println(session.getAttribute("loginData"));
+//    	System.out.println(session.getAttribute("test"));
+//
+//    	
+//        String data = (String) session.getAttribute("myData");
+//        System.out.println(data);
+//    	
+//    	Cookie[] cookies = req.getCookies();
+//    	  
+//    	  for(Cookie c : cookies) {
+//    	  	System.out.println(c.getName());  // 쿠키 이름 가져오기
+//    	  	System.out.println(c.getValue());  // 쿠키 값 가져오기
+//    	  }
+      	Map<String, Object> resultMap = new HashMap<>();
+      	resultMap = (Map<String, Object>) session.getAttribute("loginData");
+
+      	System.out.println(resultMap);
+      	if(resultMap.size()>0)
+      		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);    
+      	else 
+        	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
     
     

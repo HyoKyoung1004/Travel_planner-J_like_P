@@ -1,5 +1,6 @@
 package com.trip.project.dto.user;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.trip.project.dto.comment.CommentFileDto;
@@ -13,7 +14,7 @@ import lombok.Setter;
 //@Setter
 //@NoArgsConstructor
 //@AllArgsConstructor
-public class UserDto {
+public class UserDto implements Serializable {
 	
 	private Long userId;
 	private String userAccount;

@@ -24,4 +24,8 @@ public interface UserRepository {
 	long getUser(String userAccount);
 
 	Long getUserId(String userAccount);
+
+	UserDto findByUsername(String userNickName);
+
+	UserDto findByUserEmail(String email);
 }

@@ -16,9 +16,7 @@
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
             <b-nav-item @click="wishList">위시리스트</b-nav-item>
             <b-nav-item @click.prevent="onClickLogout">로그아웃</b-nav-item>
-            <b-nav-item
-              >{{ userInfo.nickName }}({{ userInfo.userAccount }}) 님,
-            </b-nav-item>
+            <b-nav-item>{{ userInfo.nickName }} 님, </b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto" right v-else>
@@ -47,7 +45,7 @@
 
 <script>
 // import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { mapState, mapActions} from "vuex";
+import { mapState, mapActions } from "vuex";
 
 const memberStore = "memberStore";
 
@@ -72,9 +70,9 @@ export default {
       this.$router.push({ path: "signup" });
     },
     myPage() {
-      if(this.userInfo  !=null ){
-      this.$router.push({ path: "myPage" });
-      }else{
+      if (this.userInfo != null) {
+        this.$router.push({ path: "myPage" });
+      } else {
         alert("로그인점 ㅋㅋ");
       }
     },
