@@ -16,7 +16,9 @@
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
             <b-nav-item @click="wishList">위시리스트</b-nav-item>
             <b-nav-item @click.prevent="onClickLogout">로그아웃</b-nav-item>
-            <b-nav-item>{{ userInfo.nickName }} 님, </b-nav-item>
+            <b-nav-item @click="myPage"
+              >{{ userInfo.nickName }} 님,
+            </b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto" right v-else>

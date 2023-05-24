@@ -34,7 +34,11 @@
                   />
                 </div>
 
-                <b-form-file v-model="uploadedfiles" accept="image/*" size="sm"></b-form-file>
+                <b-form-file
+                  v-model="uploadedfiles"
+                  accept="image/*"
+                  size="sm"
+                ></b-form-file>
 
                 <!-- 회원정보 변경 폼 -->
                 <div class="mt-4">
@@ -69,7 +73,11 @@
                     />
                   </div>
 
-                  <button type="button" class="btn btn-primary" @click="updateUserInfo">
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="updateUserInfo"
+                  >
                     회원정보 변경 저장
                   </button>
                 </div>
@@ -162,7 +170,11 @@ export default {
       console.log(formData);
 
       axios
-        .post(`http://localhost:9999/trip/user/modify/${this.userInfo.userId}`, formData, config)
+        .post(
+          `http://localhost:9999/trip/user/modify/${this.userInfo.userId}`,
+          formData,
+          config
+        )
         .then((resp) => {
           console.log(resp);
           alert("회원정보 변경 완료");
@@ -215,5 +227,13 @@ export default {
 .inputName {
   font-weight: 600;
   float: left;
+}
+h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-weight: 600;
+  color: #333;
+  text-transform: none;
 }
 </style>

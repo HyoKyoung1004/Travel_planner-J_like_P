@@ -24,7 +24,7 @@
 	</insert>
 	
 	<delete id="delete">
-		delete from wishlist  where userId=#{userId} and content_id = #{contentId}
+		delete from wishlist where userId=#{userId} and content_id = #{contentId}
 	</delete>
 	
 	<select id="getWishCount" resultType="int">

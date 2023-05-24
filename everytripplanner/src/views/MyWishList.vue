@@ -67,13 +67,18 @@
         </b-card-group>
       </div>
 
-      <b-button href="#" style="background-color: #6a24fe">여행만들기</b-button>
+      <b-button @click="plantripview" style="background-color: #6a24fe"
+        >여행만들기</b-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 import { setWishList, getUserWishList } from "@/api/wishList";
+import { mapState, mapMutations } from "vuex";
+const planStore = "planStore";
+
 export default {
   components: {},
   data() {
@@ -81,7 +86,7 @@ export default {
       attraction: [],
       length: 0,
       divide: 0,
-      userId: 1,
+      userId: 0,
     };
   },
   created() {
@@ -105,8 +110,12 @@ export default {
       }
     );
   },
-
+  computed: {
+    ...mapState(planStore, ["selectedDayNum"]),
+  },
   methods: {
+    ...mapMutations(planStore, ["clearMapState", "clearDayPlan"]),
+
     goDetail(contentId) {
       this.$router.push({
         name: "attractionDetail",
@@ -119,7 +128,7 @@ export default {
       //로그인 한 사용자라면,,,,
       setWishList(
         contentId,
-        1,
+        this.userId,
         ({ data }) => {
           console.log(data);
 
@@ -134,6 +143,14 @@ export default {
           console.log(error);
         }
       );
+    },
+    plantripview() {
+      this.clearMapState();
+      this.clearDayPlan();
+      this.selectedDayNum = null;
+      this.$router.push({
+        name: "planTrip",
+      });
     },
   },
 };

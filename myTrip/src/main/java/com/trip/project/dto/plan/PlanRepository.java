@@ -47,4 +47,6 @@ public interface PlanRepository {
 
 	Integer getPlanUser(int planId, long userId);
 
+	ArrayList<Plan> planRandomFour();
+
 }

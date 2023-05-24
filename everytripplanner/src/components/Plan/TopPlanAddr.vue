@@ -127,21 +127,17 @@
           </b-card>
         </b-card-group>
       </div>
-
-      <b-button href="#" style="background-color: #6a24fe"
-        >여행 만들기</b-button
-      >
     </div>
   </div>
 </template>
 
 <script>
-import { mapState,mapMutations } from 'vuex';
-const planStore ="planStore";
+import { mapState, mapMutations } from "vuex";
+const planStore = "planStore";
 export default {
   components: {},
-  computed:{
-    ...mapState(planStore,["selectedDayNum"])
+  computed: {
+    ...mapState(planStore, ["selectedDayNum"]),
   },
   data() {
     return {
@@ -159,11 +155,11 @@ export default {
   },
   created() {},
   methods: {
-    ...mapMutations(planStore, ['clearMapState','clearDayPlan']),
+    ...mapMutations(planStore, ["clearMapState", "clearDayPlan"]),
     MakePlan(idx) {
       this.clearMapState();
       this.clearDayPlan();
-      this.selectedDayNum=null;
+      this.selectedDayNum = null;
       this.$router.push({
         name: "planTrip",
         params: {
