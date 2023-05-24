@@ -305,6 +305,17 @@ public class AttractionService {
 		// TODO Auto-generated method stub
 		return attractionRepository.getAddrName(sido, gugun);
 	}
+	public Map<String, Object> getRamdomsido() {
+		
+		return attractionRepository.getRandomSido();
+	}
+	public Map<String, Object> getRamdomgugun(int target_sido) {
+		return attractionRepository.getRandomGugun(target_sido);
+
+	}
+	public List<Attraction> getRandomAttraction(int target_sido, int target_gugun) {
+		return attractionRepository.getRandomAttraction(target_sido, target_gugun);
+	}
 
 
 
