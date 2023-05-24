@@ -22,6 +22,7 @@ const memberStore = {
     },
   },
   actions: {
+    
     async userConfirm({ commit }, user) {
       await login(
         user,

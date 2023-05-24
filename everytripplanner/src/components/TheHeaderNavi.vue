@@ -47,10 +47,10 @@
 
 <script>
 // import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { mapState, mapActions} from "vuex";
+import { mapState, mapActions,mapMutations} from "vuex";
 
 const memberStore = "memberStore";
-
+const planStore = "planStore";
 export default {
   name: "TheHeaderNavbar",
   components: {},
@@ -60,10 +60,12 @@ export default {
     };
   },
   computed: {
+    ...mapState(planStore,["selectedDayNum"]),
     ...mapState(memberStore, ["userInfo"]),
   },
   created() {},
   methods: {
+    ...mapMutations(planStore, ['clearMapState','clearDayPlan']),
     ...mapActions(memberStore, ["logout"]),
     sigin() {
       this.$router.push({ path: "signin" });
@@ -80,7 +82,14 @@ export default {
     },
     plantripview() {
       if (this.userInfo == null) alert("로그인을 후 이용 가능합니다.");
-      else this.$router.push({ path: "planTrip" });
+      else {
+        this.clearMapState();
+        this.clearDayPlan();
+        this.selectedDayNum=null;
+        this.$router.push({
+          name: "planTrip",
+        });
+      }
     },
     planList() {
       // if (this.userInfo == null) alert("로그인을 후 이용 가능합니다.");

@@ -34,6 +34,10 @@
 	select * from user where userAccount=#{userAccount}
 </select>
 
+<select id="findUserDto" resultType="UserDto">
+	select * from user where userId=#{userId}
+</select>
+
 <select id="getUser" resultType="long">
 	select userId from user where userAccount=#{userAccount}
 </select>
@@ -45,9 +49,9 @@
 <update id="updateMemberInfo" parameterType="UserDto">
   UPDATE user
   SET 
-      userEmail = #{email},
-      nickname = #{nickname},
-      userPassword = #{password}
+      userEmail = #{userEmail},
+      nickname = #{nickName},
+      userPassword = #{userPassword}
   WHERE userId = #{userId}
 </update>
 

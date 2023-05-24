@@ -110,11 +110,17 @@ public class UserService {
 
 	    return false;
 	}
-	public boolean updateUserInfo(Long userid, UserDto userDto) {
-		if(userRepository.updateUserInfo(userid,userDto)) {
-			return true;
-		}
-		return false;
+	public void updateMemberInfo(int userid, UserDto userDto) {
+		long userId = userid;
+		System.out.println(userId);
+	    UserDto existingUser = userRepository.findUserDto(userId);
+	    existingUser.setUserEmail(userDto.getUserEmail());
+	    existingUser.setNickName(userDto.getNickName());
+	    existingUser.setUserPassword(userDto.getUserPassword());
+	    System.out.println(existingUser.toString());
+	    userRepository.updateMemberInfo(existingUser);
+	    
+	    System.out.println("??????"+existingUser.toString());
 	}
 
 }

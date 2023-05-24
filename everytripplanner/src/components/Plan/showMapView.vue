@@ -22,8 +22,8 @@ export default {
       map: null,
       value: "",
       context: null,
-      latitude: 33.3617,
-      longitude: 126.5292,
+      latitude: 36.348292,
+      longitude: 127.382025,
       markers: [],
       position: []
     };

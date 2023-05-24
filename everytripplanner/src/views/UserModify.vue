@@ -21,24 +21,24 @@
               <!-- ... -->
               
               <!-- 회원정보 변경 폼 -->
-              <form @submit.prevent="updateUserInfo">
+              <div class="mt-4">
                 <div class="form-group">
-                  <label for="name">이메일</label>
-                  <input type="text" class="form-control" id="name" v-model="form.email" required>
+                  <label for="nickname">닉네임</label>
+                  <input type="text" class="form-control" id="nickname" v-model="form.nickName" required>
                 </div>
                 <div class="form-group">
-                  <label for="email">닉네임</label>
-                  <input type="email" class="form-control" id="email" v-model="form.nickName" required>
+                  <label for="email">이메일</label>
+                  <input type="text" class="form-control" id="email" v-model="form.userEmail" required>
                 </div>
                 <div class="form-group">
-                  <label for="nickname">비밀번호</label>
-                  <input type="text" class="form-control" id="nickname" v-model="form.password" required>
+                  <label for="password">비밀번호</label>
+                  <input type="password" class="form-control" id="password" v-model="form.userPassword" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" @click="updateUserInfo">
                   회원정보 변경 저장
                 </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -48,13 +48,14 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import axios from "axios";
+
 const memberStore = "memberStore";
 
 export default {
   computed: {
-    ...mapState(memberStore, ["userInfo","updateUserInfo"]),
+    ...mapState(memberStore, ["userInfo"]),
     userAvatar() {
       return "default-avatar.png";
     },
@@ -62,30 +63,38 @@ export default {
   data() {
     return {
       form: {
-        name: '',
-        email: '',
-        nickname: '',
+        nickName: "",
+        userEmail: "",
+        userPassword: "",
       },
     };
   },
   methods: {
+    ...mapActions(memberStore, ["logout"]),
     handleImageUpload(event) {
       const file = event.target.files[0];
       console.log(file);
       // 이미지 업로드 처리 로직을 추가해주세요.
     },
-    async updateUser() {
+    async updateUserInfo() {
       try {
-        const { name, email, nickname } = this.form;
-        const response = await axios.put(`/trip/user/${this.userInfo.userId}`, {
-          name,
-          email,
-          nickname,
-        });
+        const { nickName, userEmail, userPassword } = this.form;
+        console.log(nickName, userEmail, userPassword);
+        const response = await axios.put(
+          `http://localhost:9999/trip/user/modify/${this.userInfo.userId}`,
+          {
+            nickName,
+            userEmail,
+            userPassword,
+          }
+        );
         console.log("회원정보 변경 완료");
         console.log(response.data); // 변경된 회원정보 응답 확인
 
         // 변경 성공 시 알림 메시지 또는 리다이렉션 등 추가 처리 가능
+        alert("다시 로그인 해주시길 바랍니다");
+        this.logout();
+        this.$router.push({ name: "main" });
       } catch (error) {
         console.error("회원정보 변경 실패", error);
         // 변경 실패 시 알림 메시지 또는 에러 처리 등 추가 처리 가능
