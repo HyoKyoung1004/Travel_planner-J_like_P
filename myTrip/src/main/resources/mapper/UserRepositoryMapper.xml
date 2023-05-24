@@ -42,5 +42,14 @@
 	select userId from user where userAccount Like #{userAccount} OR nickName Like #{userAccount}
 </select>
 
+<update id="updateMemberInfo" parameterType="UserDto">
+  UPDATE user
+  SET 
+      userEmail = #{email},
+      nickname = #{nickname},
+      userPassword = #{password}
+  WHERE userId = #{userId}
+</update>
+
 </mapper>
 

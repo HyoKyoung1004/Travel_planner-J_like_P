@@ -9,7 +9,8 @@ import PlanDetailView from "@/views/PlanDetailView.vue";
 import AttractionListView from "@/views/AttractionListView.vue";
 import MyPageView from "@/views/MyPageView.vue";
 import MainView from "@/views/MainView.vue";
-import WishList from '@/views/MyWishList'
+import WishList from '@/views/MyWishList';
+import UserModify from '@/views/UserModify';
 Vue.use(VueRouter);
 
 const routes = [
@@ -63,6 +64,11 @@ const routes = [
     path: "/wishLst",
     name: "wishList",
     component: WishList,
+  },
+  {
+    path: "/UserModify",
+    name: "UserModify",
+    component: UserModify,
   },
 ];
 

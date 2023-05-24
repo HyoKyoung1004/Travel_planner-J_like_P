@@ -136,10 +136,13 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapState,mapMutations } from 'vuex';
 const planStore ="planStore";
 export default {
   components: {},
+  computed:{
+    ...mapState(planStore,["selectedDayNum"])
+  },
   data() {
     return {
       lanlng: [
@@ -160,6 +163,7 @@ export default {
     MakePlan(idx) {
       this.clearMapState();
       this.clearDayPlan();
+      this.selectedDayNum=null;
       this.$router.push({
         name: "planTrip",
         params: {

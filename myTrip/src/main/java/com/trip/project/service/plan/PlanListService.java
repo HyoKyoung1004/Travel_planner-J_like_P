@@ -160,6 +160,7 @@ public class PlanListService {
 				
 				Map<Integer, Integer> map = new TreeMap<>(comparator);
 				for (int j = 0; j < obj.get(i).size(); j++) {
+					System.out.println("하루의 사이즈는? : "+obj.get(i).size());
 					Integer contentId = ((LinkedHashMap<String, Integer>) (obj.get(i).get(j))).get("content_id");
 					Integer num = ((LinkedHashMap<String, Integer>) (obj.get(i).get(j))).get("num");
 					map.put(num, contentId);
@@ -176,7 +177,14 @@ public class PlanListService {
 				int routeNum=1;
 				
 				List<Integer> rotAttractionDtos = attractionService.isRoute(arr);
-				System.out.println(rotAttractionDtos);
+				System.out.println("a"+(rotAttractionDtos.get(0).equals(rotAttractionDtos.get(1))));
+				System.out.println("b"+rotAttractionDtos.get(0));
+				System.out.println("d"+rotAttractionDtos.get(1));
+				System.out.println("c"+rotAttractionDtos.size());
+				if(rotAttractionDtos.size()==2 && rotAttractionDtos.get(0).equals(rotAttractionDtos.get(1))) {
+					rotAttractionDtos.remove(0);
+				}
+				System.out.print("안죽었냐???? "+rotAttractionDtos);
 //				System.out.println("a"+brr.get(i));
 //				System.out.println("b"+rotAttractionDtos.get(i));
 				for (int j = 0; j < rotAttractionDtos.size(); j++) {

@@ -24,4 +24,6 @@ public interface UserRepository {
 	long getUser(String userAccount);
 
 	Long getUserId(String userAccount);
+
+	boolean updateUserInfo(Long userid, UserDto userDto);
 }

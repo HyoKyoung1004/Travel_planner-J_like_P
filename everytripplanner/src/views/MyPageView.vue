@@ -73,7 +73,7 @@ export default {
       // 이미지 업로드 처리 로직을 추가해주세요.
     },
     changeMyInfo() {
-      // 비밀번호 변경 페이지로 이동하는 로직을 추가해주세요.
+      this.$router.push("UserModify");
     },
     
   },

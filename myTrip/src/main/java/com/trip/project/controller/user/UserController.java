@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -118,11 +119,19 @@ public class UserController {
         return userService.deleteLike(userId);
     }
     @PostMapping("/viewMyPage/image/{userId}")
-    public ResponseEntity<String> addImage(@PathVariable("userId") long userid,@RequestPart(value = "uploadedfiles", required = false) MultipartFile[] uploadedfiles) throws IllegalStateException, IOException {
+    public ResponseEntity<String> addImage(@PathVariable("userId") long userid,@RequestPart(value = "uploadedfiles", required = false) MultipartFile uploadedfiles) throws IllegalStateException, IOException {
     	if(userService.addImage(userid,uploadedfiles)) {
     		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
     	}
     	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+    }
+    
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> updateMemberInfo(@PathVariable("userId") Long userid, @RequestBody UserDto userDto) {
+            if(userService.updateUserInfo(userid, userDto)) {
+            	return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+            }
+            return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
     
     

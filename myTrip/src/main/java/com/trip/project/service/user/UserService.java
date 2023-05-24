@@ -79,49 +79,42 @@ public class UserService {
 		
 		return userRepository.getUserOne(userAccount);
 	}
-	@Transactional 
-	public boolean addImage(long userid, MultipartFile[] uploadedfiles) throws IllegalStateException, IOException {
-		System.out.println("DB에 들어간 후 comment : "+userid); 
+	@Transactional
+	public boolean addImage(long userId, MultipartFile uploadedFile) throws IllegalStateException, IOException {
+	    System.out.println("DB에 들어간 후 comment: " + userId);
+	    System.out.println("filePath: " + uploadPath);
 
-		
-		System.out.println("filePat: "+uploadPath);
-		
-		String today = new SimpleDateFormat("yyMMdd").format(new Date());
-		String saveFolder = uploadPath + File.separator + today;
+	    String today = new SimpleDateFormat("yyMMdd").format(new Date());
+	    String saveFolder = uploadPath + File.separator + today;
 
-		File folder = new File(saveFolder);
-		if (!folder.exists())
-			folder.mkdirs();
-		
-		List<UserFileDto> fileInfos = new ArrayList<UserFileDto>();
-		int fileResult=0;
-		
-		
-		if(uploadedfiles !=null) {
-		for (MultipartFile mfile : uploadedfiles) {
-			UserFileDto userFile = new UserFileDto();
-			String originalFileName = mfile.getOriginalFilename();
-			
-			if (!originalFileName.isEmpty()) {
-				
-				String saveFileName = UUID.randomUUID().toString()
-						+ originalFileName.substring(originalFileName.lastIndexOf('.'));
-				userFile.setSaveFolder(today);
-				userFile.setUserId(userid);
-				userFile.setOriginalFileName(originalFileName);
-				userFile.setSaveFileName(saveFileName);
-				userFile.setUserId(userFile.getUserId());
-				mfile.transferTo(new File(folder, saveFileName));
-				fileResult+=userfileRepository.insert(userFile);
+	    File folder = new File(saveFolder);
+	    if (!folder.exists()) {
+	        folder.mkdirs();
+	    }
 
-			}
-			fileInfos.add(userFile);
-			}
-		}
-		if(fileResult==fileInfos.size())
+	    if (uploadedFile != null && !uploadedFile.isEmpty()) {
+	        String originalFileName = uploadedFile.getOriginalFilename();
+	        if (!originalFileName.isEmpty()) {
+	            String saveFileName = UUID.randomUUID().toString()
+	                    + originalFileName.substring(originalFileName.lastIndexOf('.'));
+	            UserFileDto userFile = new UserFileDto();
+	            userFile.setSaveFolder(today);
+	            userFile.setUserId(userId);
+	            userFile.setOriginalFileName(originalFileName);
+	            userFile.setSaveFileName(saveFileName);
+	            uploadedFile.transferTo(new File(folder, saveFileName));
+	            userfileRepository.insert(userFile);
+	            return true;
+	        }
+	    }
+
+	    return false;
+	}
+	public boolean updateUserInfo(Long userid, UserDto userDto) {
+		if(userRepository.updateUserInfo(userid,userDto)) {
 			return true;
-		else 
-			return false;
+		}
+		return false;
 	}
 
 }
