@@ -23,14 +23,7 @@ public class UserDto implements Serializable {
 	private String userPassword;
 	private String userRole;
 	private String joinDate;
-	private List<UserFileDto> fileInfo;
 	
-	public List<UserFileDto> getFileInfo() {
-		return fileInfo;
-	}
-	public void setFileInfo(List<UserFileDto> fileInfo) {
-		this.fileInfo = fileInfo;
-	}
 	@Override
 	public String toString() {
 		return "UserDto [userId=" + userId + ", userAccount=" + userAccount + ", userEmail=" + userEmail + ", nickName="

@@ -43,6 +43,12 @@
                     alt="Image"
                     class="rounded-0"
                   ></b-card-img>
+                  <!-- <b-card-img
+                    v-else
+                    src="http://localhost:9999/trip/noImage.png"
+                    alt="Image"
+                    class="rounded-0"
+                  ></b-card-img> -->
                 </b-col>
                 <b-col md="8" @click="goDetail(attraction.contentId)">
                   <b-card-body :title="attraction.title">

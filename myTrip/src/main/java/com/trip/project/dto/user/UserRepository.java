@@ -1,6 +1,7 @@
 package com.trip.project.dto.user;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 @Mapper
@@ -14,6 +15,8 @@ public interface UserRepository {
 	Integer findLogin(UserDto user);
 
 	Integer findUserId(long userId);
+	
+	UserDto findUserDto(long userId);
 
 	UserDto viewMypage(long userId);
 
@@ -28,4 +31,12 @@ public interface UserRepository {
 	UserDto findByUsername(String userNickName);
 
 	UserDto findByUserEmail(String email);
+
+	void updateMemberInfo(UserDto userDto);
+
+	UserFileDto getUserImg(int userId);
+
+	int insert(UserFileDto userFile);
+
+	int  deleteUserImg(int userid);
 }

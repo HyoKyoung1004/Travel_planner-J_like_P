@@ -1,14 +1,11 @@
 package com.trip.project.controller.attaction;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +29,6 @@ import com.trip.project.util.PageNavigation;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/attract")
@@ -412,5 +406,30 @@ public class AttracitonController {
 		map.put("attractionArr", attractionArr);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
+	
+	
+	
+	//1. 여행에서 
+	@GetMapping("/random")
+	public void randomTrip(){
+		
+		//랜덤하게 시 가져오기
+		Map<String, Object> mapsido=attractionService.getRamdomsido();
+		System.out.println(mapsido);
+		
+		int target_sido = (Integer)mapsido.get("sido_code");
+		
+		//랜덤하기 구군 가져오기
+		Map<String, Object> mapgugun=attractionService.getRamdomgugun(target_sido);
+
+		int target_gugun = (Integer)mapgugun.get("gugun_code");
+
+		//랜덤하게 여행지 5개 가져오기
+		
+		List<Attraction> randomAttraction = attractionService.getRandomAttraction(target_sido,target_gugun );
+		System.out.println(randomAttraction);
+		
+		
+	} 
 
 }

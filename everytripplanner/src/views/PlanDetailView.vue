@@ -34,7 +34,11 @@
             <template>
               <b-row>
                 <b-col cols="12" class="center">
-                  <b-card no-body class="overflow-hidden" style="width: 100%; height: 130px">
+                  <b-card
+                    no-body
+                    class="overflow-hidden"
+                    style="width: 100%; height: 130px"
+                  >
                     <b-row no-gutters>
                       <b-col md="2" style="align-items: center">
                         <b-card-body style="align-items: center">
@@ -54,7 +58,10 @@
                       <b-col md="8">
                         <b-card-body>
                           <b-row>
-                            <div class="travel-title" style="float: left; margin-left: 15px">
+                            <div
+                              class="travel-title"
+                              style="float: left; margin-left: 15px"
+                            >
                               {{ detailPlan.title }}
                             </div>
                           </b-row>
@@ -62,12 +69,19 @@
                           <b-row>
                             <b-col cols="10">
                               <div style="float: left; margin-left: 15px">
-                                <i class="fa-solid fa-location-dot"></i> {{ detailPlan.addr1 }}
+                                <i class="fa-solid fa-location-dot"></i>
+                                {{ detailPlan.addr1 }}
                                 <br />
                               </div>
                             </b-col>
-                            <b-col cols="2" @click="goAttractionDetail(detailPlan.content_id)">
-                              <i class="fa-solid fa-circle-info" style="font-size: 30px"></i>
+                            <b-col
+                              cols="2"
+                              @click="goAttractionDetail(detailPlan.content_id)"
+                            >
+                              <i
+                                class="fa-solid fa-circle-info"
+                                style="font-size: 30px"
+                              ></i>
                             </b-col>
                           </b-row>
                         </b-card-body>
@@ -82,9 +96,9 @@
                     <a
                       :href="`https://www.google.com/maps/dir/?api=1&amp;origin=${
                         latlng[idx - 1][i][0]
-                      },${latlng[idx - 1][i][1]}&amp;destination=${latlng[idx - 1][i + 1][0]},${
-                        latlng[idx - 1][i + 1][1]
-                      }`"
+                      },${latlng[idx - 1][i][1]}&amp;destination=${
+                        latlng[idx - 1][i + 1][0]
+                      },${latlng[idx - 1][i + 1][1]}`"
                       onclick="window.open(this.href, '_blank', 'width=800, height=600'); return false;"
                       >-&gt; {{ disArr[idx - 1][i] }}km 추천경로
                     </a>
@@ -96,6 +110,7 @@
         </b-row>
       </div>
     </b-container>
+    <br /><br /><br />
   </div>
 </template>
 
@@ -149,7 +164,10 @@ export default {
     initializeMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(this.latlng[0][0][0], this.latlng[0][0][1]), // 초기 지도 중심 좌표 설정
+        center: new kakao.maps.LatLng(
+          this.latlng[0][0][0],
+          this.latlng[0][0][1]
+        ), // 초기 지도 중심 좌표 설정
         level: 7, // 초기 지도 줌 레벨 설정
       };
 
@@ -158,7 +176,9 @@ export default {
       for (var i = 0; i < this.date; i++) {
         const latLngArray = [];
         for (var j = 0; j < this.latlng[i].length; j++) {
-          latLngArray.push(new kakao.maps.LatLng(this.latlng[i][j][0], this.latlng[i][j][1]));
+          latLngArray.push(
+            new kakao.maps.LatLng(this.latlng[i][j][0], this.latlng[i][j][1])
+          );
         }
 
         const color = ["#FF0000", "#00FF00", "#0000FF", "#555555", "#444400"];
@@ -271,9 +291,9 @@ export default {
 }
 
 h3 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-    "Noto Color Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-weight: 600;
   color: #333;
   text-transform: none;
@@ -440,8 +460,8 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
-    4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
 }
 
 .plan-button {

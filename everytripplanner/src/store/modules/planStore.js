@@ -10,11 +10,12 @@ const planStore = {
     startDate: "",
     endDate: "",
     dayDifference: 0,
-    stateVisible: false,
+    stateVisible: "nearAttract",
     markersV: [],
     planItems: [], // 변경된 부분
     selectedDayNum: null,
     dayNum:[],
+    planNameAdd:"",
   },
   mutations: {
     SET_DAYNUM(state,count){
@@ -56,7 +57,7 @@ const planStore = {
       state.markersV.push(markers);
       console.log(state.markersV);
     },
-    setBcards(state, bcards) {
+    setWishList(state, bcards) {
       state.bcards = bcards;
     },
     setNearAttraction(state, nearAttraction) {
@@ -73,8 +74,8 @@ const planStore = {
     setDayDifference(state, date) {
       state.dayDifference = date;
     },
-    SET_MAP_STATE_VISIBILITY(state, isVisible) {
-      state.stateVisible = isVisible;
+    SET_STATE_VISIBLE(state, value) {
+      state.stateVisible = value;
     },
     setPlannerElement(state,{key,value}){
       if (state.planItems[key][0] && !state.planItems[key][0].__ob__) {
@@ -88,11 +89,11 @@ const planStore = {
     }
   },
   actions: {
-    choose({ commit }) {
+    chooseMyWish({ commit }) {
       chooseWishList(
         (data) => {
           console.log(data);
-          commit("setBcards", data);
+          commit("setWishList", data);
         },
         (error) => {
           console.log(error);
@@ -112,9 +113,9 @@ const planStore = {
         }
       );
     },
-    toggleMapStateVisibility({ commit, state }) {
-      commit('SET_MAP_STATE_VISIBILITY', !state.stateVisible);
-      console.log(state.stateVisible);
+    toggleMapStateVisibility({ commit, state }, newState) {
+      const toggledState = state.stateVisible === newState ? "" : newState;
+      commit("SET_STATE_VISIBLE", toggledState);
     },
     addMarker({ commit }, chooseMarker) {
       commit('setMarkers', chooseMarker);

@@ -1,6 +1,6 @@
 import { login } from "@/api/member";
 import jwt_decode from "jwt-decode";
-import { findById } from "@/api/member";
+import { findById, getUserImg } from "@/api/member";
 
 const memberStore = {
   namespaced: true,
@@ -8,6 +8,7 @@ const memberStore = {
     isLogin: false,
     isLoginError: false,
     userInfo: null,
+    userfile: null,
   },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
@@ -19,6 +20,13 @@ const memberStore = {
     SET_USER_INFO: (state, userInfo) => {
       state.isLogin = true;
       state.userInfo = userInfo;
+    },
+    GET_USER_FILE: (state, data) => {
+      state.userfile.fileId = data.fileId;
+      state.userfile.originalFileName = data.originalFileName;
+      state.userfile.saveFileName = data.saveFileName;
+      state.userfile.saveFolder = data.saveFolder;
+      state.userfile.userId = data.userId;
     },
   },
   actions: {
@@ -37,7 +45,7 @@ const memberStore = {
             commit("SET_IS_LOGIN_ERROR", true);
           }
         },
-        () => { },
+        () => {}
       );
     },
     getUserInfo({ commit }, token) {
@@ -49,23 +57,37 @@ const memberStore = {
         (response) => {
           if (response.data.message === "success") {
             commit("SET_USER_INFO", response.data.userInfo);
+
+            // this.actions.getUserFile({ commit }, response.data.userInfo.userId);
           } else {
             console.log("유저 정보 없음!!");
           }
         },
         (error) => {
           console.log(error);
-        },
+        }
       );
     },
     logout({ commit }) {
-      commit('SET_IS_LOGIN', false);
-      commit('SET_IS_LOGIN_ERROR', false);
-      commit('SET_USER_INFO', null);
-      sessionStorage.removeItem('access-token');
-      sessionStorage.removeItem('refresh-token');
+      commit("SET_IS_LOGIN", false);
+      commit("SET_IS_LOGIN_ERROR", false);
+      commit("SET_USER_INFO", null);
+      sessionStorage.removeItem("access-token");
+      sessionStorage.removeItem("refresh-token");
       // 필요에 따라 추가적인 로그아웃 동작을 수행할 수 있습니다.
-    }
+    },
+    getUserFile({ commit }) {
+      console.log(this.state.userInfo);
+      getUserImg(
+        this.state.userInfo.userId,
+        ({ data }) => {
+          commit("GET_USER_FILE", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
 
     // logout({ commit }) {
     //     // 로그아웃 처리
@@ -81,7 +103,7 @@ const memberStore = {
       return state.token;
     },
   },
-}
+};
 export default memberStore;
 // // store.js
 // import Vue from 'vue';

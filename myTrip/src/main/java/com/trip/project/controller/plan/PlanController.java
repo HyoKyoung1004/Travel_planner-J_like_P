@@ -211,6 +211,7 @@ public class PlanController {
 
 		if (sub > 0)
 			return "D+" + sub;
+		else if (sub ==0) return "D-" + sub;
 		else
 			return "D" + sub;
 	}

@@ -1,22 +1,25 @@
 <template>
-    <div>안녕하세요
-        <to-sig-in-view></to-sig-in-view>
-    </div>
+  <div>
+    <to-sig-in-view></to-sig-in-view>
+    <naver-login-button></naver-login-button>
+  </div>
 </template>
 
 <script>
 import ToSigInView from "@/components/Sign/ToSigInView.vue";
+import NaverLoginButton from "@/components/Sign/NaverLoginButton.vue";
 export default {
-    components: {
-        ToSigInView
-    },
-    data() {
-        return {
-            message: '',
-        };
-    },
-    created() {},
-    methods: {},
+  components: {
+    ToSigInView,
+    NaverLoginButton,
+  },
+  data() {
+    return {
+      message: "",
+    };
+  },
+  created() {},
+  methods: {},
 };
 </script>
 

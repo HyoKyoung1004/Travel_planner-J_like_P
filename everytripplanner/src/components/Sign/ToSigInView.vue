@@ -51,16 +51,14 @@
       </b-col>
       <b-col></b-col>
     </b-row>
-    <login-naver></login-naver>
   </b-container>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
-import LoginNaver from "./NaverLoginButton.vue";
 const memberStore = "memberStore";
 export default {
-  components: { LoginNaver },
+  components: {},
   data() {
     return {
       message: "",
@@ -75,7 +73,7 @@ export default {
   },
   created() {},
   methods: {
-    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo", "getUserFile"]),
     async confirm() {
       await this.userConfirm(this.user);
       let token = sessionStorage.getItem("access-token");
