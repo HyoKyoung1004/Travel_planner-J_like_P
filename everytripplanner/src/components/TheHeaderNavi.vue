@@ -16,9 +16,7 @@
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
             <b-nav-item @click="wishList">위시리스트</b-nav-item>
             <b-nav-item @click.prevent="onClickLogout">로그아웃</b-nav-item>
-            <b-nav-item
-              >{{ userInfo.nickName }}({{ userInfo.userAccount }}) 님,
-            </b-nav-item>
+            <b-nav-item>{{ userInfo.nickName }}({{ userInfo.userAccount }}) 님, </b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto" right v-else>
@@ -33,7 +31,9 @@
             <b-navbar-nav right>
               <b-nav-item-dropdown>
                 <template #button-content>
-                  <b-avatar></b-avatar>
+                  <!-- src="https://placekitten.com/300/300" -->
+                  <b-avatar v-if="userInfo == null"></b-avatar>
+                  <b-avatar v-else :src="img"></b-avatar>
                 </template>
                 <b-dropdown-item @click="myPage">마이페이지</b-dropdown-item>
               </b-nav-item-dropdown>
@@ -47,7 +47,8 @@
 
 <script>
 // import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
-import { mapState, mapActions,mapMutations} from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
+import { getUserImg } from "@/api/member";
 
 const memberStore = "memberStore";
 const planStore = "planStore";
@@ -57,15 +58,52 @@ export default {
   data() {
     return {
       message: "",
+      uploadedfiles: null,
+      fileId: 0,
+      originalFileName: null,
+      saveFileName: null,
+      saveFolder: null,
+      userId: 0,
     };
   },
   computed: {
-    ...mapState(planStore,["selectedDayNum"]),
-    ...mapState(memberStore, ["userInfo"]),
+    ...mapState(planStore, ["selectedDayNum"]),
+    ...mapState(memberStore, ["userInfo", "userfile"]),
+    img() {
+      getUserImg(
+        this.userInfo.userId,
+        ({ data }) => {
+          console.log(data);
+          this.fileId = data.fileId;
+          this.originalFileName = data.originalFileName;
+          this.saveFileName = data.saveFileName;
+          this.saveFolder = data.saveFolder;
+          this.userId = data.userId;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      return `http://localhost:9999/trip/${this.saveFolder}/${this.saveFileName}`;
+    },
   },
-  created() {},
+  watch: {
+    ...mapActions(memberStore, ["getUserFile"]),
+
+    saveFileName() {
+      console.log("파일 변경됨");
+    },
+    userInfo() {
+      this.getUserFile(this.userInfo.userId);
+    },
+  },
+  created() {
+    console.log("여기가 파일 가져오는뎅");
+    console.log(this.userfile);
+  },
+
   methods: {
-    ...mapMutations(planStore, ['clearMapState','clearDayPlan']),
+    ...mapMutations(planStore, ["clearMapState", "clearDayPlan"]),
     ...mapActions(memberStore, ["logout"]),
     sigin() {
       this.$router.push({ path: "signin" });
@@ -74,9 +112,9 @@ export default {
       this.$router.push({ path: "signup" });
     },
     myPage() {
-      if(this.userInfo  !=null ){
-      this.$router.push({ path: "myPage" });
-      }else{
+      if (this.userInfo != null) {
+        this.$router.push({ path: "myPage" });
+      } else {
         alert("로그인점 ㅋㅋ");
       }
     },
@@ -85,7 +123,7 @@ export default {
       else {
         this.clearMapState();
         this.clearDayPlan();
-        this.selectedDayNum=null;
+        this.selectedDayNum = null;
         this.$router.push({
           name: "planTrip",
         });

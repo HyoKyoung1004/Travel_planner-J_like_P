@@ -1,5 +1,13 @@
 <template>
   <div class="my-page">
+    <b-container class="bv-example-row">
+      <b-row>
+        <h3>마이페이지 -</h3>
+        &nbsp; &nbsp;
+        <h3 style="color: #0a97cd">프로필</h3>
+      </b-row>
+      <hr style="margin-top: 0px" />
+    </b-container>
     <div class="container">
       <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -7,7 +15,13 @@
             <div class="card-body">
               <div class="user-profile">
                 <div class="profile-image">
-                  <img :src="userAvatar" alt="User Avatar" />
+                  <img
+                    v-if="fileId != null"
+                    :src="`http://localhost:9999/trip/${saveFolder}/${saveFileName}`"
+                    alt="My Image"
+                  />
+                  <img v-else src="../assets/user.png" alt="User Avatar" />
+
                   <div class="upload-button">
                     <input type="file" @change="handleImageUpload" accept="image/*" />
                     <span>프로필 이미지 업로드</span>
@@ -33,18 +47,7 @@
                 </div>
               </div>
               <div class="user-metrics">
-                <!-- <div class="metric-item">
-                  <h5 class="metric-label">마일리지</h5>
-                  <p class="metric-value">{{ userInfo.mileage }}</p>
-                </div>
-                <div class="metric-item">
-                  <h5 class="metric-label">포인트</h5>
-                  <p class="metric-value">{{ userInfo.point }}</p>
-                </div> -->
-
-                <button class="btn btn-primary" @click="changeMyInfo">
-                    회원정보 변경하기
-                </button>
+                <button class="btn btn-primary" @click="changeMyInfo">회원정보 변경하기</button>
               </div>
             </div>
           </div>
@@ -56,15 +59,45 @@
 
 <script>
 import { mapState } from "vuex";
-
 const memberStore = "memberStore";
-
+import { getUserImg } from "@/api/member";
 export default {
+  data() {
+    return {
+      fileId: 0,
+      originalFileName: null,
+      saveFileName: null,
+      saveFolder: null,
+      userId: 0,
+    };
+  },
+  created() {
+    console.log(this.userInfo);
+    getUserImg(
+      this.userInfo.userId,
+      ({ data }) => {
+        console.log(data);
+        this.fileId = data.fileId;
+        this.originalFileName = data.originalFileName;
+        this.saveFileName = data.saveFileName;
+        this.saveFolder = data.saveFolder;
+        this.userId = data.userId;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
-    userAvatar() {
-      return this.userInfo.avatar || "default-avatar.png";
-    },
+    // userAvatar() {
+    //   if (this.userInfo.userimg == null) {
+    //     console.log(
+    //       "null이면 넣을 이미지 넣고, 널이 아니면 실제 이미지 보여주는 걸로 바꿔야함,,,,,"
+    //     );
+    //   }
+    //   return this.userInfo.userimg || "default-avatar.png";
+    // },
   },
   methods: {
     handleImageUpload(event) {
@@ -75,7 +108,6 @@ export default {
     changeMyInfo() {
       this.$router.push("UserModify");
     },
-    
   },
 };
 </script>
@@ -83,9 +115,13 @@ export default {
 <style scoped>
 .my-page {
   margin-top: 50px;
-  max-width: 800px;
-   margin: 0 auto;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
+img {
+  width: 200px;
+  height: 200px;
 }
 
 .card {

@@ -29,4 +29,10 @@ public interface UserRepository {
 	Long getUserId(String userAccount);
 
 	void updateMemberInfo(UserDto userDto);
+
+	UserFileDto getUserImg(int userId);
+
+	int insert(UserFileDto userFile);
+
+	int  deleteUserImg(int userid);
 }
