@@ -126,12 +126,16 @@ public class UserController {
     	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
     
-    @PutMapping("/{userId}")
-    public ResponseEntity<?> updateMemberInfo(@PathVariable("userId") Long userid, @RequestBody UserDto userDto) {
-            if(userService.updateUserInfo(userid, userDto)) {
-            	return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-            }
-            return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+    @PutMapping("/modify/{userId}")
+    public ResponseEntity<?> updateMemberInfo(@PathVariable("userId") int userid, @RequestBody UserDto userDto) {
+        try {
+        	System.out.println("ㅁㄴㅇㄴㅁ"+userDto);
+            userService.updateMemberInfo(userid, userDto);
+            return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+          } catch (Exception e) {
+        	  return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+          }
+
     }
     
     
