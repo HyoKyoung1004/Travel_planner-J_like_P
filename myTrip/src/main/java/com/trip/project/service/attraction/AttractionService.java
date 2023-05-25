@@ -311,10 +311,20 @@ public class AttractionService {
 	}
 	public Map<String, Object> getRamdomgugun(int target_sido) {
 		return attractionRepository.getRandomGugun(target_sido);
-
+	}
+	
+	public List<Map<String, Object>> getAllgugun(int target_sido) {
+		return attractionRepository.getAllGugun(target_sido);
 	}
 	public List<Attraction> getRandomAttraction(int target_sido, int target_gugun) {
 		return attractionRepository.getRandomAttraction(target_sido, target_gugun);
+	}
+	public int findSido(int gugun_code) {
+		return attractionRepository.findSido(gugun_code);
+	}
+	public List<Attraction> getDetailAttraction(int target_sido, int target_gugun, int target_type) {
+		// TODO Auto-generated method stub
+		return attractionRepository.getDetailAttraction(target_sido, target_gugun,target_type);
 	}
 
 

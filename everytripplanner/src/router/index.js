@@ -11,6 +11,7 @@ import MyPageView from "@/views/MyPageView.vue";
 import MainView from "@/views/MainView.vue";
 import WishList from '@/views/MyWishList';
 import UserModify from '@/views/UserModify';
+import RandomTripDetailView from '@/views/RandomTripDetailView'
 Vue.use(VueRouter);
 
 const routes = [
@@ -29,6 +30,11 @@ const routes = [
     path: "/attractionList",
     name: "attractionList",
     component: AttractionListView,
+  },
+  {
+    path: "/RandomTripDetailView",
+    name: "RandomTripDetailView",
+    component: RandomTripDetailView,
   },
   {
     path: "/myPage",

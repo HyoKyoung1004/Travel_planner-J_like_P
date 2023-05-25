@@ -16,8 +16,21 @@ const planStore = {
     selectedDayNum: null,
     dayNum:[],
     planNameAdd:"",
+    randomplan:[],
+    sido:0,
+    gugun:0,
   },
   mutations: {
+    SET_RANDOM_CONTENT(state,data){
+      state.sido=data;
+  },
+    SET_RANDOM_CONTENT_SUB(state,data){
+      state.gugun=data;
+      console.log(state.gugun);
+  },
+    SET_RANDOM_PALN(state,data){
+        state.randomplan=data;
+    },
     SET_DAYNUM(state,count){
         state.dayNum[count] +=1;
     },
@@ -48,7 +61,6 @@ const planStore = {
       state.markersV = [];
       state.nearAttraction = {};
       state.bcards = {};
-      console.log("실행이안되고지랄야야", state.markersV);
     },
     clearDayPlan(state) {
       state.planItems = [];
@@ -131,6 +143,18 @@ const planStore = {
       commit('setPlannerElement', { key: temp.day, value:temp.value });
       // console.log(day);
       // console.log(value);
+    },
+    setRandomPlan({commit},data){
+      console.log(data);
+      commit('SET_RANDOM_PALN',data);
+    },
+    setSidoGugun({commit},data){
+      console.log(data);
+      commit('SET_RANDOM_CONTENT',data);
+    },
+    setSidoGugunSub({commit},data){
+      console.log(data);
+      commit('SET_RANDOM_CONTENT_SUB',data);
     }
   },
   getters: {

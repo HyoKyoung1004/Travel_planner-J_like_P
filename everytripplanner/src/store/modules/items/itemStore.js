@@ -5,6 +5,7 @@ const itemStore = {
   state: {
     sidos: [{ value: null, text: "선택하세요" }],
     guguns: [{ value: null, text: "선택하세요" }],
+    random_gugun:[{}],
   },
   getters: {},
   mutations: {
@@ -20,9 +21,15 @@ const itemStore = {
         state.sidos.push({ value: sido.sido_code, text: sido.sido_name });
       });
     },
+    SET_GUGUN_RANDOM_LIST(state, sidos) {
+      sidos.forEach((sido) => {
+      console.log(sido.sido_code);
+      state.sidos.push({ value: sido.sido_code, text: sido.sido_name });
+    });
+  },
     SET_GUGUN_LIST(state, guguns) {
       guguns.forEach((gugun) => {
-        state.guguns.push({ value: gugun.gugun_code, text: gugun.gugun_name });
+        state.guguns.push(gugun);
       });
     },
   },
@@ -39,6 +46,18 @@ const itemStore = {
       );
     },
     getGugun: ({ commit }, sidoCode) => {
+      const params = { sido: sidoCode };
+        gugunList(
+        params,
+        ({ data }) => {
+          commit("SET_GUGUN_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    getRandomGugun: ({ commit }, sidoCode) => {
       const params = { sido: sidoCode };
         gugunList(
         params,

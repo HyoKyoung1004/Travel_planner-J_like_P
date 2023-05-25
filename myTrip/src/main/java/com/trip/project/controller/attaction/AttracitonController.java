@@ -25,6 +25,7 @@ import com.trip.project.dto.attraction.SidoGugunCodeDto;
 import com.trip.project.dto.comment.CommentDto;
 import com.trip.project.service.attraction.AttractionService;
 import com.trip.project.service.comment.CommentService;
+import com.trip.project.service.plan.PlanListService;
 import com.trip.project.util.PageNavigation;
 
 import io.swagger.annotations.ApiOperation;
@@ -41,6 +42,9 @@ public class AttracitonController {
 	
 	@Autowired
 	CommentService commentService;
+	
+	@Autowired
+	PlanListService planListservice;
 
 	final int naviSize = 10; // 네비게이션 크기
 	final int sizePerPage = 10; // 페이지에 보여 줄 게시글 수
@@ -428,7 +432,56 @@ public class AttracitonController {
 		
 		List<Attraction> randomAttraction = attractionService.getRandomAttraction(target_sido,target_gugun );
 		System.out.println(randomAttraction);
+		List<Attraction> realAttraction = planListservice.findShorPathRandom(randomAttraction);
+		System.out.println(realAttraction);
 		
+	} 
+	
+	//시에 해당하는 구군 가져오기 
+	@GetMapping("/random/{sido_code}")
+	public ResponseEntity<?> getGugun(@PathVariable("sido_code") int sido_code){
+		
+		int target_sido = sido_code;
+		System.out.println("@@@@@"+target_sido+"@@@@@@");
+		//랜덤하기 구군 가져오기
+		List<Map<String, Object>> mapgugun=attractionService.getAllgugun(target_sido);
+		System.out.println("이야야야 ㅋㅋ"+mapgugun);
+		
+		return new ResponseEntity<List<Map<String, Object>>>(mapgugun, HttpStatus.OK);
+		
+	} 
+	
+	@GetMapping("/random/{sido_code}/{gugun_code}")
+	public ResponseEntity<?> getAttraction(@PathVariable("gugun_code") int gugun_code,@PathVariable("sido_code") int sido_code){
+		
+		int target_gugun = gugun_code;
+		
+		int target_sido = sido_code;
+		System.out.println(target_gugun+" "+target_sido);
+		//랜덤하기 구군 가져오기
+		List<Attraction> randomAttraction = attractionService.getRandomAttraction(target_sido,target_gugun);
+		System.out.println("넌나와야지 "+randomAttraction);
+		List<Attraction> realAttraction = planListservice.findShorPathRandom(randomAttraction);
+		
+
+		
+		return new ResponseEntity<List<Attraction>>(realAttraction, HttpStatus.OK);
+		
+	} 
+	
+	@GetMapping("/random/{sido_code}/{gugun_code}/{content_type_id}")
+	public ResponseEntity<?> getAttraction(@PathVariable("gugun_code") int gugun_code,@PathVariable("sido_code") int sido_code,@PathVariable("content_type_id") int content_type_id){
+		
+		int target_gugun = gugun_code;
+		
+		int target_sido = sido_code;
+		int target_type = content_type_id;
+		//랜덤하기 구군 가져오기
+		List<Attraction> randomAttraction = attractionService.getDetailAttraction(target_sido,target_gugun,target_type);
+		System.out.println("넌나와야지 "+randomAttraction);
+		List<Attraction> realAttraction = planListservice.findShorPathRandom(randomAttraction);
+		System.out.println("너도나와야지~~~~ "+realAttraction);
+		return new ResponseEntity<List<Attraction>>(realAttraction, HttpStatus.OK);
 		
 	} 
 

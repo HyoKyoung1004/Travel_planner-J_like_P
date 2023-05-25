@@ -16,6 +16,7 @@
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
             <b-nav-item @click="wishList">위시리스트</b-nav-item>
             <b-nav-item @click.prevent="onClickLogout">로그아웃</b-nav-item>
+            <b-nav-item @click="randomTrip">랜덤여행</b-nav-item>
             <b-nav-item
               >{{ userInfo.nickName }}({{ userInfo.userAccount }}) 님,
             </b-nav-item>
@@ -79,6 +80,9 @@ export default {
       }else{
         alert("로그인점 ㅋㅋ");
       }
+    },
+    randomTrip(){
+      this.$router.push({name: "RandomTripDetailView"});
     },
     plantripview() {
       if (this.userInfo == null) alert("로그인을 후 이용 가능합니다.");

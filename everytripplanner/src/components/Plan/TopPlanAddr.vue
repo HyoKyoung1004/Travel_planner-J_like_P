@@ -137,6 +137,7 @@
 
 <script>
 import { mapState,mapMutations } from 'vuex';
+
 const planStore ="planStore";
 export default {
   components: {},
@@ -157,19 +158,33 @@ export default {
       ],
     };
   },
-  created() {},
+created() {
+  this.$router.afterEach((to) => {
+    if (to.name === 'planTrip') {
+      if (to.params.lat) {
+        this.latitude = to.params.lat;
+        this.longitude = to.params.lng;
+      }
+    }
+  });
+},
   methods: {
     ...mapMutations(planStore, ['clearMapState','clearDayPlan']),
     MakePlan(idx) {
       this.clearMapState();
       this.clearDayPlan();
       this.selectedDayNum=null;
-      this.$router.push({
-        name: "planTrip",
-        params: {
-          lat: this.lanlng[idx - 1].lat,
-          lng: this.lanlng[idx - 1].lng,
-        },
+      this.$nextTick(() => {
+        const lat = this.lanlng[idx - 1].lat;
+        const lng = this.lanlng[idx - 1].lng;
+        console.log(lat+" "+lng);
+        this.$router.push({
+          name: "planTrip",
+          params: {
+            lat: lat,
+            lng: lng,
+          },
+        });
       });
     },
   },

@@ -11,7 +11,6 @@ const planStore = "planStore";
 export default {
   name: "KaKaoMap",
   components: {},
-  setup() {},
   computed:{
     ...mapState(planStore, ["markersV"]),
     
@@ -30,10 +29,16 @@ export default {
   },
   watch:{
     latitude(){
+      if (this.$route.params.lat) {
+      this.latitude = this.$route.params.lat;
+      }
       console.log("??? :",this.latitude);
       this.$emit("lat",this.latitude);
     },
     longitude(){
+      if (this.$route.params.lat) {
+      this.longitude = this.$route.params.lng;
+      }
       console.log("??? :",this.longitude);
       this.$emit("lng",this.longitude);
     },
