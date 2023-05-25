@@ -5,28 +5,28 @@ const itemStore = {
   state: {
     sidos: [{ value: null, text: "선택하세요" }],
     guguns: [{ value: null, text: "선택하세요" }],
-    random_gugun:[{}],
+    random_gugun: [{}],
   },
   getters: {},
   mutations: {
-      CLEAR_SIDO_LIST(state) {
+    CLEAR_SIDO_LIST(state) {
       state.sidos = [{ value: null, text: "선택하세요" }];
     },
     CLEAR_GUGUN_LIST(state) {
       state.guguns = [{ value: null, text: "선택하세요" }];
     },
     SET_SIDO_LIST(state, sidos) {
-        sidos.forEach((sido) => {
+      sidos.forEach((sido) => {
         console.log(sido.sido_code);
         state.sidos.push({ value: sido.sido_code, text: sido.sido_name });
       });
     },
     SET_GUGUN_RANDOM_LIST(state, sidos) {
       sidos.forEach((sido) => {
-      console.log(sido.sido_code);
-      state.sidos.push({ value: sido.sido_code, text: sido.sido_name });
-    });
-  },
+        console.log(sido.sido_code);
+        state.sidos.push({ value: sido.sido_code, text: sido.sido_name });
+      });
+    },
     SET_GUGUN_LIST(state, guguns) {
       guguns.forEach((gugun) => {
         state.guguns.push(gugun);
@@ -35,9 +35,9 @@ const itemStore = {
   },
   actions: {
     getSido: ({ commit }) => {
-          sidoList(
-              ({ data }) => {
-                  console.log(data);
+      sidoList(
+        ({ data }) => {
+          console.log(data);
           commit("SET_SIDO_LIST", data);
         },
         (error) => {
@@ -47,9 +47,11 @@ const itemStore = {
     },
     getGugun: ({ commit }, sidoCode) => {
       const params = { sido: sidoCode };
-        gugunList(
+      gugunList(
         params,
         ({ data }) => {
+          console.log("여기가 action");
+          console.log(data);
           commit("SET_GUGUN_LIST", data);
         },
         (error) => {
@@ -59,7 +61,7 @@ const itemStore = {
     },
     getRandomGugun: ({ commit }, sidoCode) => {
       const params = { sido: sidoCode };
-        gugunList(
+      gugunList(
         params,
         ({ data }) => {
           commit("SET_GUGUN_LIST", data);
