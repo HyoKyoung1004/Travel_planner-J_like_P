@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,15 +25,19 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.trip.project.dto.comment.CommentDto;
 import com.trip.project.dto.user.UserDto;
+import com.trip.project.dto.user.UserFileDto;
 import com.trip.project.service.jwt.JwtServiceImpl;
 import com.trip.project.service.user.UserService;
 
 import io.swagger.annotations.ApiParam;
+import javax.servlet.http.Cookie;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin("*")
+//@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*", allowCredentials = "true")
 public class UserController {
     
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -118,6 +123,7 @@ public class UserController {
     public int deleteUser(@PathVariable("userId") long userId) throws Exception {
         return userService.deleteLike(userId);
     }
+    
     @PostMapping("/viewMyPage/image/{userId}")
     public ResponseEntity<String> addImage(@PathVariable("userId") long userid,@RequestPart(value = "uploadedfiles", required = false) MultipartFile uploadedfiles) throws IllegalStateException, IOException {
     	if(userService.addImage(userid,uploadedfiles)) {
@@ -126,17 +132,53 @@ public class UserController {
     	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
     
-    @PutMapping("/modify/{userId}")
-    public ResponseEntity<?> updateMemberInfo(@PathVariable("userId") int userid, @RequestBody UserDto userDto) {
-        try {
-        	System.out.println("ㅁㄴㅇㄴㅁ"+userDto);
-            userService.updateMemberInfo(userid, userDto);
-            return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
-          } catch (Exception e) {
-        	  return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
-          }
+    @GetMapping("/login/oauth2/test")
+    
+    public ResponseEntity<?> loginData(HttpServletRequest req) {
+    
+    	System.out.println("여기까지?");
+    	HttpSession session = req.getSession();
+    	System.out.println(session.getAttribute("loginData"));
+//    	System.out.println(session.getAttribute("test"));
+//
+//    	
+//        String data = (String) session.getAttribute("myData");
+//        System.out.println(data);
+//    	
+//    	Cookie[] cookies = req.getCookies();
+//    	  
+//    	  for(Cookie c : cookies) {
+//    	  	System.out.println(c.getName());  // 쿠키 이름 가져오기
+//    	  	System.out.println(c.getValue());  // 쿠키 값 가져오기
+//    	  }
+      	Map<String, Object> resultMap = new HashMap<>();
+      	resultMap = (Map<String, Object>) session.getAttribute("loginData");
 
+      	System.out.println(resultMap);
+      	if(resultMap.size()>0)
+      		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.ACCEPTED);    
+      	else 
+        	return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
     }
     
+    @PostMapping("/modify/{userId}")
+    public ResponseEntity<?> updateMemberInfo(@PathVariable("userId") int userid, @RequestPart(value = "user") UserDto user,  @RequestPart(value = "uploadedfiles", required = false) MultipartFile[] uploadedfiles) throws IllegalStateException, IOException {
+     
+        	System.out.println("ㅁㄴㅇㄴㅁ"+user);
+        	userService.updateMemberInfo(userid, user);
+//            
+            userService.uploadUerImg(userid, user, uploadedfiles);
+            
+            return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
+         
+    }
+    
+    //사용자 image가져오기
+    @GetMapping("/userimage/{userId}")
+    public ResponseEntity<?> updateMemberInfo(@PathVariable("userId") int userId) {
+    	System.out.println("사용자  이미지 좀 가져오자");
+    	UserFileDto  userimgFile = userService.getUserImage(userId);
+    	return new ResponseEntity<UserFileDto>(userimgFile, HttpStatus.OK);
+    }
     
 }

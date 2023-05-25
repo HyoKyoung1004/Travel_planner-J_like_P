@@ -103,6 +103,13 @@ public class PlanService {
 		
 	}
 
+	public ArrayList<Plan> getPlanFour() {
+		
+		return planRepository.planRandomFour();
+	}
+
+
+
 
 	
 

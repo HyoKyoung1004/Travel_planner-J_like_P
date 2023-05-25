@@ -71,4 +71,8 @@ from planList p join attraction_info a on p.content_id = a.content_id where plan
 	<select id="getPlanUser" resultType="Integer">
 	        select count(*) from invite where plan_id = #{planId} and userId= #{userId}
 	</select>
+	
+	<select id="planRandomFour" resultType="com.trip.project.dto.plan.Plan" >
+		select * from plan order by rand() limit 4
+	</select>
 </mapper>

@@ -42,7 +42,9 @@ public class WishListController {
 			return new ResponseEntity<String>("insert", HttpStatus.OK);
 		}else { //delete
 			System.out.println("삭제:");
-			service.delete(contentId, userId);
+			System.out.println(contentId+", "+userId);
+			int k= service.delete(contentId, userId);
+			System.out.println(k);
 			return new ResponseEntity<String>("delete", HttpStatus.OK);
 
 		}

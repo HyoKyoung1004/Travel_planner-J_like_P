@@ -1,26 +1,20 @@
 package com.trip.project.controller.plan;
 
-import java.io.Console;
-import java.lang.reflect.Array;
 import java.security.Principal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.trip.project.dto.attraction.AttractionDto;
 import com.trip.project.dto.plan.Plan;
 import com.trip.project.dto.plan.PlanDetail;
-import com.trip.project.dto.plan.PlanListRequestDto;
-import com.trip.project.dto.plan.PlanRequestDto;
 import com.trip.project.dto.plan.UserPlanList;
 import com.trip.project.dto.wishList.WishListDto;
 import com.trip.project.service.attraction.AttractionService;
@@ -84,10 +76,10 @@ public class PlanController {
 		String planName = (String) test.get("plan_name");
 		LocalDate startDate = LocalDate.parse((String) test.get("startDate"));
 		LocalDate endDate = LocalDate.parse((String) test.get("endDate"));
-		//System.out.println(userId + " " + planName + " " + startDate + " " + endDate);
-		
-		
-        ArrayList<ArrayList<Object>> obj =  (ArrayList<ArrayList<Object>>) test.get("planlist");
+		// System.out.println(userId + " " + planName + " " + startDate + " " +
+		// endDate);
+
+		ArrayList<ArrayList<Object>> obj = (ArrayList<ArrayList<Object>>) test.get("planlist");
 //        for (int i = 0; i < obj.size(); i++) {
 //            ArrayList<Object> innerList = obj.get(i);
 //            for (int j = 0; j < innerList.size(); j++) {
@@ -98,41 +90,39 @@ public class PlanController {
 //                }
 //            }
 //        }
-        for (int i = 0; i < obj.size(); i++) {
-            ArrayList<Object> innerList = obj.get(i);
-            
-            for (int j = innerList.size() - 1; j >= 0; j--) {
-                Object element = innerList.get(j);
-                
-                if (element instanceof Map) {
-                    Map<String, Object> map = (Map<String, Object>) element;
-                    
-                    if (!map.containsKey("content_id") || map.isEmpty()) {
-                        innerList.remove(j);
-                    }
-                }
-            }
-            
-            if (innerList.isEmpty()) {
-                obj.remove(innerList);
-            }
-        }
+		for (int i = 0; i < obj.size(); i++) {
+			ArrayList<Object> innerList = obj.get(i);
 
-        System.out.println("어떻게될까??");
-        System.out.println(obj);
-        System.out.println("어떻게될까??");
-        for(int i=0;i<obj.size();i++) {
-            for(int j=0;j<obj.get(i).size();j++) {
-                Integer contentId = ((LinkedHashMap<String, Integer>)(obj.get(i).get(j))).get("content_id");
-                Integer num = ((LinkedHashMap<String, Integer>)(obj.get(i).get(j))).get("num");        
-                System.out.println(contentId+", "+num);
-                
-            }
-		
-        }
-		
-		
-		
+			for (int j = innerList.size() - 1; j >= 0; j--) {
+				Object element = innerList.get(j);
+
+				if (element instanceof Map) {
+					Map<String, Object> map = (Map<String, Object>) element;
+
+					if (!map.containsKey("content_id") || map.isEmpty()) {
+						innerList.remove(j);
+					}
+				}
+			}
+
+			if (innerList.isEmpty()) {
+				obj.remove(innerList);
+			}
+		}
+
+		System.out.println("어떻게될까??");
+		System.out.println(obj);
+		System.out.println("어떻게될까??");
+		for (int i = 0; i < obj.size(); i++) {
+			for (int j = 0; j < obj.get(i).size(); j++) {
+				Integer contentId = ((LinkedHashMap<String, Integer>) (obj.get(i).get(j))).get("content_id");
+				Integer num = ((LinkedHashMap<String, Integer>) (obj.get(i).get(j))).get("num");
+				System.out.println(contentId + ", " + num);
+
+			}
+
+		}
+
 		planservice.addPlan(planName, startDate, endDate, userId);
 		planListService.addPlanList(test);
 		return ResponseEntity.ok().body(1);
@@ -148,16 +138,16 @@ public class PlanController {
 //		return planservice.addMember(plan_name, userId);
 //	}
 
-	
 	@GetMapping("/joinPlanMember/{planId}/{userAccount}")
-	public ResponseEntity<?> joinPlanMember(@PathVariable("planId") int planId, @PathVariable("userAccount") String userAccount) {
-		System.out.println(planId +", "+userAccount);
-		int n= planservice.joinPlanMember(planId, userAccount);
-		if(n==-1) {
+	public ResponseEntity<?> joinPlanMember(@PathVariable("planId") int planId,
+			@PathVariable("userAccount") String userAccount) {
+		System.out.println(planId + ", " + userAccount);
+		int n = planservice.joinPlanMember(planId, userAccount);
+		if (n == -1) {
 			return new ResponseEntity<String>("not user", HttpStatus.OK);
-		}else if(n==1) {
+		} else if (n == 1) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
-		}else if(n==-2) {
+		} else if (n == -2) {
 			System.out.println("이미 추가된 멤버");
 			return new ResponseEntity<String>("already", HttpStatus.OK);
 
@@ -165,8 +155,7 @@ public class PlanController {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
 	}
-	
-	
+
 	@GetMapping("/myplanList/{userId}")
 	public ResponseEntity<?> myPlanList(@PathVariable("userId") long userId) {
 
@@ -185,7 +174,7 @@ public class PlanController {
 			tmp.setGugunName((String) addrName.get("gugunName"));
 			tmp.setDday(calDday(tmp.getPlan_start()));
 		}
-		
+
 		System.out.println(userPlanList);
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -211,6 +200,8 @@ public class PlanController {
 
 		if (sub > 0)
 			return "D+" + sub;
+		else if (sub == 0)
+			return "D-" + sub;
 		else
 			return "D" + sub;
 	}
@@ -218,124 +209,159 @@ public class PlanController {
 	@GetMapping("/planDetail/{planId}")
 	public ResponseEntity<Map<String, Object>> planDetail(@PathVariable("planId") int planId) {
 
-		//Day 개수
+		// Day 개수
 		int n = planservice.getPlanDate(planId);
 		System.out.println(n);
-		
-		
+
 		ArrayList<PlanDetail> planDetailArr[] = new ArrayList[n];
 		ArrayList<Double>[] disArr = new ArrayList[n];
 		ArrayList<double[]> latlng[] = new ArrayList[n];
 
-
-		
-		for(int i=0;i<n;i++) {
+		for (int i = 0; i < n; i++) {
 			planDetailArr[i] = new ArrayList<PlanDetail>();
 			disArr[i] = new ArrayList<Double>();
 			latlng[i] = new ArrayList<double[]>();
 
 		}
-		for(int i=0;i<n;i++) {
-			planDetailArr[i] = planservice.getPlanDetail(planId, i+1);
+		for (int i = 0; i < n; i++) {
+			planDetailArr[i] = planservice.getPlanDetail(planId, i + 1);
 			System.out.println(planDetailArr[i]);
-			
-			//위경도 따로 모아놓기
-			for(int j=0;j<planDetailArr[i].size();j++) {
-				latlng[i].add(new double[] {planDetailArr[i].get(j).getLatitude(), planDetailArr[i].get(j).getLongitude()});
+
+			// 위경도 따로 모아놓기
+			for (int j = 0; j < planDetailArr[i].size(); j++) {
+				latlng[i].add(
+						new double[] { planDetailArr[i].get(j).getLatitude(), planDetailArr[i].get(j).getLongitude() });
 			}
 		}
-		
-		
-		//거리를 계산할꺼야
-		for(int i=0;i<n;i++) {
-			for(int j=0;j<planDetailArr[i].size()-1;j++) {
+
+		// 거리를 계산할꺼야
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < planDetailArr[i].size() - 1; j++) {
 				double distance = attractionService.distanceInKilometerByHaversine(
 						planDetailArr[i].get(j).getLatitude(), planDetailArr[i].get(j).getLongitude(),
-						planDetailArr[i].get(j+1).getLatitude(), planDetailArr[i].get(j+1).getLongitude());
-				disArr[i].add(Math.round(distance*100)/100.0);
+						planDetailArr[i].get(j + 1).getLatitude(), planDetailArr[i].get(j + 1).getLongitude());
+				disArr[i].add(Math.round(distance * 100) / 100.0);
 			}
 			System.out.println(disArr[i]);
 		}
-		
-		
-		
+
 //---------------------------------------------------------------------------------
 		Plan planData = planservice.getPlanOne(planId);
-		
-		String[] planDate  = new String[n];
+
+		String[] planDate = new String[n];
 		LocalDate plan_start = planData.getPlan_start();
-		for(int i=0;i<n;i++) {
-			
-			LocalDate tmpDate= plan_start.plusDays(i);
+		for (int i = 0; i < n; i++) {
+
+			LocalDate tmpDate = plan_start.plusDays(i);
 //			System.out
 //			.println(tmpDate.getYear() + ", " + tmpDate.getMonthValue() + ", " + tmpDate.getDayOfMonth()+", "+tmpDate.getDayOfWeek());
 //		
-		
+
 			String answer = "";
-			answer +=tmpDate.getYear() + ". " + tmpDate.getMonthValue() + ". " + tmpDate.getDayOfMonth()+"(";
+			answer += tmpDate.getYear() + ". " + tmpDate.getMonthValue() + ". " + tmpDate.getDayOfMonth() + "(";
 			DayOfWeek dayOfWeek = tmpDate.getDayOfWeek();
-			if(dayOfWeek.getValue() == 1) {
+			if (dayOfWeek.getValue() == 1) {
 				answer += "MON";
-			}else if (dayOfWeek.getValue() == 2) {
+			} else if (dayOfWeek.getValue() == 2) {
 				answer += "TUE";
-			}else if (dayOfWeek.getValue() == 3) {
+			} else if (dayOfWeek.getValue() == 3) {
 				answer += "WED";
-			}else if (dayOfWeek.getValue() == 4) {
+			} else if (dayOfWeek.getValue() == 4) {
 				answer += "THU";
-			}else if (dayOfWeek.getValue() == 5) {
+			} else if (dayOfWeek.getValue() == 5) {
 				answer += "FRI";
-			}else if (dayOfWeek.getValue() == 6) {
+			} else if (dayOfWeek.getValue() == 6) {
 				answer += "SAT";
-			}else if (dayOfWeek.getValue() == 7) {
+			} else if (dayOfWeek.getValue() == 7) {
 				answer += "SUN";
 			}
-			answer+=")";
+			answer += ")";
 			System.out.println(answer);
-			
+
 			planDate[i] = answer;
 		}
-		 
-		
+
 		UserPlanList plan = planservice.getUserplan(planId);
-		
-		
-		//----------------------------
+
+		// ----------------------------
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println(map);
-		map.put("date",n);
-		map.put("planDetailArr",planDetailArr);
-		map.put("disArr",disArr);
-		map.put("latlng",latlng);
-		map.put("planDate",planDate);
-		map.put("plan",plan);
+		map.put("date", n);
+		map.put("planDetailArr", planDetailArr);
+		map.put("disArr", disArr);
+		map.put("latlng", latlng);
+		map.put("planDate", planDate);
+		map.put("plan", plan);
 
-		
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 
 	}
-	
-	
+
 	@GetMapping("/deletePlan/{planId}/{ownerUserId}/{userId}")
-	public ResponseEntity<?> deletePlan(@PathVariable("planId") int planId, @PathVariable("ownerUserId") long ownerUserId, @PathVariable("userId") long userId) {
-		
-		//유저의 아이디가 플랜 생성자이면 플랜을 삭제, 
-		int n=0;
-		if(ownerUserId == userId) {
+	public ResponseEntity<?> deletePlan(@PathVariable("planId") int planId,
+			@PathVariable("ownerUserId") long ownerUserId, @PathVariable("userId") long userId) {
+
+		// 유저의 아이디가 플랜 생성자이면 플랜을 삭제,
+		int n = 0;
+		if (ownerUserId == userId) {
 			System.out.println("플랜 삭제");
-			n=planservice.planDelete(planId);
+			n = planservice.planDelete(planId);
 
-			if(n==1) return new ResponseEntity<String>("plan delete success", HttpStatus.OK);
+			if (n == 1)
+				return new ResponseEntity<String>("plan delete success", HttpStatus.OK);
 
-		}
-		else {
+		} else {
 			System.out.println("사용자 한명 삭제");
-			n=planservice.inviteUserDelete(planId,userId);
-			if(n==1) return new ResponseEntity<String>("user delete success", HttpStatus.OK);
+			n = planservice.inviteUserDelete(planId, userId);
+			if (n == 1)
+				return new ResponseEntity<String>("user delete success", HttpStatus.OK);
 
 		}
-		
+
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 
 	}
 
+	@GetMapping("/getplanRandom")
+	public ResponseEntity<Map<String, Object>> getplanRandom() {
+
+		// 일단 4개를 가져와
+		ArrayList<Plan> planFour = planservice.getPlanFour();
+
+		ArrayList<UserPlanList> PlanList = new ArrayList<UserPlanList>();
+		for (Plan plan : planFour) {
+
+			UserPlanList tmp = planservice.getUserplan(plan.getPlan_id());
+			PlanList.add(tmp);
+			Map<String, Object> addrName = attractionService.getAddrName(tmp.getSido_code(), tmp.getGugun_code());
+			System.out.println(addrName);
+			tmp.setSidoName((String) addrName.get("sideName"));
+			tmp.setGugunName((String) addrName.get("gugunName"));
+
+			Calendar start = Calendar.getInstance();
+			start.set(tmp.getPlan_start().getYear(), tmp.getPlan_start().getMonthValue() - 1,
+					tmp.getPlan_start().getDayOfMonth());
+
+			Calendar end = Calendar.getInstance();
+			end.set(tmp.getPlan_end().getYear(), tmp.getPlan_end().getMonthValue() - 1,
+					tmp.getPlan_end().getDayOfMonth());
+
+			Date startDT = start.getTime();
+			Date endDT = end.getTime();
+			long differenceInMillis = endDT.getTime() - startDT.getTime();
+			long days = (differenceInMillis / (24 * 60 * 60 * 1000L)) % 365;
+
+			tmp.setDday(days + "DAYS");
+
+		}
+
+		System.out.println(PlanList);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("PlanList", PlanList);
+		System.out.println(map);
+
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+
+	}
 }

@@ -28,5 +28,15 @@ public interface UserRepository {
 
 	Long getUserId(String userAccount);
 
+	UserDto findByUsername(String userNickName);
+
+	UserDto findByUserEmail(String email);
+
 	void updateMemberInfo(UserDto userDto);
+
+	UserFileDto getUserImg(int userId);
+
+	int insert(UserFileDto userFile);
+
+	int  deleteUserImg(int userid);
 }

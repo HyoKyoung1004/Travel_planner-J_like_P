@@ -27,13 +27,13 @@
                 {{ attract.gugunName }} <br />
                 <i class="fa-solid fa-star"></i>{{ attract.rating }}/ 5 <br />
                 <!-- <i class="fa-regular fa-comments"></i>{{ attract.likeCheck }}개<br /> -->
-                <i class="fa-solid fa-thumbs-up"></i>{{ attract.likeCheck }}개<br />
+                <i class="fa-solid fa-thumbs-up"></i
+                >{{ attract.likeCheck }}개<br />
               </div>
             </b-card-text>
           </b-card>
         </b-card-group>
       </div>
-      <b-button href="#" style="background-color: #6a24fe">더 보러 가기</b-button>
     </div>
   </div>
 </template>

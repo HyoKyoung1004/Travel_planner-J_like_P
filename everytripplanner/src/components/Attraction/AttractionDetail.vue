@@ -1,7 +1,5 @@
 <template>
   <div>
-    여기는 상세정보 보여주는 화면임
-
     <div class="dbDetail" id="topCp">
       <h2 style="font-weight: 800">{{ attractionDtailData.title }}</h2>
       <span
@@ -60,7 +58,6 @@
               >
                 <!-- 여기는 for문으로 사진바꿔야함 -->
                 <b-carousel-slide
-                  caption="first_image"
                   :img-src="attractionDtailData.firstImage"
                 ></b-carousel-slide>
               </b-carousel></div

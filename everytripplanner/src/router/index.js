@@ -9,7 +9,8 @@ import PlanDetailView from "@/views/PlanDetailView.vue";
 import AttractionListView from "@/views/AttractionListView.vue";
 import MyPageView from "@/views/MyPageView.vue";
 import MainView from "@/views/MainView.vue";
-import WishList from '@/views/MyWishList';
+import WishList from '@/views/MyWishList'
+import loginRedirect from '@/views/loginRedirect'
 import UserModify from '@/views/UserModify';
 import RandomTripDetailView from '@/views/RandomTripDetailView'
 Vue.use(VueRouter);
@@ -19,6 +20,10 @@ const routes = [
     path: "/",
     name: "main",
     component: MainView,
+  },
+  {
+    path: '/oauth2/redirect',
+    component: loginRedirect,
   },
   {
     path: "/attractionDetail",

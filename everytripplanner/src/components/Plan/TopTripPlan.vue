@@ -3,108 +3,74 @@
     <br />
     <br />
     <div>
-      <h2>인기 여행일정</h2>
+      <h2>여행자들의 일정보기</h2>
       <h5 style="color: #999">
         다른 여행자들의 일정을 참고해 나만의 여행을 계획해보세요!!
       </h5>
       <div class="center">
         <b-card-group deck class=".mx-auto">
-          <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <div>
-                <h6>여행 제목</h6>
-                <i class="fa-regular fa-calendar-days"></i> 2022-05 17 12DAYS
-                <br />
-                <i class="fa-solid fa-location-dot"></i> 여행 경로 <br />
-                <i class="fa-solid fa-user"></i> 사용자 닉네임 <br />
-              </div>
-            </b-card-text>
-          </b-card>
-          <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <div>
-                <h6>여행 제목</h6>
-                <i class="fa-regular fa-calendar-days"></i> 2022-05 17 12DAYS
-                <br />
-                <i class="fa-solid fa-location-dot"></i> 강릉, 영월(여행주소)
-                <br />
-                <i class="fa-solid fa-user"></i> 사용자 닉네임 <br />
-              </div>
-            </b-card-text>
-          </b-card>
-
-          <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <div>
-                <h6>여행 제목</h6>
-                <i class="fa-regular fa-calendar-days"></i> 2022-05 17 12DAYS
-                <br />
-                <i class="fa-solid fa-location-dot"></i> 강릉, 영월(여행주소)
-                <br />
-                <i class="fa-solid fa-user"></i> 사용자 닉네임 <br />
-              </div>
-            </b-card-text>
-          </b-card>
-          <b-card
-            img-src="http://tong.visitkorea.or.kr/cms/resource/78/2729578_image2_1.JPG"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 20rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <div>
-                <h6>여행 제목</h6>
-                <i class="fa-regular fa-calendar-days"></i> 2022-05 17 12DAYS
-                <br />
-                <i class="fa-solid fa-location-dot"></i> 강릉, 영월(여행주소)
-                <br />
-                <i class="fa-solid fa-user"></i> 사용자 닉네임 <br />
-              </div>
-            </b-card-text>
-          </b-card>
+          <template>
+            <b-card
+              :img-src="plan.first_image"
+              img-alt="Image"
+              img-top
+              tag="article"
+              style="max-width: 20rem"
+              class="mb-2 cardTest"
+              v-for="plan in PlanList"
+              :key="plan.plan_id"
+              @click="goPlanDetail(plan.plan_id)"
+            >
+              <b-card-text>
+                <div>
+                  <h6>{{ plan.plan_name }}</h6>
+                  <i class="fa-regular fa-calendar-days"></i>
+                  {{ plan.plan_start }} {{ plan.dday }}
+                  <br />
+                  <i class="fa-solid fa-location-dot"></i> {{ plan.sidoName }},
+                  {{ plan.gugunName }} <br />
+                  <i class="fa-solid fa-user"></i> 사용자 닉네임 <br />
+                </div>
+              </b-card-text>
+            </b-card>
+          </template>
         </b-card-group>
       </div>
-      <b-button href="#" style="background-color: #6a24fe"
-        >더 보러 가기</b-button
-      >
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "TopTripPlan",
   components: {},
   data() {
     return {
       message: "",
+      PlanList: null,
     };
   },
-  created() {},
-  methods: {},
+  created() {
+    var this_temp = this;
+    axios
+      .get("http://localhost:9999/trip/plan/getplanRandom")
+      .then(({ data }) => {
+        console.log(data);
+        this_temp.PlanList = data.PlanList;
+        console.log(this_temp.PlanList);
+      })
+      .catch(({ error }) => {
+        console.log(error);
+      });
+  },
+
+  methods: {
+    goPlanDetail(planId) {
+      // alert(planId);
+      this.$router.push({ name: "planDetail", query: { planId: planId } });
+    },
+  },
 };
 </script>
 
@@ -122,5 +88,9 @@ export default {
 }
 .row {
   position: static;
+}
+
+.cardTest img {
+  max-height: 240px;
 }
 </style>

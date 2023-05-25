@@ -46,6 +46,14 @@
 	select userId from user where userAccount Like #{userAccount} OR nickName Like #{userAccount}
 </select>
 
+<select id="findByUsername" resultType="UserDto">
+select * from user where nickName Like  #{userNickName};
+</select>
+
+<select id="findByUserEmail" resultType="UserDto">
+select * from user where UserEmail Like  #{email};
+</select>
+
 <update id="updateMemberInfo" parameterType="UserDto">
   UPDATE user
   SET 
@@ -54,6 +62,20 @@
       userPassword = #{userPassword}
   WHERE userId = #{userId}
 </update>
+
+<select id="getUserImg" resultType="com.trip.project.dto.user.UserFileDto">
+	select file_id as fileId, userId as userId, save_folder as saveFolder, original_fileName as originalFileName, save_fileName as saveFileName  
+	from userimage where userId=#{userId} limit 1
+</select>
+
+ 	<insert id="insert" parameterType="com.trip.project.dto.comment.CommentFileDto">
+ 		insert into userimage(userId, save_folder, original_fileName,save_fileName) 
+		values (#{userId}, #{saveFolder}, #{originalFileName},#{saveFileName})
+ 	</insert>
+
+	<delete id="deleteUserImg">
+	delete from userimage where userId =#{userid}
+	</delete>
 
 </mapper>
 

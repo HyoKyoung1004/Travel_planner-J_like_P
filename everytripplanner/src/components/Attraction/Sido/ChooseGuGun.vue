@@ -1,7 +1,6 @@
 <template>
   <b-col class="sm-3">
     <b-form-select v-model="gugunCode" :options="guguns" @change="changeGugun"></b-form-select>
-    <b-form-input></b-form-input>
   </b-col>
 </template>
 
