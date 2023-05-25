@@ -104,7 +104,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(planStore, ["clearMapState", "clearDayPlan"]),
+    ...mapMutations(planStore, ["clearMapState", "clearDayPlan","setSelectedDay"]),
     ...mapActions(memberStore, ["logout"]),
     sigin() {
       this.$router.push({ path: "signin" });
@@ -127,7 +127,7 @@ export default {
       else {
         this.clearMapState();
         this.clearDayPlan();
-        this.selectedDayNum = null;
+        this.setSelectedDay(null);
         this.$router.push({
           name: "planTrip",
         });

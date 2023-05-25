@@ -164,11 +164,11 @@ created() {
   });
 },
   methods: {
-    ...mapMutations(planStore, ["clearMapState", "clearDayPlan"]),
+    ...mapMutations(planStore, ["clearMapState", "clearDayPlan","setSelectedDay"]),
     MakePlan(idx) {
       this.clearMapState();
       this.clearDayPlan();
-      this.selectedDayNum = null;
+      this.setSelectedDay(null);
       this.$router.push({
         name: "planTrip",
         params: {
