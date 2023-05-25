@@ -13,7 +13,19 @@ public class Attraction {
 	private String firstImage;
 	private String firstImage2;
 	private int readcount;
-	
+	private int content_type_id;
+	public int getContent_type_id() {
+		return content_type_id;
+	}
+
+
+
+	public void setContent_type_id(int content_type_id) {
+		this.content_type_id = content_type_id;
+	}
+
+
+
 	private int sideCode;
 	private int gugunCode;
 //	

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.trip.project.dto.attraction.Attraction;
 import com.trip.project.dto.attraction.AttractionRepository;
 import com.trip.project.dto.attraction.RouteDistanceDto;
 import com.trip.project.dto.plan.PlanListRepository;
@@ -119,6 +120,49 @@ public class PlanListService {
 	        
 	        return dtos;
 	    }
+	 public List<Attraction> findShorPathRandom(List<Attraction> distanceDtos) {
+		 	if(distanceDtos.size()==0 || distanceDtos.size()==1) {
+		 		System.out.println(distanceDtos);
+		 		return distanceDtos;
+		 	}
+	        List<Attraction> dtos = new ArrayList<>();
+	        int num=0;
+	        boolean[] isCheck = new boolean[distanceDtos.size()];
+	        isCheck[0]=true;
+	        dtos.add(distanceDtos.get(0));
+	        while(true) {
+	            boolean isFlag=true;
+	            double tmp=Integer.MAX_VALUE;
+	            int value=0;
+	            for (int i = 0; i < distanceDtos.size(); i++) {
+	                if(isCheck[i] || num==i) {
+	                    continue;
+	                }
+	                double distance =harversineCal(distanceDtos.get(num).getLatitude(), distanceDtos.get(num).getLongitude(), distanceDtos.get(i).getLatitude(), distanceDtos.get(i).getLongitude());
+	                if(tmp>=distance) {
+	                    tmp=distance;
+	                    value=i;
+	                }
+	                
+	            }
+	            System.out.println("value: "+ value);
+	            isCheck[value]=true;
+	            num=value;
+	            dtos.add(distanceDtos.get(value));
+	            for (int i = 0; i < isCheck.length; i++) {
+	                if(isCheck[i]==false) {
+	                    isFlag=false;
+	                    break;
+	                }
+	                
+	            }
+	            if(isFlag) {
+	                break;
+	            }
+	        }
+	        return dtos;
+	    }
+
 
 	    private List<RouteDistanceDto> getLatAndLong(List<Integer> point) {
 	        RouteDistanceDto tmp= new RouteDistanceDto();

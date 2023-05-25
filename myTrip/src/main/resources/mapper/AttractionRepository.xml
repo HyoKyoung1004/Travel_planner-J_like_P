@@ -237,12 +237,49 @@
  		FROM gugun where sido_code=#{sidoCode} ORDER BY RAND() LIMIT 1;
 	</select>
 	
+		<select id="findSido" resultType="int" parameterType="int">
+	SELECT distinct sido_code
+ 	FROM gugun where gugun_code=#{gugun_code} 
+	</select>
+	
+	
+	<select id="getAllGugun" resultType="hashmap">
+		SELECT * FROM gugun where sido_code=#{sido_code};
+	</select>
+	
 		
 	<select id="getRandomAttraction" resultType="com.trip.project.dto.attraction.Attraction">
-				select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
-		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
-		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
-		where sido_code=#{sidoCode}  and gugun_code=#{gugunCode}   ORDER BY RAND() LIMIT 5
+		select 
+		content_id as contentId, 
+		title, 
+		addr1 as addr,
+		first_image as firstImage,
+		first_image2 as firstImage2,
+		latitude,
+		longitude
+		from attraction_info 
+		where sido_code=#{sidoCode}
+		and 
+		gugun_code=#{gugunCode} 
+		ORDER BY RAND() LIMIT 5
+	</select>
+	
+		<select id="getDetailAttraction" resultType="com.trip.project.dto.attraction.Attraction">
+		select 
+		content_id as contentId, 
+		title, 
+		addr1 as addr,
+		first_image as firstImage,
+		first_image2 as firstImage2,
+		latitude,
+		longitude
+		from attraction_info 
+		where sido_code=#{sidoCode}
+		and 
+		gugun_code=#{gugunCode} 
+		and 
+		content_type_id=#{content_type_id}
+		ORDER BY RAND() LIMIT 5
 	</select>
 	
 

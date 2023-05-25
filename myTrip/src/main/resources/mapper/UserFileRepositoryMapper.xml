@@ -9,7 +9,7 @@
  	
 	<select id="selectList" parameterType="long" resultType="com.trip.project.dto.user.UserFileDto">
 		select file_id as fileId, userId, save_folder as saveFolder, original_fileName as originalFileName, save_fileName as saveFileName 
-		from UserImage where user_id=#{user_id}
+		from UserImage where userId=#{user_id}
 	</select>
 
 

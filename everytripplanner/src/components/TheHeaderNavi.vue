@@ -120,6 +120,9 @@ export default {
         alert("로그인점 ㅋㅋ");
       }
     },
+    randomTrip(){
+      this.$router.push({name: "RandomTripDetailView"});
+    },
     plantripview() {
       if (this.userInfo == null) alert("로그인을 후 이용 가능합니다.");
       else {

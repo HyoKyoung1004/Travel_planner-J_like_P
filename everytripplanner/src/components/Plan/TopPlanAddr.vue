@@ -153,7 +153,16 @@ export default {
       ],
     };
   },
-  created() {},
+created() {
+  this.$router.afterEach((to) => {
+    if (to.name === 'planTrip') {
+      if (to.params.lat) {
+        this.latitude = to.params.lat;
+        this.longitude = to.params.lng;
+      }
+    }
+  });
+},
   methods: {
     ...mapMutations(planStore, ["clearMapState", "clearDayPlan"]),
     MakePlan(idx) {

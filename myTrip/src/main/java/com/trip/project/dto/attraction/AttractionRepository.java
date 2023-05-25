@@ -54,8 +54,11 @@ public interface AttractionRepository {
 	public List<SidoGugunCodeDto> getGugunInSido(String sido);
 	public Map<String,Object> getAddrName(@Param("sido")int sido, @Param("gugun")int gugun);
 	public Map<String, Object> getRandomSido();
-	public Map<String, Object> getRandomGugun(int sidoCode);
+	public Map<String, Object> getRandomGugun(int sido_code);
+	public List<Map<String, Object>> getAllGugun(int sido_code);
 	public List<Attraction> getRandomAttraction(@Param("sidoCode")int sidoCode, @Param("gugunCode")int gugunCode);
+	public int findSido(int gugun_code);
+	public List<Attraction> getDetailAttraction(@Param("sidoCode")int sidoCode, @Param("gugunCode")int gugunCode, @Param("content_type_id")int content_type_id);
 
 	
 
