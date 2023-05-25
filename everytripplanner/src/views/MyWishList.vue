@@ -5,9 +5,7 @@
     <div>
       <h2>위시리스트</h2>
       <h5 style="color: #999">위시리스트에 담긴 여행지를 확인해주세요!</h5>
-      <h5 style="color: #999">
-        선택한 여행지로 간편하게 여행 일정을 만들 수 있습니다.
-      </h5>
+      <h5 style="color: #999">선택한 여행지로 간편하게 여행 일정을 만들 수 있습니다.</h5>
       <br />
       <!-- <div class="center" v-for="index in divide" :key="index">
         <h1>{{ index }}</h1>
@@ -51,10 +49,7 @@
                     ref="myWish"
                     type="button"
                     @click.capture.stop="
-                      setWish(
-                        attraction[(index - 1) * 4 + (j - 1)].contentId,
-                        $event
-                      )
+                      setWish(attraction[(index - 1) * 4 + (j - 1)].contentId, $event)
                     "
                     style="border-color: #ff0044"
                   >
@@ -67,9 +62,7 @@
         </b-card-group>
       </div>
 
-      <b-button @click="plantripview" style="background-color: #6a24fe"
-        >여행만들기</b-button
-      >
+      <b-button @click="plantripview" style="background-color: #6a24fe">여행만들기</b-button>
     </div>
   </div>
 </template>
@@ -166,8 +159,8 @@ button {
   border-radius: 20px;
   padding: 7px;
   border-color: #e2e2e2;
-  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
-    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9, 7px 7px 20px 0px #0002,
+    4px 4px 5px 0px #0001;
 }
 
 .card {
@@ -270,5 +263,9 @@ img {
   width: 300px;
   height: 150px;
   object-fit: cover;
+}
+
+.modal-footer {
+  display: block;
 }
 </style>

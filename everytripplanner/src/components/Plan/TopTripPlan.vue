@@ -4,9 +4,7 @@
     <br />
     <div>
       <h2>여행자들의 일정보기</h2>
-      <h5 style="color: #999">
-        다른 여행자들의 일정을 참고해 나만의 여행을 계획해보세요!!
-      </h5>
+      <h5 style="color: #999">다른 여행자들의 일정을 참고해 나만의 여행을 계획해보세요!!</h5>
       <div class="center">
         <b-card-group deck class=".mx-auto">
           <template>
@@ -29,7 +27,7 @@
                   <br />
                   <i class="fa-solid fa-location-dot"></i> {{ plan.sidoName }},
                   {{ plan.gugunName }} <br />
-                  <i class="fa-solid fa-user"></i> 사용자 닉네임 <br />
+                  <i class="fa-solid fa-user"></i> {{ plan.nickNam }} <br />
                 </div>
               </b-card-text>
             </b-card>

@@ -176,4 +176,8 @@ public class UserService {
 
 	}
 
+	public String getUserOneName(long userId) {
+		return userRepository.getUserOneNickName(userId);
+	}
+
 }

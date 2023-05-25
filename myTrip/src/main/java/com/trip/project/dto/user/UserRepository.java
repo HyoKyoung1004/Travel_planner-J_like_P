@@ -39,4 +39,6 @@ public interface UserRepository {
 	int insert(UserFileDto userFile);
 
 	int  deleteUserImg(int userid);
+
+	String getUserOneNickName(long userId);
 }

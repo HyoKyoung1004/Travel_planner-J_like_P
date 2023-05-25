@@ -31,6 +31,7 @@ import com.trip.project.dto.wishList.WishListDto;
 import com.trip.project.service.attraction.AttractionService;
 import com.trip.project.service.plan.PlanListService;
 import com.trip.project.service.plan.PlanService;
+import com.trip.project.service.user.UserService;
 import com.trip.project.service.wishList.WishListService;
 
 @RestController
@@ -49,6 +50,9 @@ public class PlanController {
 
 	@Autowired
 	private WishListService wishlistservice;
+	
+	@Autowired
+	private UserService UserService;
 
 	@Autowired
 	AttractionService attractionService;
@@ -352,6 +356,7 @@ public class PlanController {
 			long days = (differenceInMillis / (24 * 60 * 60 * 1000L)) % 365;
 
 			tmp.setDday(days + "DAYS");
+			tmp.setNickNam(UserService.getUserOneName(tmp.getUserId()));
 
 		}
 

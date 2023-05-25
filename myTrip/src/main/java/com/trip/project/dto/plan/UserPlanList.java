@@ -29,5 +29,6 @@ public class UserPlanList {
 	
 	
 	private String Dday;
+	private String NickNam;
 	
 }

@@ -22,11 +22,7 @@
           <a :href="uri_google">
             <button>
               <i class=""></i>
-              <img
-                style="width: 48px; height: 48px"
-                src="../../assets/google_btn.png"
-                alt="logo"
-              />
+              <img style="width: 48px; height: 48px" src="../../assets/google_btn.png" alt="logo" />
               <span>구글로 로그인하기</span>
             </button></a
           >
@@ -210,29 +206,5 @@ body {
   color: var(--font-color);
   font-size: 14px;
   padding-top: 10px;
-}
-footer {
-  padding-top: 95px;
-  padding-bottom: 15px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 768px;
-}
-.copyright-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 15px;
-}
-footer .copyright-wrap span img {
-  width: 59px;
-
-  height: 11px;
-}
-footer .copyright-wrap span {
-  font-size: 13px;
-  line-height: 15px;
 }
 </style>
