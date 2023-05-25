@@ -13,6 +13,7 @@
 
           <b-navbar-nav class="ml-auto" right v-if="userInfo">
             <b-nav-item @click="planList">내 여행 확인</b-nav-item>
+            <b-nav-item @click="randomTrip">랜덤여행</b-nav-item>
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
             <b-nav-item @click="wishList">위시리스트</b-nav-item>
             <b-nav-item @click.prevent="onClickLogout">로그아웃</b-nav-item>
@@ -21,7 +22,6 @@
 
           <b-navbar-nav class="ml-auto" right v-else>
             <b-nav-item @click="planList">내 여행 확인</b-nav-item>
-            <b-nav-item @click="randomTrip">랜덤여행</b-nav-item>
             <b-nav-item @click="plantripview">여행만들기</b-nav-item>
             <b-nav-item @click="wishList">위시리스트</b-nav-item>
             <b-nav-item @click="sigin">로그인</b-nav-item>
