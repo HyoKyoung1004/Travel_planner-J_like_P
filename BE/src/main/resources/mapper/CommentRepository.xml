@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.trip.project.dto.comment.CommentRepository">
+ 	
+	<insert id="insert" parameterType="com.trip.project.dto.comment.CommentDto" useGeneratedKeys="true" keyProperty="commentId">
+		insert into comment(content_id, userId, content, regDate, rating) 
+		values (#{contentId}, #{userId}, #{content}, now(),#{rating})
+	</insert>
+	<select id="selectList" resultType="com.trip.project.dto.comment.CommentDto">
+		select commentId, content_id as contentId, c.userId, nickName as userName, content, regDate, rating  from comment c join user u on c.userId = u.userId where content_id=#{contentId}
+	</select>
+	
+	<select id="commentRating" resultType="Double">
+		select avg(rating)
+		from comment
+		where content_id=#{contentId}
+		group by content_id;
+			
+	</select>
+	 
+</mapper>

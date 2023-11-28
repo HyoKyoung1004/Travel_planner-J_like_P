@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trip.project.dto.user.UserFileRepository">
+
+	 <insert id="insert" parameterType="com.trip.project.dto.user.UserFileDto">
+ 		insert into UserImage(userId, save_folder, original_fileName,save_fileName) 
+		values (#{userId}, #{saveFolder}, #{originalFileName},#{saveFileName})
+ 	</insert>
+ 	
+	<select id="selectList" parameterType="long" resultType="com.trip.project.dto.user.UserFileDto">
+		select file_id as fileId, userId, save_folder as saveFolder, original_fileName as originalFileName, save_fileName as saveFileName 
+		from UserImage where userId=#{user_id}
+	</select>
+
+
+
+
+</mapper>

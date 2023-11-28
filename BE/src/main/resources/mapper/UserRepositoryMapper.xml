@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trip.project.dto.user.UserRepository">
+
+<insert id="join" parameterType="UserDto">
+	INSERT INTO USER(userAccount,userEmail,nickName,userPassword,userRole,joinDate)
+	VALUES (#{userAccount},#{userEmail},#{nickName},#{userPassword},#{userRole},now())
+</insert>
+<select id="find" resultType="int" parameterType="UserDto">
+	SELECT userId FROM USER WHERE userAccount=#{userAccount} and userEmail=#{userEmail}
+</select>
+
+<select id="login" resultType="UserDto" parameterType="UserDto">
+	SELECT userAccount FROM USER WHERE userAccount=#{userAccount} and userPassword=#{userPassword}
+</select>
+
+<select id="findLogin" resultType="int" parameterType="UserDto">
+	SELECT userId FROM USER WHERE userAccount=#{userAccount} and userPassword=#{userPassword}
+</select>
+
+<select id="findUserId" resultType="int" parameterType="long">
+	SELECT userId FROM USER WHERE userId=#{userId}
+</select>
+
+<select id="viewMypage" resultType="UserDto" parameterType="long">
+	SELECT * FROM USER WHERE userId=#{userId}
+</select>
+
+<delete id="deleteLike" parameterType="long">
+	delete from user WHERE userId=#{userId}
+</delete>
+
+<select id="getUserOne" resultType="UserDto">
+	select * from user where userAccount=#{userAccount}
+</select>
+
+<select id="findUserDto" resultType="UserDto">
+	select * from user where userId=#{userId}
+</select>
+
+<select id="getUser" resultType="long">
+	select userId from user where userAccount=#{userAccount}
+</select>
+
+<select id="getUserId" resultType="Long">
+	select userId from user where userAccount Like #{userAccount} OR nickName Like #{userAccount}
+</select>
+
+<select id="findByUsername" resultType="UserDto">
+select * from user where nickName Like  #{userNickName};
+</select>
+
+<select id="findByUserEmail" resultType="UserDto">
+select * from user where UserEmail Like  #{email};
+</select>
+
+<update id="updateMemberInfo" parameterType="UserDto">
+  UPDATE user
+  SET 
+      userEmail = #{userEmail},
+      nickname = #{nickName},
+      userPassword = #{userPassword}
+  WHERE userId = #{userId}
+</update>
+
+<select id="getUserImg" resultType="com.trip.project.dto.user.UserFileDto">
+	select file_id as fileId, userId as userId, save_folder as saveFolder, original_fileName as originalFileName, save_fileName as saveFileName  
+	from userimage where userId=#{userId} limit 1
+</select>
+
+ 	<insert id="insert" parameterType="com.trip.project.dto.comment.CommentFileDto">
+ 		insert into userimage(userId, save_folder, original_fileName,save_fileName) 
+		values (#{userId}, #{saveFolder}, #{originalFileName},#{saveFileName})
+ 	</insert>
+
+	<delete id="deleteUserImg">
+	delete from userimage where userId =#{userid}
+	</delete>
+
+	<select id="getUserOneNickName" resultType="string">
+		select NickName from user where userId =#{userid}
+	</select>
+	
+</mapper>
+

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.trip.project.dto.attraction.AttractionRepository">
+
+
+<select id="attractionListByType" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where content_type_id=#{type}
+	</select>
+	
+	<select id="attractionListByAddr" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} 
+
+	</select>
+	
+	<select id="attractionListByAddr_type" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and content_type_id=#{type}
+	</select>
+	
+	<select id="attractionListByAddr_Title" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData}
+
+	</select>
+	
+	<select id="attractionListByAddr_Type_Title" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData} and content_type_id=#{type}
+
+	</select>
+	
+	<select id="attractionListByTitle" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where  title LIKE #{searchData} 
+	</select>
+	
+	<select id="attractionListByTitle_Type" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where  title LIKE #{searchData} and content_type_id=#{type}
+	</select>
+	
+	
+
+	<select id="isRoute" parameterType="int"
+		resultType="com.trip.project.dto.attraction.RouteDistanceDto">
+		SELECT * from attraction_info where content_id=#{point}
+	</select>
+
+
+	<select id="attrictionListCnt_type" resultType="int">
+		select
+		count(a.content_id)
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where content_type_id=#{type}
+	</select>
+
+	<select id="attrictionListCnt_addr" resultType="int">
+		select
+		count(a.content_id)
+		from attraction_info a Inner Join
+		attraction_description b on a.content_id=b.content_id
+		where
+		sido_code=#{sido} and gugun_code = #{gugun}
+	</select>
+
+	<select id="attrictionListCnt_addr_type" resultType="int">
+		select count(a.content_id)
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and content_type_id=#{type}
+	</select>
+
+
+	<select id="attrictionListCnt_addr_title" resultType="int">
+		select count(a.content_id) 
+		from attraction_info a Inner Join
+		attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData}
+	</select>
+
+
+	<select id="attrictionListCnt_addr_title_type" resultType="int">
+		select count(a.content_id)
+		from attraction_info a Inner Join
+		attraction_description b on a.content_id=b.content_id
+		where
+		sido_code=#{sido} and gugun_code = #{gugun} and
+		content_type_id=#{type} and title LIKE #{searchData}
+	</select>
+
+	<select id="attrictionListCnt_title" resultType="int">
+		select count(a.content_id)
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where title LIKE #{searchData}
+	</select>
+
+	<select id="attrictionListCnt_title_type" resultType="int">
+		select
+		count(a.content_id)
+		from attraction_info a Inner Join
+		attraction_description b on a.content_id=b.content_id
+		where
+		content_type_id=#{type} and title LIKE #{searchData}
+	</select>
+	
+
+	
+	<select id="attractionListPage_type" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, content_type_id as type,  title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where content_type_id=#{type}
+		order by a.content_id desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="attractionListPage_addr" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} 
+		order by a.content_id desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="attractionListPage_addr_type" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and content_type_id=#{type}
+		order by a.content_id desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="attractionListPage_addr_title" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, content_type_id as type,  title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData}
+		order by a.content_id desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="attractionListPage_addr_title_type" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId,  content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where sido_code=#{sido} and gugun_code = #{gugun} and title LIKE #{searchData} and content_type_id=#{type}
+		order by a.content_id desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="attractionListPage_title" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, content_type_id as type,title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where  title LIKE #{searchData} 
+		order by a.content_id desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<select id="attractionListPage_title_type" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId,content_type_id as type, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id
+		where  title LIKE #{searchData} and content_type_id=#{type}
+		order by a.content_id desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	
+	<select id="likeCount" resultType="int">
+		select count(likeCheck) from likeAttraction where content_id=#{contentId} and likeCheck=1;
+	</select>
+	
+	<select id="selectOne" resultType="com.trip.project.dto.attraction.Attraction">
+		select a.content_id as contentId, title, addr1 as addr, tel, first_image as firstImage,first_image2 as firstImage2,
+		readcount, sido_code as sideCode, gugun_code as gugunCode, latitude, longitude, homepage, overview
+		from attraction_info a Inner Join attraction_description b on a.content_id=b.content_id and  a.content_id= #{contentId}  
+	</select>
+	
+	<select id="nearList" parameterType="hashmap" resultType="com.trip.project.dto.attraction.AttractionNear" >
+		select content_id as contentId, title, addr1 as addr, first_image as firstImage, latitude, longitude 
+		from attraction_info 
+		where latitude &gt;= #{min_lat} AND latitude &lt;= #{max_lat} AND longitude &gt;= #{min_lng} AND longitude &lt;= #{max_lng}
+	</select>
+	
+ 	<select id="getTopLike" resultType="Integer">
+		select content_id
+		from likeattraction
+		where likeCheck=1
+		group by content_id
+		order by  count(*)  desc limit 4
+	</select> 
+	<select id="getSido" resultType="sidoGugunCodeDto">
+		select left(sido_code,2) sido_code, sido_name
+		from sido
+		order by sido_code;
+	</select>
+	
+
+	
+		<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
+				select left(gugun_code,5) gugun_code, gugun_name
+		from gugun
+		where left(sido_code,2) = #{sido}
+	</select>
+
+	<select id="getAddrName" resultType="hashmap">
+	select sido_name as sideName , gugun_name as gugunName 
+	from sido a inner join gugun b on a.sido_code = b.sido_code where a.sido_code=#{sido} and gugun_code=#{gugun}
+	</select>
+	
+	<select id="getRandomSido" resultType="hashmap">
+	SELECT *
+ 	FROM sido ORDER BY RAND() LIMIT 1
+	</select>
+	
+	<select id="getRandomGugun" resultType="hashmap">
+		SELECT *
+ 		FROM gugun where sido_code=#{sidoCode} ORDER BY RAND() LIMIT 1;
+	</select>
+	
+		<select id="findSido" resultType="int" parameterType="int">
+	SELECT distinct sido_code
+ 	FROM gugun where gugun_code=#{gugun_code} 
+	</select>
+	
+	
+	<select id="getAllGugun" resultType="hashmap">
+		SELECT * FROM gugun where sido_code=#{sido_code};
+	</select>
+	
+		
+	<select id="getRandomAttraction" resultType="com.trip.project.dto.attraction.Attraction">
+		select 
+		content_id as contentId, 
+		title, 
+		addr1 as addr,
+		first_image as firstImage,
+		first_image2 as firstImage2,
+		latitude,
+		longitude
+		from attraction_info 
+		where sido_code=#{sidoCode}
+		and 
+		gugun_code=#{gugunCode} 
+		ORDER BY RAND() LIMIT 5
+	</select>
+	
+		<select id="getDetailAttraction" resultType="com.trip.project.dto.attraction.Attraction">
+		select 
+		content_id as contentId, 
+		title, 
+		addr1 as addr,
+		first_image as firstImage,
+		first_image2 as firstImage2,
+		latitude,
+		longitude
+		from attraction_info 
+		where sido_code=#{sidoCode}
+		and 
+		gugun_code=#{gugunCode} 
+		and 
+		content_type_id=#{content_type_id}
+		ORDER BY RAND() LIMIT 5
+	</select>
+	
+
+</mapper>

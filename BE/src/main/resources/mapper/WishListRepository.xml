@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trip.project.dto.wishList.WishListRepository">
+
+<!-- 	List<WishListDto> selectList(Long userId);
+
+	int count(@Param("contentId") int contentId, @Param("userId") Long userId);
+
+	int insert(@Param("contentId") int contentId, @Param("userId") Long userId);
+
+	int delete(@Param("contentId") int contentId, @Param("userId") Long userId);
+; -->
+	
+	<select id="selectList" resultType="com.trip.project.dto.wishList.WishListDto">
+		select * from wishlist where userId=#{userId}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(*) from wishlist where userId=#{userId} and content_id = #{contentId}
+	</select>
+
+	<insert id="insert">
+		insert into wishlist(content_id, userId ) values(#{contentId}, #{userId})
+	</insert>
+	
+	<delete id="delete">
+		delete from wishlist where userId=#{userId} and content_id = #{contentId}
+	</delete>
+	
+	<select id="getWishCount" resultType="int">
+	        select count(*) from wishlist where content_id = #{contentId}
+	</select>
+</mapper>
